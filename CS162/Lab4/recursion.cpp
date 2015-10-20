@@ -13,12 +13,21 @@ namespace recursive {
       }
     }
 
-    void sumOfArray(int ofArrays[], int sizeOfArray) {
-
+    int sumOfArray(int incArray[], int size) {
+      size--;
+      if(size == 0){
+        return incArray[0];
+      }
+      else{
+        return incArray[size] + sumOfArray(incArray, size);
+      }
     }
 };
 
 std::string userString = "";
+
+int testArray[10] = {10,11,12,13,14,15,16,17,18,19};
+int N = 10;
 
 int main() {
   std::cout << "Please enter a string: ";
@@ -26,4 +35,6 @@ int main() {
   std::cout << "\n";
   std::string *stringPointer = &userString;
   recursive::stringRev(stringPointer);
+
+  std::cout << recursive::sumOfArray(testArray, N) << std::endl;
 }
