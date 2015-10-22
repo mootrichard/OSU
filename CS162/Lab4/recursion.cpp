@@ -59,5 +59,5 @@ int main() {
   unsigned int userNum = 0;
   std::cout << "Enter how many rows you want in your triangle: ";
   std::cin >> userNum;
-  std::cout << recursive::triNumber(userNum) << std::endl;
+  std::cout << "Your triangle contains: " <<recursive::triNumber(userNum) << std::endl;
 }
