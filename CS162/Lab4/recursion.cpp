@@ -21,6 +21,15 @@ namespace recursive {
         return incArray[size] + sumOfArray(incArray, size-1);
       }
     }
+
+    int triNumber(unsigned int userNum){
+      if (userNum == 0){
+        return userNum;
+      }
+      else{
+        return userNum + triNumber(userNum -1);
+      }
+    }
 };
 
 std::string userString = "";
@@ -37,7 +46,6 @@ int main() {
   std::cin >> size;
 
   int *pointerArray = new int[size];
-  
   for (unsigned int i = 0;i < size; i++){
     std::cout << "Enter integer " << i << ": ";
     std::cin >> pointerArray[i];
@@ -45,6 +53,11 @@ int main() {
         std::cout << std::endl;
     }
   }
-
   std::cout << "The sum of your array is: " << recursive::sumOfArray(pointerArray, size) << std::endl;
+  delete[] pointerArray;
+
+  unsigned int userNum = 0;
+  std::cout << "Enter how many rows you want in your triangle: ";
+  std::cin >> userNum;
+  std::cout << recursive::triNumber(userNum) << std::endl;
 }
