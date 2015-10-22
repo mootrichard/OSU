@@ -4,16 +4,17 @@
 namespace recursive {
 
     void stringRev(std::string *incoming) {
-      if (incoming->length() == 1) {
+      if (incoming->size() == 1) {
         std::cout << incoming->at(0) << std::endl;
-      } else {
+      } 
+      else {
         std::cout << incoming->at(incoming->length() - 1);
         incoming->resize(incoming->length() - 1);
         stringRev(incoming);
       }
     }
 
-    int sumOfArray(int incArray[], int size) {
+    int sumOfArray(int incArray[], unsigned int size) {
       if(size == 0){
         return incArray[0];
       }
@@ -30,34 +31,55 @@ namespace recursive {
         return userNum + triNumber(userNum -1);
       }
     }
-};
-
-std::string userString = "";
-
-int size = 0;
+}
 
 int main() {
-  std::cout << "Please enter a string: ";
-  std::getline(std::cin, userString);
-  std::cout << "\n";
-  std::string *stringPointer = &userString;
-  recursive::stringRev(stringPointer);
-  std::cout << "Please entre the size of your array of integers: ";
-  std::cin >> size;
+    unsigned int userChoice = 0;
 
-  int *pointerArray = new int[size];
-  for (unsigned int i = 0;i < size; i++){
-    std::cout << "Enter integer " << i << ": ";
-    std::cin >> pointerArray[i];
-    if(i == size){
-        std::cout << std::endl;
-    }
-  }
-  std::cout << "The sum of your array is: " << recursive::sumOfArray(pointerArray, size) << std::endl;
-  delete[] pointerArray;
+    std::cout << "\n" << "Hi! Welcome to Recursive Functions!" << "\n";
 
-  unsigned int userNum = 0;
-  std::cout << "Enter how many rows you want in your triangle: ";
-  std::cin >> userNum;
-  std::cout << "Your triangle contains: " <<recursive::triNumber(userNum) << std::endl;
+    while(userChoice != 4){
+      std::cout << std::endl;
+      std::cout << "Please select which function you would like to use:" << "\n\n";
+      std::cout << "Enter 1 for String Reversal" << "\n";
+      std::cout << "Enter 2 for Sum Array" << "\n";
+      std::cout << "Enter 3 for Triangle Number" << "\n";
+      std::cout << "Enter 4 to exit the program" << "\n";
+      std::cout << "Enter selection here: ";
+      std::cin >> userChoice;
+      std::cin.ignore();
+
+      if(userChoice == 1){
+          std::string userString;
+          std::cout << "Please enter a string: ";
+          getline(std::cin, userString);
+          std::string *stringPointer = &userString;
+          std::cout << std::endl;
+          recursive::stringRev(stringPointer);
+        }
+        else if (userChoice == 2){
+          unsigned int size = 0;
+          std::cout << "Please entre the size of your array of integers: ";
+          std::cin >> size;
+          int *pointerArray = new int[size];
+          for (unsigned int i = 0;i < size; i++){
+            std::cout << "Enter integer " << i+1 << ": ";
+            std::cin >> pointerArray[i];
+            if(i == size){
+                std::cout << std::endl;
+            }
+          }
+          std::cout << "The sum of your array is: " << recursive::sumOfArray(pointerArray, size) << std::endl;
+          delete[] pointerArray;
+        }
+        else if (userChoice == 3){
+          unsigned int userNum = 0;
+          std::cout << "Enter how many rows you want in your triangle: ";
+          std::cin >> userNum;
+          std::cout << "Your triangle contains: " <<recursive::triNumber(userNum) << std::endl;
+        }
+        else{
+          std::cout << "Thanks for using the recursive functions, hope you had fun! :)" << std::endl;
+        }
+      }
 }
