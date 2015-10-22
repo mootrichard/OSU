@@ -46,5 +46,5 @@ int main() {
     }
   }
 
-  std::cout << "The sum of your array is :" << recursive::sumOfArray(pointerArray, size) << std::endl;
+  std::cout << "The sum of your array is: " << recursive::sumOfArray(pointerArray, size) << std::endl;
 }
