@@ -39,12 +39,12 @@ int main() {
   int *pointerArray = new int[size];
   
   for (unsigned int i = 0;i < size; i++){
-    std::cout << "Enter integer " << i << " : ";
+    std::cout << "Enter integer " << i << ": ";
     std::cin >> pointerArray[i];
     if(i == size){
         std::cout << std::endl;
     }
   }
 
-  std::cout << "The sum of your array is : " << recursive::sumOfArray(pointerArray, size) << std::endl;
+  std::cout << "The sum of your array is :" << recursive::sumOfArray(pointerArray, size) << std::endl;
 }
