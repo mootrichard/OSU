@@ -19,7 +19,7 @@ namespace recursive {
         return incArray[0];
       }
       else{
-        return incArray[size] + sumOfArray(incArray, size-1);
+        return incArray[size-1] + sumOfArray(incArray, size-1);
       }
     }
 
@@ -47,9 +47,9 @@ int main() {
       std::cout << "Enter 4 to exit the program" << "\n";
       std::cout << "Enter selection here: ";
       std::cin >> userChoice;
-      std::cin.ignore();
 
       if(userChoice == 1){
+      	  std::cin.ignore();
           std::string userString;
           std::cout << "Please enter a string: ";
           getline(std::cin, userString);
@@ -59,15 +59,12 @@ int main() {
         }
         else if (userChoice == 2){
           unsigned int size = 0;
-          std::cout << "Please entre the size of your array of integers: ";
+          std::cout << "Please enter the size of your array of integers: ";
           std::cin >> size;
           int *pointerArray = new int[size];
           for (unsigned int i = 0;i < size; i++){
-            std::cout << "Enter integer " << i+1 << ": ";
+            std::cout << "Enter integer " << i << ": ";
             std::cin >> pointerArray[i];
-            if(i == size){
-                std::cout << std::endl;
-            }
           }
           std::cout << "The sum of your array is: " << recursive::sumOfArray(pointerArray, size) << std::endl;
           delete[] pointerArray;
