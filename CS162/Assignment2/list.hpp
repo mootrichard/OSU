@@ -1,16 +1,17 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 #include <vector>
+#include <iostream>
 #include "item.hpp"
 
 class List{
 	private:
-		std::vector<Item *> shoppingList;
+		std::vector<Item> shoppingList;
 		unsigned int listLength;
 	public:
 		List();
-		void addItem(std::string nameInc, unsigned int quantityInc,std::string unitInc, double unitPriceInc);
-		void printList();
+		void addItem(Item* newItem);
+		void printItems();
 };
 
 #endif // LIST_HPP

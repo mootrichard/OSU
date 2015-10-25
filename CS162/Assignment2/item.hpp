@@ -10,8 +10,8 @@ class Item {
 		double unitPrice;
 	public:
 		Item();
-		Item(std::string name, unsigned int quantity, std::string unit, double unitPrice);
-		const bool operator==(Item);
+		Item(std::string name, std::string unit, unsigned int quantity, double unitPrice);
+		//const bool operator==(Item);
 		std::string getName();
 		std::string getUnit();
 		unsigned int getQuantity();

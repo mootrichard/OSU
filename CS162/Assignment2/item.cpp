@@ -7,7 +7,7 @@ Item::Item(){
 	unitPrice = 1.00;
 }
 
-Item::Item(std::string nameInc, unsigned int quantityInc,std::string unitInc, double unitPriceInc){
+Item::Item(std::string nameInc,std::string unitInc, unsigned int quantityInc, double unitPriceInc){
 	setName(nameInc);
 	setUnit(unitInc);
 	setQuantity(quantityInc);
