@@ -1,5 +1,7 @@
+# Author:			Richard Moot
+# Date: 			10-25-2015
+# Description:	This is the Makefile for our Shopping List Application
 CXX		= g++
-#CFLAGS	= 
 
 all: shoppingList
 
