@@ -6,7 +6,7 @@ CXX		= g++
 all: shoppingList
 
 shoppingList: item.o list.o main.o
-	$(CXX) -o shoppingList item.o list.o main.o
+	$(CXX) item.o list.o main.o -o shoppingList
 
 item.o: item.cpp
 	$(CXX) -c item.cpp
