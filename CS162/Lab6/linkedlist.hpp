@@ -9,9 +9,9 @@ class Stack {
     int remove();
 
   protected:
-    typedef struct Stacknode {
-      int number
-      Stacknode* next
+    struct Stacknode {
+      int number;
+      Stacknode* next;
     };
 
   private:
@@ -26,10 +26,10 @@ class Queue {
     int remove();
 
   protected:
-    typedef struct Queuenode {
-      int number
-      Queuenode* next
-      Queuenode* prev
+    struct Queuenode {
+      int number;
+      Queuenode* next;
+      Queuenode* prev;
     };
 
   private:
