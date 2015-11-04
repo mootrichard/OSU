@@ -1,7 +1,6 @@
 CXX = g++
 
-all:
-	testing
+all:testing
 
 testing: main.o linkedlist.o
 	$(CXX) main.o linkedlist.o -o testing
