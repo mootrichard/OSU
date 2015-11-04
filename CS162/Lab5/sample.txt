@@ -1,0 +1,4 @@
+this is my sample text
+i will be encrypting or modifying this text
+
+it is purposely short to make sure that it is working
