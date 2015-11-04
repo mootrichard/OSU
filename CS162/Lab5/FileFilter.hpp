@@ -1,3 +1,9 @@
+// Author: Richard Moot
+// Description: These are functions that utilize polymorphism in order to re-define their copy functions
+// for different purposes. There is a Copy function, an Uppercase function, and an Encryption function.
+// Date: October 29, 2015
+
+
 #ifndef FILE_FILTER_HPP
 #define FILE_FILTER_HPP
 #include <fstream>
