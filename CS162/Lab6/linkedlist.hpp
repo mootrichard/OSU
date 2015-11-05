@@ -1,4 +1,3 @@
-/*Copyright 2015 Richard Moot*/
 #include <iostream>
 
 class Stack {
