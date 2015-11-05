@@ -1,3 +1,6 @@
+// Author: Richard Moot
+// Date: Novmeber 5, 2015
+// Description: This is the main file for our Stack/Queue program
 #include "linkedlist.hpp"
 
 int main (){

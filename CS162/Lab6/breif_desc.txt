@@ -2,4 +2,4 @@ Richard Moot
 CS162 - Lab6
 November 5, 2015
 
-I had teseted my Stack and Queue classes by implementing cout statements to verify that values were executing correcting upon creation. Then I had made sure that they were correctly deleting by removing them and pushing the returned number out to the console. Since I saw they were decrementing or incrementing, I could see that the node were being removed correctly. Additionally, I had run my program through valgrind to make sure I did not have a memory leak.
+I had teseted my Stack and Queue classes by implementing cout statements to verify that values were executing correcting upon creation. Then I had made sure that they were correctly deleting by removing them and pushing the returned number out to the console. Since I saw they were decrementing or incrementing, I could see that the node were being removed correctly. I was sure that that Queue had a doubly linked list because I had used the "prev" to delete the previous (front) node. Additionally, I had run my program through valgrind to make sure I did not have a memory leak.
