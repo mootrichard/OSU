@@ -4,10 +4,6 @@
       top = NULL;
     }
     
-    Stack::~Stack(){
-
-    }
-    
     void Stack::addNode(int value){
       Stacknode *newOne = new Stacknode;
       newOne->next = top;
@@ -17,6 +13,10 @@
     }
     
     int Stack::remove(){
+      if(top == NULL){
+        std::cout << "No more nodes found. Error ";
+        return 0;
+      }
       Stacknode* removeNode = top;
       int returnNum = top->number;
       top = top->next;
@@ -29,19 +29,28 @@
       front = NULL;
       back = NULL;
     }
-    
-    Queue::~Queue(){
 
-    }
-    
     void Queue::addNode(int value){
       Queuenode *newOne = new Queuenode;
-      newOne->next = front;
       newOne->number = value;
-      front = newOne;
+      if(front == NULL){
+        front = newOne;
+        back = newOne;
+      }
+      newOne->next = back;
+      back = newOne;
+
       std::cout << value << " added to a Queuenode" << std::endl;
     }
     
     int Queue::remove(){
-      return 0;
+      if(front == NULL){
+        std::cout << "No more nodes found. Error ";
+        return 0;
+      }
+      Queuenode* removeNode = front;
+      int returnNum = front->number;
+      front = front->next;
+      delete removeNode;
+      return returnNum;
     }

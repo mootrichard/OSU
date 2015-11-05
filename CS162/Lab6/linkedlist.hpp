@@ -4,7 +4,6 @@
 class Stack {
   public:
     Stack();
-    ~Stack();
     void addNode(int value);
     int remove();
 
@@ -21,7 +20,6 @@ class Stack {
 class Queue {
   public:
     Queue();
-    ~Queue();
     void addNode(int value);
     int remove();
 

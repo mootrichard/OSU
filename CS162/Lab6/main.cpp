@@ -2,6 +2,7 @@
 
 int main (){
   Stack thisStack;
+  Queue thisQueue;
 
   thisStack.addNode(1);
   thisStack.addNode(2);
@@ -10,13 +11,19 @@ int main (){
   thisStack.addNode(5);
 
   std::cout << thisStack.remove() << std::endl;
+  std::cout << thisStack.remove() << std::endl;
+  std::cout << thisStack.remove() << std::endl;
+  std::cout << thisStack.remove() << std::endl;
+  std::cout << thisStack.remove() << std::endl;
+  std::cout << thisStack.remove() << std::endl;
 
-  Queue thisQueue;
+
 
   thisQueue.addNode(1);
   thisQueue.addNode(2);
   thisQueue.addNode(3);
   thisQueue.addNode(4);
   thisQueue.addNode(5);
-
+  std::cout << thisQueue.remove() << std::endl;
+  std::cout << thisQueue.remove() << std::endl;
 }
