@@ -10,17 +10,17 @@ int main(){
   Shadow* newShadow = new Shadow;
 
   std::cout << "\n---------ATTACK ROUND-------\n" << std::endl;
-  newBarb->attackRoll();
-  newReptile->attackRoll();
-  newGoblin->attackRoll();
-  newBlueMen->attackRoll();
-  newShadow->attackRoll();
+  newBarb->attack();
+  newReptile->attack();
+  newGoblin->attack();
+  newBlueMen->attack();
+  newShadow->attack();
   
   std::cout << "\n---------Defense ROUND-------\n" << std::endl;
-  newBarb->defenseRoll();
-  newReptile->defenseRoll();
-  newGoblin->defenseRoll();
-  newBlueMen->defenseRoll();
-  newShadow->defenseRoll();
+  newBarb->defense();
+  newReptile->defense();
+  newGoblin->defense();
+  newBlueMen->defense();
+  newShadow->defense();
 
 }

@@ -8,7 +8,7 @@ Barbarian::Barbarian(){
   defenseDiceQty = 2;
   defenseDiceSides = 6;
 }
-unsigned int Barbarian::attackRoll(){
+unsigned int Barbarian::attack(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
     unsigned int tmp = std::rand() % attackDiceSides + 1;
@@ -18,7 +18,7 @@ unsigned int Barbarian::attackRoll(){
   std::cout << "For an attack of " << rollTotal << std::endl;
   return rollTotal;
 }
-unsigned int Barbarian::defenseRoll(){
+unsigned int Barbarian::defense(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < defenseDiceQty; i++){
     unsigned int tmp = std::rand() % defenseDiceSides + 1;
@@ -44,7 +44,7 @@ ReptilePeople::ReptilePeople(){
   defenseDiceQty = 1;
   defenseDiceSides = 6;
 }
-unsigned int ReptilePeople::attackRoll(){
+unsigned int ReptilePeople::attack(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
     unsigned int tmp = std::rand() % attackDiceSides + 1;
@@ -54,7 +54,7 @@ unsigned int ReptilePeople::attackRoll(){
   std::cout << "For an attack of " << rollTotal << std::endl;
   return rollTotal;
 }
-unsigned int ReptilePeople::defenseRoll(){
+unsigned int ReptilePeople::defense(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < defenseDiceQty; i++){
     unsigned int tmp = std::rand() % defenseDiceSides + 1;
@@ -79,7 +79,7 @@ BlueMen::BlueMen(){
   defenseDiceQty = 3;
   defenseDiceSides = 6;
 }
-unsigned int BlueMen::attackRoll(){
+unsigned int BlueMen::attack(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
     unsigned int tmp = std::rand() % attackDiceSides + 1;
@@ -89,7 +89,7 @@ unsigned int BlueMen::attackRoll(){
   std::cout << "For an attack of " << rollTotal << std::endl;
   return rollTotal;
 }
-unsigned int BlueMen::defenseRoll(){
+unsigned int BlueMen::defense(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < defenseDiceQty; i++){
     unsigned int tmp = std::rand() % defenseDiceSides + 1;
@@ -114,7 +114,7 @@ Shadow::Shadow(){
   defenseDiceQty = 1;
   defenseDiceSides = 6;
 }
-unsigned int Shadow::attackRoll(){
+unsigned int Shadow::attack(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
     unsigned int tmp = std::rand() % attackDiceSides + 1;
@@ -124,7 +124,7 @@ unsigned int Shadow::attackRoll(){
   std::cout << "For an attack of " << rollTotal << std::endl;
   return rollTotal;
 }
-unsigned int Shadow::defenseRoll(){
+unsigned int Shadow::defense(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < defenseDiceQty; i++){
     unsigned int tmp = std::rand() % defenseDiceSides + 1;
@@ -149,7 +149,7 @@ Goblin::Goblin(){
   defenseDiceQty = 1;
   defenseDiceSides = 6;
 }
-unsigned int Goblin::attackRoll(){
+unsigned int Goblin::attack(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
     unsigned int tmp = std::rand() % attackDiceSides + 1;
@@ -159,7 +159,7 @@ unsigned int Goblin::attackRoll(){
   std::cout << "For an attack of " << rollTotal << std::endl;
   return rollTotal;
 }
-unsigned int Goblin::defenseRoll(){
+unsigned int Goblin::defense(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < defenseDiceQty; i++){
     unsigned int tmp = std::rand() % defenseDiceSides + 1;

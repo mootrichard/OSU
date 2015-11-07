@@ -5,8 +5,8 @@
 
 class Creature{
   public:
-    unsigned virtual int attackRoll() = 0;
-    unsigned virtual int defenseRoll() = 0;
+    unsigned virtual int attack() = 0;
+    unsigned virtual int defense() = 0;
     virtual int getArmor() = 0;
     virtual int takeDamage() = 0;
   protected:
@@ -21,8 +21,8 @@ class Creature{
 class Barbarian: public Creature{
   public:
     Barbarian();
-    unsigned int attackRoll();
-    unsigned int defenseRoll();
+    unsigned int attack();
+    unsigned int defense();
     int getArmor();
     int takeDamage();
 };
@@ -31,8 +31,8 @@ class Barbarian: public Creature{
 class  ReptilePeople: public Creature{
   public:
     ReptilePeople();
-    unsigned int attackRoll();
-    unsigned int defenseRoll();
+    unsigned int attack();
+    unsigned int defense();
     int getArmor();
     int takeDamage();
 };
@@ -40,8 +40,8 @@ class  ReptilePeople: public Creature{
 class  BlueMen: public Creature{
   public:
     BlueMen();
-    unsigned int attackRoll();
-    unsigned int defenseRoll();
+    unsigned int attack();
+    unsigned int defense();
     int getArmor();
     int takeDamage();
 };
@@ -49,8 +49,8 @@ class  BlueMen: public Creature{
 class Shadow: public Creature{
   public:
     Shadow();
-    unsigned int attackRoll();
-    unsigned int defenseRoll();
+    unsigned int attack();
+    unsigned int defense();
     int getArmor();
     int takeDamage();
 };
@@ -58,8 +58,8 @@ class Shadow: public Creature{
 class Goblin: public Creature {
   public:
     Goblin();
-    unsigned int attackRoll();
-    unsigned int defenseRoll();
+    unsigned int attack();
+    unsigned int defense();
     int getArmor();
     int takeDamage();
 };
