@@ -6,7 +6,7 @@
 class Combat{
   public:
     Combat();
-    void battlePhase(Creature& first, Creature& second);
+    void battlePhase(Creature* first, Creature* second);
   private:
     unsigned int turn;
 };

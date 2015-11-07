@@ -11,8 +11,8 @@ Barbarian::Barbarian(){
 unsigned int Barbarian::attack(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
-    unsigned int tmp = std::rand() % attackDiceSides + 1;
-    std::cout << "Barbarian rolled D" << i+1 << " for " << attackDiceQty << std::endl;
+    unsigned int tmp = rand() % attackDiceSides + 1;
+    std::cout << "Barbarian rolled D" << i+1 << " for " << tmp << std::endl;
     rollTotal += tmp;
   }
   std::cout << "For an attack of " << rollTotal << std::endl;
@@ -21,8 +21,8 @@ unsigned int Barbarian::attack(){
 unsigned int Barbarian::defense(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < defenseDiceQty; i++){
-    unsigned int tmp = std::rand() % defenseDiceSides + 1;
-    std::cout << "Barbarian rolled D" << i+1 << " for " << defenseDiceQty << std::endl;
+    unsigned int tmp = rand() % defenseDiceSides + 1;
+    std::cout << "Barbarian rolled D" << i+1 << " for " << tmp << std::endl;
     rollTotal += tmp;
   }
   std::cout << "For a defense of " << rollTotal << std::endl;
@@ -31,8 +31,9 @@ unsigned int Barbarian::defense(){
 int Barbarian::getArmor(){
   return armor;
 }
-int Barbarian::takeDamage(){
-
+unsigned int Barbarian::takeDamage(unsigned int incDmg){
+  strength = incDmg - this->getArmor();
+  return strength;
 }
 
 
@@ -47,8 +48,8 @@ ReptilePeople::ReptilePeople(){
 unsigned int ReptilePeople::attack(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
-    unsigned int tmp = std::rand() % attackDiceSides + 1;
-    std::cout << "Reptile People rolled D" << i+1 << " for " << attackDiceQty << std::endl;
+    unsigned int tmp = rand() % attackDiceSides + 1;
+    std::cout << "Reptile People rolled D" << i+1 << " for " << tmp << std::endl;
     rollTotal += tmp;
   }
   std::cout << "For an attack of " << rollTotal << std::endl;
@@ -57,8 +58,8 @@ unsigned int ReptilePeople::attack(){
 unsigned int ReptilePeople::defense(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < defenseDiceQty; i++){
-    unsigned int tmp = std::rand() % defenseDiceSides + 1;
-    std::cout << "Reptile People rolled D" << i+1 << " for " << defenseDiceQty << std::endl;
+    unsigned int tmp = rand() % defenseDiceSides + 1;
+    std::cout << "Reptile People rolled D" << i+1 << " for " << tmp << std::endl;
     rollTotal += tmp;
   }
   std::cout << "For a defense of " << rollTotal << std::endl;
@@ -67,8 +68,9 @@ unsigned int ReptilePeople::defense(){
 int ReptilePeople::getArmor(){
   return armor;
 }
-int ReptilePeople::takeDamage(){
-
+unsigned int ReptilePeople::takeDamage(unsigned int incDmg){
+  strength = incDmg - this->getArmor();
+  return strength;
 }
 
 BlueMen::BlueMen(){
@@ -82,8 +84,8 @@ BlueMen::BlueMen(){
 unsigned int BlueMen::attack(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
-    unsigned int tmp = std::rand() % attackDiceSides + 1;
-    std::cout << "Blue Men rolled D" << i+1 << " for " << attackDiceQty << std::endl;
+    unsigned int tmp = rand() % attackDiceSides + 1;
+    std::cout << "Blue Men rolled D" << i+1 << " for " << tmp << std::endl;
     rollTotal += tmp;
   }
   std::cout << "For an attack of " << rollTotal << std::endl;
@@ -92,8 +94,8 @@ unsigned int BlueMen::attack(){
 unsigned int BlueMen::defense(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < defenseDiceQty; i++){
-    unsigned int tmp = std::rand() % defenseDiceSides + 1;
-    std::cout << "Blue Men rolled D" << i+1 << " for " << defenseDiceQty << std::endl;
+    unsigned int tmp = rand() % defenseDiceSides + 1;
+    std::cout << "Blue Men rolled D" << i+1 << " for " << tmp << std::endl;
     rollTotal += tmp;
   }
   std::cout << "For a defense of " << rollTotal << std::endl;
@@ -102,8 +104,9 @@ unsigned int BlueMen::defense(){
 int BlueMen::getArmor(){
   return armor;
 }
-int BlueMen::takeDamage(){
-
+unsigned int BlueMen::takeDamage(unsigned int incDmg){
+  strength = incDmg - this->getArmor();
+  return strength;
 }
 
 Shadow::Shadow(){
@@ -117,8 +120,8 @@ Shadow::Shadow(){
 unsigned int Shadow::attack(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
-    unsigned int tmp = std::rand() % attackDiceSides + 1;
-    std::cout << "Shadow rolled D" << i+1 << " for " << attackDiceQty << std::endl;
+    unsigned int tmp = rand() % attackDiceSides + 1;
+    std::cout << "Shadow rolled D" << i+1 << " for " << tmp << std::endl;
     rollTotal += tmp;
   }
   std::cout << "For an attack of " << rollTotal << std::endl;
@@ -127,8 +130,8 @@ unsigned int Shadow::attack(){
 unsigned int Shadow::defense(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < defenseDiceQty; i++){
-    unsigned int tmp = std::rand() % defenseDiceSides + 1;
-    std::cout << "Shadow rolled D" << i+1 << " for " << defenseDiceQty << std::endl;
+    unsigned int tmp = rand() % defenseDiceSides + 1;
+    std::cout << "Shadow rolled D" << i+1 << " for " << tmp << std::endl;
     rollTotal += tmp;
   }
   std::cout << "For a defense of " << rollTotal << std::endl;
@@ -137,8 +140,15 @@ unsigned int Shadow::defense(){
 int Shadow::getArmor(){
   return armor;
 }
-int Shadow::takeDamage(){
-  
+unsigned int Shadow::takeDamage(unsigned int incDmg){
+  unsigned int dodge = rand() % 100 + 1;
+  if(dodge >= 50){
+    return strength;;
+  }
+  else{
+    strength = incDmg - this->getArmor();
+  }
+  return strength;
 }
 
 Goblin::Goblin(){
@@ -148,22 +158,27 @@ Goblin::Goblin(){
   attackDiceSides = 6;
   defenseDiceQty = 1;
   defenseDiceSides = 6;
+  achilles = false;
 }
 unsigned int Goblin::attack(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
-    unsigned int tmp = std::rand() % attackDiceSides + 1;
-    std::cout << "Goblin rolled D" << i+1 << " for " << attackDiceQty << std::endl;
+    unsigned int tmp = rand() % attackDiceSides + 1;
+    std::cout << "Goblin rolled D" << i+1 << " for " << tmp << std::endl;
     rollTotal += tmp;
   }
   std::cout << "For an attack of " << rollTotal << std::endl;
+  if(rollTotal == 12){
+    std::cout << "\tAchilles has been applied!" << std::endl;
+    achilles = true;
+  }
   return rollTotal;
 }
 unsigned int Goblin::defense(){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < defenseDiceQty; i++){
-    unsigned int tmp = std::rand() % defenseDiceSides + 1;
-    std::cout << "Goblin rolled D" << i+1 << " for " << defenseDiceQty << std::endl;
+    unsigned int tmp = rand() % defenseDiceSides + 1;
+    std::cout << "Goblin rolled D" << i+1 << " for " << tmp << std::endl;
     rollTotal += tmp;
   }
   std::cout << "For a defense of " << rollTotal << std::endl;
@@ -172,6 +187,12 @@ unsigned int Goblin::defense(){
 int Goblin::getArmor(){
   return armor;
 }
-int Goblin::takeDamage(){
-
+unsigned int Goblin::takeDamage(unsigned int incDmg){
+  if(achilles){
+    strength = (incDmg/2) - this->getArmor();
+  }
+  else{
+    strength = incDmg - this->getArmor();
+  }
+  return strength;
 }

@@ -8,7 +8,7 @@ class Creature{
     unsigned virtual int attack() = 0;
     unsigned virtual int defense() = 0;
     virtual int getArmor() = 0;
-    virtual int takeDamage() = 0;
+    virtual unsigned int takeDamage(unsigned int incDmg) = 0;
   protected:
     int armor;
     int strength;
@@ -24,7 +24,7 @@ class Barbarian: public Creature{
     unsigned int attack();
     unsigned int defense();
     int getArmor();
-    int takeDamage();
+    unsigned int takeDamage(unsigned int incDmg);
 };
 
 
@@ -34,7 +34,7 @@ class  ReptilePeople: public Creature{
     unsigned int attack();
     unsigned int defense();
     int getArmor();
-    int takeDamage();
+    unsigned int takeDamage(unsigned int incDmg);
 };
 
 class  BlueMen: public Creature{
@@ -43,7 +43,7 @@ class  BlueMen: public Creature{
     unsigned int attack();
     unsigned int defense();
     int getArmor();
-    int takeDamage();
+    unsigned int takeDamage(unsigned int incDmg);
 };
 
 class Shadow: public Creature{
@@ -52,7 +52,7 @@ class Shadow: public Creature{
     unsigned int attack();
     unsigned int defense();
     int getArmor();
-    int takeDamage();
+    unsigned int takeDamage(unsigned int incDmg);
 };
 
 class Goblin: public Creature {
@@ -61,7 +61,9 @@ class Goblin: public Creature {
     unsigned int attack();
     unsigned int defense();
     int getArmor();
-    int takeDamage();
+    unsigned int takeDamage(unsigned int incDmg);
+  private:
+    bool achilles;
 };
 
 #endif // CREATURE_HPP
