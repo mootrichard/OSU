@@ -3,24 +3,24 @@
 int main(){
   srand(time(NULL));
 
-  Barbarian* newBarb = new Barbarian;
-  ReptilePeople* newReptile = new ReptilePeople;
-  Goblin* newGoblin = new Goblin;
-  BlueMen* newBlueMen = new BlueMen;
-  Shadow* newShadow = new Shadow;
+  Barbarian newBarb;
+  ReptilePeople newReptile;
+  Goblin newGoblin;
+  BlueMen newBlueMen;
+  Shadow newShadow;
 
-  std::cout << "\n---------ATTACK ROUND-------\n" << std::endl;
-  newBarb->attack();
-  newReptile->attack();
-  newGoblin->attack();
-  newBlueMen->attack();
-  newShadow->attack();
-  
-  std::cout << "\n---------Defense ROUND-------\n" << std::endl;
-  newBarb->defense();
-  newReptile->defense();
-  newGoblin->defense();
-  newBlueMen->defense();
-  newShadow->defense();
+
+
+  Barbarian* pointBarb = &newBarb;
+  ReptilePeople* pointRep = &newReptile;
+  Goblin* pointGoblin = &newGoblin;
+  BlueMen* pointBlueMen = &newBlueMen;
+  Shadow* pointShadow = &newShadow;
+
+  Combat commence;
+  commence.battlePhase(pointBarb, pointRep);
+  commence.battlePhase(pointGoblin, pointBlueMen);
+  commence.battlePhase(pointShadow, pointGoblin);
+  commence.battlePhase(pointGoblin, pointGoblin);
 
 }

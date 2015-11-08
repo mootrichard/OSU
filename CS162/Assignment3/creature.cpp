@@ -1,6 +1,15 @@
 #include "creature.hpp"
 
+std::string Creature::getType() const{
+  return this->type;
+}
+
+int Creature::getStrength() const{
+  return this->strength;
+}
+
 Barbarian::Barbarian(){
+  type = "barbarian";
   armor = 0;
   strength = 12;
   attackDiceQty = 2;
@@ -8,7 +17,7 @@ Barbarian::Barbarian(){
   defenseDiceQty = 2;
   defenseDiceSides = 6;
 }
-unsigned int Barbarian::attack(){
+unsigned int Barbarian::attack(Creature* enemy){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
     unsigned int tmp = rand() % attackDiceSides + 1;
@@ -32,12 +41,18 @@ int Barbarian::getArmor(){
   return armor;
 }
 unsigned int Barbarian::takeDamage(unsigned int incDmg){
-  strength = incDmg - this->getArmor();
-  return strength;
+  if(incDmg <= this->getArmor()){
+    return 0;
+  }
+  else{
+    this->strength -= (incDmg - this->getArmor());
+  }
+  return incDmg - this->getArmor();
 }
 
 
 ReptilePeople::ReptilePeople(){
+  type = "reptile";
   armor = 7;
   strength = 18;
   attackDiceQty = 3;
@@ -45,7 +60,7 @@ ReptilePeople::ReptilePeople(){
   defenseDiceQty = 1;
   defenseDiceSides = 6;
 }
-unsigned int ReptilePeople::attack(){
+unsigned int ReptilePeople::attack(Creature* enemy){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
     unsigned int tmp = rand() % attackDiceSides + 1;
@@ -69,11 +84,17 @@ int ReptilePeople::getArmor(){
   return armor;
 }
 unsigned int ReptilePeople::takeDamage(unsigned int incDmg){
-  strength = incDmg - this->getArmor();
-  return strength;
+  if(incDmg <= this->getArmor()){
+    return 0;
+  }
+  else{
+    this->strength -= incDmg - this->getArmor();
+  }
+  return incDmg - this->getArmor();
 }
 
 BlueMen::BlueMen(){
+  type = "blueMen";
   armor = 3;
   strength = 12;
   attackDiceQty = 2;
@@ -81,7 +102,7 @@ BlueMen::BlueMen(){
   defenseDiceQty = 3;
   defenseDiceSides = 6;
 }
-unsigned int BlueMen::attack(){
+unsigned int BlueMen::attack(Creature* enemy){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
     unsigned int tmp = rand() % attackDiceSides + 1;
@@ -105,11 +126,17 @@ int BlueMen::getArmor(){
   return armor;
 }
 unsigned int BlueMen::takeDamage(unsigned int incDmg){
-  strength = incDmg - this->getArmor();
-  return strength;
+  if(incDmg <= this->getArmor()){
+    return 0;
+  }
+  else{
+    this->strength -= (incDmg - this->getArmor());
+  }
+  return incDmg - this->getArmor();
 }
 
 Shadow::Shadow(){
+  type = "shadow";
   armor = 0;
   strength = 12;
   attackDiceQty = 2;
@@ -117,7 +144,7 @@ Shadow::Shadow(){
   defenseDiceQty = 1;
   defenseDiceSides = 6;
 }
-unsigned int Shadow::attack(){
+unsigned int Shadow::attack(Creature* enemy){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
     unsigned int tmp = rand() % attackDiceSides + 1;
@@ -143,15 +170,17 @@ int Shadow::getArmor(){
 unsigned int Shadow::takeDamage(unsigned int incDmg){
   unsigned int dodge = rand() % 100 + 1;
   if(dodge >= 50){
+    std::cout << "Dodged the attack!" << std::endl; 
     return strength;;
   }
   else{
-    strength = incDmg - this->getArmor();
+    this->strength -= (incDmg - this->getArmor());
   }
-  return strength;
+  return incDmg - this->getArmor();
 }
 
 Goblin::Goblin(){
+  type = "goblin";
   armor = 3;
   strength = 8;
   attackDiceQty = 2;
@@ -160,7 +189,7 @@ Goblin::Goblin(){
   defenseDiceSides = 6;
   achilles = false;
 }
-unsigned int Goblin::attack(){
+unsigned int Goblin::attack(Creature* enemy){
   unsigned int rollTotal = 0;
   for(unsigned int i = 0; i < attackDiceQty; i++){
     unsigned int tmp = rand() % attackDiceSides + 1;
@@ -168,7 +197,7 @@ unsigned int Goblin::attack(){
     rollTotal += tmp;
   }
   std::cout << "For an attack of " << rollTotal << std::endl;
-  if(rollTotal == 12){
+  if((rollTotal == 12) && (enemy->getType() != "goblin")){
     std::cout << "\tAchilles has been applied!" << std::endl;
     achilles = true;
   }
@@ -189,10 +218,14 @@ int Goblin::getArmor(){
 }
 unsigned int Goblin::takeDamage(unsigned int incDmg){
   if(achilles){
-    strength = (incDmg/2) - this->getArmor();
+    if((incDmg/2) < this->getArmor()){
+      return strength;
+    }
+    this->strength -= (incDmg/2) - this->getArmor();
+    return (incDmg/2) - this->getArmor();
   }
   else{
-    strength = incDmg - this->getArmor();
+    this->strength -= incDmg - this->getArmor();
   }
-  return strength;
+  return incDmg - this->getArmor();
 }

@@ -7,8 +7,11 @@ class Combat{
   public:
     Combat();
     void battlePhase(Creature* first, Creature* second);
+    void playerChoices();
   private:
     unsigned int turn;
+    unsigned int playerOne;
+    unsigned int playerTwo;
 };
 
 #endif // COMBAT_HPP

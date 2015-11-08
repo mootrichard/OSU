@@ -2,14 +2,18 @@
 #define CREATURE_HPP
 #include <iostream>
 #include <cstdlib>
+#include <string>
 
 class Creature{
   public:
-    unsigned virtual int attack() = 0;
+    unsigned virtual int attack(Creature* enemy) = 0;
     unsigned virtual int defense() = 0;
     virtual int getArmor() = 0;
     virtual unsigned int takeDamage(unsigned int incDmg) = 0;
+    std::string getType() const;
+    int getStrength() const;
   protected:
+    std::string type;
     int armor;
     int strength;
     unsigned int attackDiceQty;
@@ -21,7 +25,7 @@ class Creature{
 class Barbarian: public Creature{
   public:
     Barbarian();
-    unsigned int attack();
+    unsigned int attack(Creature* enemy);
     unsigned int defense();
     int getArmor();
     unsigned int takeDamage(unsigned int incDmg);
@@ -31,7 +35,7 @@ class Barbarian: public Creature{
 class  ReptilePeople: public Creature{
   public:
     ReptilePeople();
-    unsigned int attack();
+    unsigned int attack(Creature* enemy);
     unsigned int defense();
     int getArmor();
     unsigned int takeDamage(unsigned int incDmg);
@@ -40,7 +44,7 @@ class  ReptilePeople: public Creature{
 class  BlueMen: public Creature{
   public:
     BlueMen();
-    unsigned int attack();
+    unsigned int attack(Creature* enemy);
     unsigned int defense();
     int getArmor();
     unsigned int takeDamage(unsigned int incDmg);
@@ -49,7 +53,7 @@ class  BlueMen: public Creature{
 class Shadow: public Creature{
   public:
     Shadow();
-    unsigned int attack();
+    unsigned int attack(Creature* enemy);
     unsigned int defense();
     int getArmor();
     unsigned int takeDamage(unsigned int incDmg);
@@ -58,7 +62,7 @@ class Shadow: public Creature{
 class Goblin: public Creature {
   public:
     Goblin();
-    unsigned int attack();
+    unsigned int attack(Creature* enemy);
     unsigned int defense();
     int getArmor();
     unsigned int takeDamage(unsigned int incDmg);
