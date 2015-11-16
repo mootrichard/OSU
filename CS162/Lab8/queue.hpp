@@ -9,14 +9,14 @@ class Queue{
 		int getFront();
 		void removeFront();
 
-		struct QueueNode {
-			QueueNode* next;
-			QueueNode* prev;
+		struct Queuenode {
+			Queuenode* next;
+			Queuenode* prev;
 			int data;
 		};
 	private:
-		QueueNode* front;
-		QueueNode* back;
+		Queuenode* front;
+		Queuenode* back;
 };
 
 #endif // QUEUE_HPP
