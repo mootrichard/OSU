@@ -9,7 +9,7 @@ FileTest.o: FileTest.cpp
 	$(CXX) -c FileTest.cpp
 
 main.o: main.cpp
-	$(CXX) -c Main.cpp
+	$(CXX) -c main.cpp
 
 clean:
 	rm *.o algorithms
