@@ -1,5 +1,10 @@
 #include "tournament.hpp"
 
+/**
+ * @brief Constructor for our Tournament
+ * @details Initializes our points to the ADT's within the class and prompts user for
+ *  lineup size along with running through the seelctor.
+ */
 Tournament::Tournament(){
   top = NULL;
   frontOne = NULL;
@@ -21,12 +26,24 @@ Creature* Tournament::getFrontTwo(){
   return this->frontTwo->combatant;
 }
 
+/**
+ * @brief Set linup size for both players
+ */
 void Tournament::setLineupSize(){
   std::cout << "Enter lineup size: ";
   std::cin >> this->lineupSize;
   std::cout << std::endl;
 }
 
+/**
+ * @brief Creature Selector the generates the appropriate creature for a player
+ * @details Allows a player to dynamically create a selected creature and add that creature to 
+ *   the player's lineup
+ * 
+ * @param int player: indicates which player is making the creature selection
+ * @param int nextCreature: indicates which creature the player has selected
+ * @param string creatureName: name that the player has given to the creature
+ */
 void Tournament::creatureSelector(unsigned int player, unsigned int nextCreature, std::string creatureName){
   if(nextCreature == 1){
     Barbarian* pointBarb = new Barbarian;
@@ -98,9 +115,14 @@ void Tournament::creatureSelector(unsigned int player, unsigned int nextCreature
   }
 }
 
-
+/**
+ * @brief Runs through the selection process for a given player
+ * @details Prompts the player with available creature that they can select from and collects
+ *   name of the creature along with which creature they select (passed to creatureSelector() )
+ * 
+ * @param int player: indicates which player is currently going through the selection process
+ */
 void Tournament::lineupSelector(unsigned int player){
-
   std::cout << "Player " << player << " select a creature from the following list using the indicated numbers:" << std::endl;
   std::cout << "\t1. Barbarian" << std::endl;
   std::cout << "\t2. Reptile People" << std::endl;
@@ -137,13 +159,22 @@ void Tournament::lineupSelector(unsigned int player){
     return;
   }
 }
-
+/**
+ * @brief Adds loser of battle to pile of losers
+ * 
+ * @param Creature* loser: the losing character that must be placed on the stack
+ */
 void Tournament::addLoser(Creature* loser){
   Losers* newLoser = new Losers(loser);
   newLoser->next = top;
   top = newLoser; // Pointing top to the new Losers we created
 }
 
+/**
+ * @brief Removes a loser from the stack of losers
+ * @details Removes a loser from the stack of losers while setting the top pointer to point to the next loser
+ * @return returns the loser that is at the top of the stack
+ */
 Creature* Tournament::removeLoser(){
   if(top == NULL){ // Stack is empty, just returning an error
     throw std::string("No more creatures found. Error ");
@@ -155,6 +186,9 @@ Creature* Tournament::removeLoser(){
   return returnCreature; // Returning the number that was stored in the removed node
 }
 
+/**
+ * @brief Displays Player One's roster to the console
+ */
 void Tournament::displayRosterOne(){
   if(frontOne == NULL){
     return;
@@ -169,6 +203,10 @@ void Tournament::displayRosterOne(){
   }
 }
 
+/**
+ * @brief Adds a creature to Player One's Roster 
+ * @param Creature* inCreature: next creature that is being added to Player one's roster
+ */
 void Tournament::addCreatureOne(Creature* inCreature){
   if(backOne == NULL){ // No items in the queue yet, need to set FrontOne and BackOne
     frontOne = backOne = new RosterOne(inCreature);
@@ -181,6 +219,7 @@ void Tournament::addCreatureOne(Creature* inCreature){
     newRoster = NULL;
   }
 }
+
 
 Creature* Tournament::removeCreatureOne(){
   Creature* rmvCombatant = NULL;
