@@ -12,7 +12,7 @@
 class Combat{
   public:
     Combat();
-    void battlePhase(Creature* first, Creature* second);
+    Creature* battlePhase(Creature* first, Creature* second);
     void resetTurn();
   private:
     unsigned int turn;

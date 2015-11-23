@@ -13,8 +13,20 @@ std::string Creature::getType() const{
 }
 
 // Used to report the creatures current strength
-int Creature::getStrength() const{
+int Creature::getStrength() {
   return this->strength;
+}
+
+void Creature::setName(std::string creatureName){
+  this->name = creatureName;
+}
+
+std::string Creature::getName(){
+  return this->name;
+}
+
+void Creature::heal(){
+  this->strength = this->strength + (this->strength/2);
 }
 
 Barbarian::Barbarian(){

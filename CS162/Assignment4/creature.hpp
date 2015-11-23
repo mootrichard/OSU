@@ -18,9 +18,13 @@ class Creature{
     virtual int getArmor() = 0;
     virtual int takeDamage(int incDmg) = 0;
     std::string getType() const;
-    int getStrength() const;
+    int getStrength() ;
+    void setName(std::string creatureName);
+    std::string getName();
+    void heal();
   protected:
     std::string type;
+    std::string name;
     int armor;
     int strength;
     unsigned int attackDiceQty;
@@ -74,7 +78,7 @@ class Goblin: public Creature {
     int getArmor();
     int takeDamage(int incDmg);
     bool getAchilles();
-  private:
+  protected:
     bool achilles;
 };
 

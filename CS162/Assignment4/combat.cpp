@@ -16,9 +16,9 @@ void Combat::resetTurn(){
   this->turn = 0;
 }
 
-void Combat::battlePhase(Creature* first, Creature* second){
+Creature* Combat::battlePhase(Creature* first, Creature* second){
+  while((first->getStrength() > 0) && (second->getStrength() > 0)){
     turn++; // Turn tracked needs to go up
-    std::cout << "\n -----Round " << turn << " Commencing!----- " << std::endl;
     // This is our combat phase actually taking place
     unsigned int firstAttack = first->attack(second);
     unsigned int firstDefense = first->defense();
@@ -27,45 +27,54 @@ void Combat::battlePhase(Creature* first, Creature* second){
     unsigned int pOneDamageTaken = secondAttack - firstDefense;
     unsigned int pTwoDamageTaken = firstAttack - secondDefense;
 
-    // Reading out the results of combat to the console
-    std::cout << first->getType() << " rolled " << firstAttack << " for attack" << std::endl;
-    std::cout << second->getType() << " rolled " << secondDefense << " for defense" << std::endl;
-    std::cout << second->getType() << " rolled " << secondAttack << " for attack" << std::endl;
-    std::cout << first->getType() << " rolled " << firstDefense << " for defense" << std::endl;
-
     // Handling the special case of Achilles to be alerted to the console
     if((first->getType() == "Goblin" && firstAttack == 12)||(second->getType() == "Goblin" && secondAttack == 12)){
       std::cout << "Achilles has been applied!" << std::endl;
     }
 
-    // Nobody did any damage, we can skip this round
-    if(pOneDamageTaken == 0 && pTwoDamageTaken == 0){
-      std::cout << "No damage taken for either player this round" << std::endl;
-      return;
-    }
-
     // First player has done some damage beyond their defensive roll
     if(firstAttack > secondDefense){
-      if(pTwoDamageTaken == 0){ // Handling special case of Shadow getting 0 damange, he has mo armor to he must'ved dodged
-        if(second->getType() == "The Shadow"){
-          std::cout << second->getType() <<  " dodged the attack!" << std::endl;          
-        }
-        else{
-          std::cout << second->getType() <<  "'s armor blocked the attack" << std::endl;
-        }
+      if(pTwoDamageTaken == 0 && second->getType() == "The Shadow"){ // Handling special case of Shadow getting 0 damange, he has mo armor to he must'ved dodged
+          std::cout << second->getName() <<  " dodged an attack!" << std::endl;
       }
-      // Here we are applying the damage and also reporting it back to the user.
-      std::cout << second->getType()<< " took " << second->takeDamage(pTwoDamageTaken) << " damage." << std::endl;
-      std::cout << second->getType() << " now has " << second->getStrength() << " strength" << std::endl;
+      // Here we are applying the damage.
+      second->takeDamage(pTwoDamageTaken);
+      if(second->getStrength() <= 0){
+        break;
+      }
     }
 
     // This is the same as everything for First player above, but for Second player
     if(secondAttack > firstDefense){
-        if(first->getType() == "The Shadow"){
-          std::cout << first->getType() <<  " dodged the attack!" << std::endl;          
+        if(pOneDamageTaken == 0 && first->getType() == "The Shadow"){
+          std::cout << first->getName() <<  " dodged the attack!" << std::endl;          
         }
-      std::cout << first->getType() << " took " << first->takeDamage(pOneDamageTaken) << " damage." << std::endl;
-      std::cout << first->getType() << " now has " << first->getStrength() << " strength" << std::endl;
+      first->takeDamage(pOneDamageTaken);
+      if(first->getStrength() <= 0){
+        break;
+      }      
     }
-
+  }
+  if(first->getStrength() <= 0 && second->getStrength() <= 0){
+    unsigned int coinToss = rand()% 100 + 1;
+    if(coinToss >= 50){
+      std::cout << first->getName() << " was defeated." << std::endl;
+      return first;
+    }
+    else{
+      std::cout << second->getName() << " was defeated." << std::endl;
+      return second;
+    }
+  }
+  else if(first->getStrength() <= 0){
+    std::cout << first->getName() << " was defeated." << std::endl;
+    return first;
+  }
+  else if(second->getStrength() <= 0){
+    std::cout << second->getName() << " was defeated." << std::endl;
+    return second;
+  }
+  else{
+    return NULL;
+  }
 }
