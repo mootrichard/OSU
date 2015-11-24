@@ -220,7 +220,11 @@ void Tournament::addCreatureOne(Creature* inCreature){
   }
 }
 
-
+/**
+ * @brief Removes a creature from Player One's Roster
+ * @details Removes the creature at frontOne from Player One's roster, sets the front to the next creature returns the creature that was removed.
+ * @return Creature* rmvCombatant: The creature at the front of RosterOne
+ */
 Creature* Tournament::removeCreatureOne(){
   Creature* rmvCombatant = NULL;
   if(frontOne == NULL && backOne == NULL){ // Uh oh queue is emtpy, need to warn the user
@@ -241,6 +245,9 @@ Creature* Tournament::removeCreatureOne(){
   }
 }
 
+/**
+ * @brief Displays Player Two's roster to the console
+ */
 void Tournament::displayRosterTwo(){
   if(frontTwo == NULL){
     return;
@@ -255,6 +262,10 @@ void Tournament::displayRosterTwo(){
   }
 }
 
+/**
+ * @brief Adds a creature to Player Two's Roster 
+ * @param Creature* inCreature: next creature that is being added to Player Two's roster
+ */
 void Tournament::addCreatureTwo(Creature* inCreature){
   if(backTwo == NULL){ // No items in the queue yet, need to set FrontTwo and BackTwo
     frontTwo = backTwo = new RosterTwo(inCreature);
@@ -268,7 +279,11 @@ void Tournament::addCreatureTwo(Creature* inCreature){
   }
 }
 
-
+/**
+ * @brief Removes a creature from Player Two's Roster
+ * @details Removes the creature at frontOne from Player Two's roster, sets the front to the next creature returns the creature that was removed.
+ * @return Creature* rmvCombatant: The creature at the front of RosterTwo
+ */
 Creature* Tournament::removeCreatureTwo(){
   Creature* rmvCombatant = NULL;
   if(frontTwo == NULL && backTwo == NULL){ // Uh oh queue is emtpy, need to warn the user
@@ -289,6 +304,10 @@ Creature* Tournament::removeCreatureTwo(){
   }
 }
 
+/**
+ * @brief Begins the Tournament Battle
+ * @details Battle the creatures of each player's roster until all of one player's creatures are defeated
+ */
 void Tournament::startTournament(){
   while(frontOne != NULL && frontTwo != NULL){
     Creature* fighterOne = removeCreatureOne();
@@ -310,6 +329,12 @@ void Tournament::startTournament(){
   }
 }
 
+/**
+ * @brief Declares 1st, 2nd, & 3rd place finishers
+ * @details Checks who is left in the Roster for the winning team and declares the winner
+ *   If there are less than 3 left in the winning player's queue, we start pulling creatures
+ *   out of the loser pile.
+ */
 void Tournament::determinePlaces(){
   if(backOne == NULL && backTwo == NULL){
     throw std::string("Something went horribly wrong");
