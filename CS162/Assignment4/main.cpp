@@ -5,11 +5,8 @@ int main(){
   srand(time(NULL));
 
   Tournament battleBegin;
-  Combat* commence = new Combat;
   battleBegin.displayRosterOne();
   battleBegin.displayRosterTwo();
   battleBegin.startTournament();
   battleBegin.determinePlaces();
-  return 1;
-
 }
