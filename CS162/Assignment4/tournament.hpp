@@ -1,3 +1,10 @@
+/**
+ * Author: Richard Moot
+ * Date: November 23, 2015
+ * Description: This tournament class is intended to allow two players to select creature to put in their
+ *   rosters that will fight each other until a winner is determined. It will give 1st, 2nd, and 3rd place to the
+ *   fighters as well as determine which player's team had won.
+ */
 #ifndef TOURNAMENT_HPP
 #define TOURNAMENT_HPP
 #include "combat.hpp"
