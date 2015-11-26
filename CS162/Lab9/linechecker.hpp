@@ -11,6 +11,7 @@
 #include <queue>
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 
 class LineChecker {
   public:
@@ -21,11 +22,13 @@ class LineChecker {
     void addToMultiQueues(int person);
     void addToSingleQueue(int person);
     void queuePeople();
+    void removePeople();
     void simulate();
   private:
     unsigned int numOfQueues;
     unsigned int nextQueue;
-    unsigned int waitTime;
+    unsigned int simLength;
+    unsigned int clicks;
     std::vector<std::queue<int>*> vectorOfQueues;
     std::queue<int> singleQueue;
 };

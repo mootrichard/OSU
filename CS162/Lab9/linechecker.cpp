@@ -8,11 +8,13 @@
 #include "linechecker.hpp"
 
 LineChecker::LineChecker(){
-  srand(time(NULL));
   nextQueue = 0;
-  waitTime = 0;
+  clicks = 0;
   std::cout << "Enter number of servers: ";
   std::cin >> this->numOfQueues;
+  std::cout << std::endl;
+  std::cout << "Enter number of cycles: ";
+  std::cin >> this->simLength;
   std::cout << std::endl;
   createQueues(numOfQueues);
 }
@@ -44,6 +46,8 @@ void LineChecker::displaySingleQueue(){
   std::cout << "1\t||  ";
   if(singleQueue.size() != 0){
     std::cout << singleQueue.size() << std::endl;
+  }else{
+    std::cout << std::endl;
   }
 }
 
@@ -63,7 +67,13 @@ void LineChecker::addToSingleQueue(int person){
 }
 
 void LineChecker::queuePeople(){
-  unsigned int newPeople = rand()% 20 + numOfQueues;
+  unsigned int random = rand()% numOfQueues;
+  unsigned int newPeople = 0;
+  if(clicks < (simLength/2)){
+    newPeople = random + (numOfQueues * clicks);
+  }else{
+    newPeople = random + (simLength - clicks);
+  }
   std::cout << "\n" << newPeople << " have arrived" << std::endl;
   for(unsigned int i = 0; i < newPeople; i++){
     addToMultiQueues(1);
@@ -71,17 +81,37 @@ void LineChecker::queuePeople(){
   }
 }
 
-void LineChecker::simulate(){
-  displaySingleQueue();
-  displayMultiQueue();
-  for(unsigned int i = 10; i > 0; i--){
-    queuePeople();
-    for(unsigned int j = 0; j < vectorOfQueues.size(); j ++){
-      vectorOfQueues[j]->pop();
+void LineChecker::removePeople(){
+  for(unsigned int i = 0; i < vectorOfQueues.size(); i++){
+    if(!vectorOfQueues[i]->empty()){
+      vectorOfQueues[i]->pop();
     }
-    singleQueue.pop();
+    if(!singleQueue.empty()){
+      singleQueue.pop();
+    }
+  }
+}
+
+void LineChecker::simulate(){
+  bool firstRun = true;
+  for(unsigned int i = 0; i < simLength; i++){
+    clicks++;
+    queuePeople();
+    removePeople();
     displaySingleQueue();
     displayMultiQueue();
+    std::cout << "Press enter to continue..." << std::endl;
+    if(firstRun){
+      std::cin.ignore();
+      firstRun = false;
+    }
+    std::cin.get();
+  }
+  while(singleQueue.size() > 0){
+    removePeople();
+    displaySingleQueue();
+    displayMultiQueue();
+    std::cout << "Press enter to continue..." << std::endl;
     std::cin.get();
   }
 }
