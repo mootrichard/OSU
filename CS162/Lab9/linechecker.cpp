@@ -70,9 +70,9 @@ void LineChecker::queuePeople(){
   unsigned int random = rand()% numOfQueues;
   unsigned int newPeople = 0;
   if(clicks < (simLength/2)){
-    newPeople = random + (numOfQueues * clicks);
+    newPeople = clicks + numOfQueues + random;
   }else{
-    newPeople = random + (simLength - clicks);
+    newPeople = (simLength - clicks) + (numOfQueues - random);
   }
   std::cout << "\n" << newPeople << " have arrived" << std::endl;
   for(unsigned int i = 0; i < newPeople; i++){
