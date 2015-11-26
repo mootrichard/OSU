@@ -9,8 +9,10 @@
 
 LineChecker::LineChecker(){
   srand(time(NULL));
+  nextQueue = 0;
+  waitTime = 0;
   std::cout << "Enter number of servers: ";
-  std::cin >> numOfQueues;
+  std::cin >> this->numOfQueues;
   std::cout << std::endl;
   createQueues(numOfQueues);
 }
@@ -28,7 +30,7 @@ void LineChecker::displayMultiQueue(){
   for(int i = 0; i < vectorOfQueues.size(); i++){
     std::cout << i+1 << "\t||  ";
     if(vectorOfQueues[i]->size() != 0){
-        std::cout << vectorOfQueues[i]->front() << " ";
+        std::cout << vectorOfQueues[i]->size() << " ";
         std::cout << std::endl;
       }else{
       std::cout << std::endl;
@@ -39,13 +41,47 @@ void LineChecker::displayMultiQueue(){
 void LineChecker::displaySingleQueue(){
   std::cout << "\t1 Queue with " << numOfQueues << " servers" <<  std::endl;
   std::cout << "Line\t    # of People in Line" << std::endl;
-  std::cout << "1\t||  " << singleQueue.size() << std::endl;
+  std::cout << "1\t||  ";
+  if(singleQueue.size() != 0){
+    std::cout << singleQueue.size() << std::endl;
+  }
 }
 
 void LineChecker::addToMultiQueues(int person){
-
+  if(nextQueue == numOfQueues){
+    nextQueue = 0;
+    vectorOfQueues[nextQueue]->push(person);
+    nextQueue++;
+  }else{
+    vectorOfQueues[nextQueue]->push(person);
+    nextQueue++;
+  }
 }
 
 void LineChecker::addToSingleQueue(int person){
   singleQueue.push(person);
+}
+
+void LineChecker::queuePeople(){
+  unsigned int newPeople = rand()% 20 + numOfQueues;
+  std::cout << "\n" << newPeople << " have arrived" << std::endl;
+  for(unsigned int i = 0; i < newPeople; i++){
+    addToMultiQueues(1);
+    addToSingleQueue(1);
+  }
+}
+
+void LineChecker::simulate(){
+  displaySingleQueue();
+  displayMultiQueue();
+  for(unsigned int i = 10; i > 0; i--){
+    queuePeople();
+    for(unsigned int j = 0; j < vectorOfQueues.size(); j ++){
+      vectorOfQueues[j]->pop();
+    }
+    singleQueue.pop();
+    displaySingleQueue();
+    displayMultiQueue();
+    std::cin.get();
+  }
 }

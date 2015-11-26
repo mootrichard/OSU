@@ -9,7 +9,6 @@
 #define LINECHECKER_HPP
 #include <vector>
 #include <queue>
-#include <list>
 #include <iostream>
 #include <cstdlib>
 
@@ -21,8 +20,12 @@ class LineChecker {
     void createQueues(unsigned int numOfQueues);
     void addToMultiQueues(int person);
     void addToSingleQueue(int person);
+    void queuePeople();
+    void simulate();
   private:
     unsigned int numOfQueues;
+    unsigned int nextQueue;
+    unsigned int waitTime;
     std::vector<std::queue<int>*> vectorOfQueues;
     std::queue<int> singleQueue;
 };
