@@ -24,11 +24,14 @@ class LineChecker {
     void queuePeople();
     void removePeople();
     void simulate();
+    void waitTime();
   private:
     unsigned int numOfQueues;
     unsigned int nextQueue;
     unsigned int simLength;
     unsigned int clicks;
+    unsigned int multiQueueTotal;
+    unsigned int singleQueueTotal;
     std::vector<std::queue<int>*> vectorOfQueues;
     std::queue<int> singleQueue;
 };
