@@ -7,6 +7,13 @@ TITLE Assignment Six-A Read/Write Values (assign6A.asm)
 
 INCLUDE Irvine32.INC
 
+.const
+MAX_SIZE = 15
+LOW_DIGIT = 48
+HIGH_DIGIT = 57
+PLUS_SIGN = 43
+MINUS_SIGN = 45
+
 frameStart	MACRO
 	PUSH 	ebp
 	MOV  	ebp, esp
@@ -29,7 +36,7 @@ myReadString	MACRO	varName
 	PUSH	ecx
 	PUSH	edx
 	MOV		edx, varName
-	MOV		ecx, 11
+	MOV		ecx, MAX_SIZE
 	CALL	ReadString
 	POP		edx
 	POP		ecx
@@ -51,9 +58,10 @@ avgList		BYTE 	"The average is: ",0
 signOff		BYTE	"Thanks for playing!",10,0
 spaces		BYTE	09,0
 
-userReq			BYTE	11 DUP(?)
-loopLimit		DWORD	?
-numArray		DWORD	20 DUP(?)
+userReq		BYTE	15 DUP(?)
+validString	BYTE	15 DUP(?)
+sLength		DWORD	0
+numArray	DWORD	20 DUP(?)
 
 .code
 main PROC
@@ -63,6 +71,9 @@ main PROC
 	PUSH	OFFSET intro2
 	CALL	intro
 
+	PUSH	OFFSET error1
+	PUSH	OFFSET numArray
+	PUSH	OFFSET validString
 	PUSH	OFFSET userReq
 	PUSH	OFFSET request1
 	CALL	readVal
@@ -93,14 +104,43 @@ intro PROC
 	RET 8
 intro ENDP
 
+;//PUSH	OFFSET error1		+24
+;//PUSH	OFFSET numArray		+20
+;//PUSH	OFFSET validString	+16
+;//PUSH	OFFSET userReq		+12
+;//PUSH	OFFSET request1		+8
+
 readVal	PROC
 	frameStart
+	JMP			readValStart
+	
+readValError:
+	myWriteString	[ebp+24]
 
-	getString		[ebp+8], [ebp+12]
+;// Prompting and requesting for user input
+readValStart:
+	getString	[ebp+8], [ebp+12] ;// [prompt], [user input]
+	MOV			ecx, eax
+	MOV			esi, [ebp+12]
+	MOV			edi, [ebp+16]
+	CLD
 
+stringLoop:
+	LODSB
+	CMP			al, LOW_DIGIT
+	JL			readValError
+	CMP			al, HIGH_DIGIT
+	JG			readValError
+	STOSB
+	LOOP		stringLoop
+
+readValEnd:
+	myWriteString [ebp+16]
+	
 	frameEnd
 	RET 8
 readVal	ENDP
+
 
 farewell PROC
 	frameStart
