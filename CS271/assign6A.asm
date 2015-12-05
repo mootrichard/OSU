@@ -17,9 +17,11 @@ MINUS_SIGN = 45
 frameStart	MACRO
 	PUSH 	ebp
 	MOV  	ebp, esp
+	PUSHAD
 ENDM
 
 frameEnd	MACRO
+	POPAD
 	POP		ebp
 ENDM
 
@@ -56,12 +58,12 @@ arrayList	BYTE 	"You entered the following numbers:",10,0
 sumDisp		BYTE 	"The sum of these numbers is: ",0
 avgList		BYTE 	"The average is: ",0
 signOff		BYTE	"Thanks for playing!",10,0
-spaces		BYTE	09,0
+spaces		BYTE	" , ",0
 
 userReq		BYTE	15 DUP(?)
-validString	BYTE	15 DUP(?)
-sLength		DWORD	0
-numArray	DWORD	20 DUP(?)
+entryLim	DWORD	10
+nextNum		DWORD	0
+numArray	DWORD	10 DUP(?)
 
 .code
 main PROC
@@ -71,12 +73,19 @@ main PROC
 	PUSH	OFFSET intro2
 	CALL	intro
 
+	PUSH	entryLim
 	PUSH	OFFSET error1
 	PUSH	OFFSET numArray
-	PUSH	OFFSET validString
 	PUSH	OFFSET userReq
 	PUSH	OFFSET request1
 	CALL	readVal
+
+	PUSH	OFFSET sumDisp
+	PUSH	OFFSET arrayList
+	PUSH	OFFSET spaces
+	PUSH	LENGTHOF numArray
+	PUSH	OFFSET numArray
+	CALL	readArray
 
 	PUSH	OFFSET signOff
 	CALL	farewell
@@ -104,9 +113,9 @@ intro PROC
 	RET 8
 intro ENDP
 
-;//PUSH	OFFSET error1		+24
-;//PUSH	OFFSET numArray		+20
-;//PUSH	OFFSET validString	+16
+;//PUSH	entryLim			+24
+;//PUSH	OFFSET error1		+20
+;//PUSH	OFFSET numArray		+16
 ;//PUSH	OFFSET userReq		+12
 ;//PUSH	OFFSET request1		+8
 
@@ -119,28 +128,97 @@ readValError:
 
 ;// Prompting and requesting for user input
 readValStart:
+	MOV			ebx, [ebp+24]
+	CMP			ebx, 0
+	JE			readValEnd
 	getString	[ebp+8], [ebp+12] ;// [prompt], [user input]
+	CMP			eax, 9
+	JGE			readValError
 	MOV			ecx, eax
 	MOV			esi, [ebp+12]
 	MOV			edi, [ebp+16]
+	MOV			ebx, 10
+	XOR			edx, edx
 	CLD
 
 stringLoop:
+	;// Here we start going through the string character by character
 	LODSB
-	CMP			al, LOW_DIGIT
+	CMP			al, LOW_DIGIT			;// Checking if it is below 0
 	JL			readValError
-	CMP			al, HIGH_DIGIT
+	CMP			al, HIGH_DIGIT			;// Checking if number is above 9
 	JG			readValError
-	STOSB
+	SUB			al, 48					;// Converting from ASCII to digit
+	MOVZX		eax, al					;// Extending out through whole register to read as DWORD
+	ADD			eax, edx				;// Adding in values (starts at 0) before MUL by 10
+	MUL			ebx						;// Multiplying by 10 to move values to left as we progress
+	MOV			edx, eax				;// Saving value into edx to add in on next iteration
 	LOOP		stringLoop
 
+	MOV			eax, edx
+	XOR			edx, edx
+	DIV			ebx
+	PUSH		eax
+	PUSH		edi
+	CALL		storeValue
+	MOV			ebx, [ebp+24]
+	DEC			ebx
+	MOV			[ebp+24], ebx
+
+	ADD			edi,4
+
+	PUSH		ebx
+	PUSH		[ebp+20]
+	PUSH		edi
+	PUSH		[ebp+12]
+	PUSH		[ebp+8]
+	CALL		readVal
+
 readValEnd:
-	myWriteString [ebp+16]
 	
 	frameEnd
-	RET 8
+	RET 20
 readVal	ENDP
 
+storeValue PROC
+	frameStart
+
+	MOV			edi, [ebp+8]
+	MOV			eax, [ebp+12]
+	MOV			[edi], eax
+
+	frameEnd
+	RET 8
+storeValue ENDP
+
+readArray PROC
+	frameStart
+
+	CALL	Crlf
+	myWriteString	[ebp+20]
+
+	XOR		ebx,ebx
+
+	MOV		ecx, [ebp+12]
+	MOV		edi, [ebp+8]
+loopWriteArr:
+	MOV		eax, [edi]
+	CALL	WriteDec
+	ADD		ebx, eax
+	CMP		ecx, 1
+	JE		readArrayDone
+	myWriteString [ebp+16]
+	ADD		edi,4
+	LOOP	loopWriteArr
+
+readArrayDone:
+	myWriteString[ebp + 24]
+	MOV		eax, ebx
+	CALL	WriteDec
+
+	frameEnd
+	RET
+readArray ENDP
 
 farewell PROC
 	frameStart
