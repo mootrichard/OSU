@@ -26,7 +26,7 @@ frameEnd	MACRO
 ENDM
 
 ;// From CS 271 Slides for Lecture 26
-myWriteString	MACRO	buffer
+displayString	MACRO	buffer
 	PUSH	edx
 	MOV		edx, buffer
 	CALL	WriteString
@@ -45,7 +45,7 @@ myReadString	MACRO	varName
 ENDM
 
 getString	MACRO	promptUser, stringVarName
-	myWriteString	promptUser
+	displayString	promptUser
 	myReadString	stringVarName
 ENDM
 
@@ -101,6 +101,7 @@ main PROC
 
 	CALL	Crlf
 
+	PUSH	OFFSET outputs
 	PUSH	OFFSET numArray
 	PUSH	OFFSET avgList
 	PUSH	OFFSET sumDisp
@@ -122,14 +123,14 @@ intro PROC
 	frameStart
 
 	;// Writing intro1
-	myWriteString	[ebp+12]
+	displayString	[ebp+12]
 	CALL Crlf
 	;// Writing intro2
-	myWriteString	[ebp+8]
+	displayString	[ebp+8]
 	CALL Crlf
-	myWriteString	[ebp+16]
+	displayString	[ebp+16]
 	CALL Crlf
-	myWriteString	[ebp+20]
+	displayString	[ebp+20]
 	CALL Crlf
 	CALL Crlf
 
@@ -158,7 +159,7 @@ readVal	PROC
 	JMP			readValStart	;// Skipping over error message
 	
 readValError:
-	myWriteString	[ebp+20]	;// User entered a wrong number, displaying an error message
+	displayString	[ebp+20]	;// User entered a wrong number, displaying an error message
 
 ;// Prompting and requesting for user input
 readValStart:
@@ -195,7 +196,7 @@ stringLoop:
 	XOR			edx, edx
 	DIV			ebx
 
-	myWriteString [ebp+32]				;// Writing out message prompting the sub-total
+	displayString [ebp+32]				;// Writing out message prompting the sub-total
 	PUSH		eax						;// Saving eax for later just to be safe
 	ADD			[ebp+36], eax			;// Adding our value to subTotal so that we could keep track of the running sub-total
 	MOV			eax, [ebp+36]			
@@ -270,7 +271,7 @@ writeVal PROC
 	JL		writeValStart
 
 	;// Prompting the display of their values
-	myWriteString	[ebp+20]
+	displayString	[ebp+20]
 
 writeValStart:
 	XOR		ebx, ebx		;// Clearing out registers to be used
@@ -284,7 +285,7 @@ writeValStart:
 	CALL	intToString		;// Calling procedure that converts the digit to a string and displays it
 	CMP		ecx, 1			;// Seeing if we are at our last integer, skipping putting a space with a comma
 	JE		readArrayDone
-	myWriteString	[ebp+16]
+	displayString	[ebp+16]
 	ADD		esi,4			;// Incrementing our array to point at the next integer
 
 	MOV		ecx, [ebp+12]	;// Decrementing our limit in order to move towards the base case
@@ -303,14 +304,14 @@ readArrayDone:
 	RET	20
 writeVal ENDP
 
-
-;//PUSH	OFFSET numArray
-;//PUSH	OFFSET avgList
-;//PUSH	OFFSET sumDisp
-;//PUSH	subTotal
+;//PUSH	OFFSET outputs		+24
+;//PUSH	OFFSET numArray		+20
+;//PUSH	OFFSET avgList		+16
+;//PUSH	OFFSET sumDisp		+12
+;//PUSH	subTotal			+8
 
 ;// Calculates the sum and average of the user input values and writes them out to the console
-;// Receives: subTotal, sumDisp, avgList, numArray
+;// Receives: subTotal, sumDisp, avgList, numArray, outputs
 ;// Returns: none
 ;// Preconditions:  Paramaters need to be pass in the order listed above
 ;// Registers changed : eax, ebx, ecx, edx, ebp, edi
@@ -318,7 +319,7 @@ writeVal ENDP
 writeAvg	PROC
 	frameStart
 
-	myWriteString	[ebp + 12]		;// Writing out or preamble to the actual values
+	displayString	[ebp + 12]		;// Writing out or preamble to the actual values
 
 	XOR		eax, eax				;//	Making sure that our registers are cleared out
 	XOR		ebx, ebx
@@ -331,15 +332,19 @@ findSum:
 	ADD		edi, 4					;// Incrementing to next value in array
 	LOOP	findSum					;// Loop through whole array
 
-	CALL	WriteDec				;// Writing out our sum
+	PUSH	[ebp+24]
+	PUSH	eax
+	CALL	intToString				;// Writing out our sum
 	CALL	Crlf					
 
-	myWriteString	[ebp+16]		;// Writing out preamble to our average of the array values
+	displayString	[ebp+16]		;// Writing out preamble to our average of the array values
 
 	MOV		ebx, 10					;// Getting the average (rounded down)
 	DIV		ebx
 
-	CALL	WriteDec				;// Writing out average to the user
+	PUSH	[ebp+24]
+	PUSH	eax
+	CALL	intToString				;// Writing out our average
 
 	frameEnd
 	RET		8
@@ -384,7 +389,7 @@ buildDigitString:
 	POP		eax					;// Restoring our digit so we can get the next digit
 	LOOP	buildDigitString
 
-	myWriteString	[ebp+12]	;// Writing out our constructed digit string
+	displayString	[ebp+12]	;// Writing out our constructed digit string
 
 	frameEnd
 	RET		8
@@ -400,7 +405,7 @@ farewell PROC
 	frameStart
 	CALL	Crlf
 	CALL	Crlf
-	myWriteString	[ebp + 8]
+	displayString	[ebp + 8]
 	frameEnd
 	RET		4
 farewell ENDP
