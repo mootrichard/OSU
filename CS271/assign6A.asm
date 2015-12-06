@@ -3,7 +3,7 @@ TITLE Assignment Six-A Read/Write Values (assign6A.asm)
 ;// Author: Richard Moot
 ;// Date:	12-6-2015
 ;// Description: This program takes in 10 integers from a user as strings, validates that they are valid integers, converts them to intergers
-;//		from strings, then displays all of the integers to the user. It will also display the sum and average of all the value that were entered.
+;//		from ASCII strings, then displays all of the integers to the user. It will also display the sum and average of all the values that were entered.
 
 INCLUDE Irvine32.INC
 
@@ -14,18 +14,20 @@ HIGH_DIGIT = 57
 PLUS_SIGN = 43
 MINUS_SIGN = 45
 
+;// Used at the beginning of procedure for saving all registers while also setting ebp to point at the top of the stack frame
 frameStart	MACRO
 	PUSH 	ebp
 	MOV  	ebp, esp
 	PUSHAD
 ENDM
 
+;// Used at the end of procedure for restoring all registers while also releasing ebp
 frameEnd	MACRO
 	POPAD
 	POP		ebp
 ENDM
 
-;// From CS 271 Slides for Lecture 26
+;// From CS 271 Slides for Lecture 26 - Displays a string to the console
 displayString	MACRO	buffer
 	PUSH	edx
 	MOV		edx, buffer
@@ -33,7 +35,7 @@ displayString	MACRO	buffer
 	POP		edx
 ENDM
 
-;// From CS 271 Slides for Lecture 26
+;// From CS 271 Slides for Lecture 26 - Get a string from the user
 myReadString	MACRO	varName
 	PUSH	ecx
 	PUSH	edx
