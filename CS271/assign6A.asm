@@ -1,6 +1,7 @@
 TITLE Assignment Six-A Read/Write Values (assign6A.asm)
 
 ;// Author: Richard Moot
+;// Date:	12-6-2015
 ;// Description: This program takes in 10 integers from a user as strings, validates that they are valid integers, converts them to intergers
 ;//		from strings, then displays all of the integers to the user. It will also display the sum and average of all the value that were entered.
 
@@ -59,6 +60,8 @@ avgList		BYTE 	"The average is: ",0
 signOff		BYTE	"Thanks for playing!",10,0
 spaces		BYTE	" , ",0
 subPrompt	BYTE	09," Current total: ",0
+extra1		BYTE	"**EC: ReadVal and WriteVal procedures are recursive",0
+extra2		BYTE	"**EC: Numbers each line of user input and display a running subtotal of the user's numbers.", 0
 
 userReq		BYTE	15 DUP(?)
 outputs		BYTE	15 DUP(?)
@@ -71,6 +74,8 @@ numArray	DWORD	10 DUP(?)
 main PROC
 	CALL	Clrscr
 
+	PUSH	OFFSET extra2
+	PUSH	OFFSET extra1
 	PUSH	OFFSET intro1
 	PUSH	OFFSET intro2
 	CALL	intro
@@ -109,7 +114,7 @@ exit
 main ENDP
 
 ;// Providing greeting and instructions about the program to the user.
-;// Receives: intro1, intro2, intro3
+;// Receives: intro1, intro2, extra1, extra2
 ;// Returns: none
 ;// Preconditions: All greeting paramenters passed in as offset in the order they appear
 ;// Registers Changed: edx, ebp
@@ -122,14 +127,19 @@ intro PROC
 	;// Writing intro2
 	myWriteString	[ebp+8]
 	CALL Crlf
+	myWriteString	[ebp+16]
+	CALL Crlf
+	myWriteString	[ebp+20]
+	CALL Crlf
+	CALL Crlf
 
 	frameEnd
 
-	RET 8
+	RET 16
 intro ENDP
 
-;//PUSH	sumTotal			+36
-;//PUSH	OFFSET	subTotal	+32
+;//PUSH	subTotal			+36
+;//PUSH	OFFSET	subPrompt	+32
 ;//PUSH	line				+28
 ;//PUSH	entryLim			+24
 ;//PUSH	OFFSET error1		+20
@@ -137,45 +147,42 @@ intro ENDP
 ;//PUSH	OFFSET userReq		+12
 ;//PUSH	OFFSET request1		+8
 
-;// 
-;// 
-;// 
-;// 
-;// 
-;// 
-;// 
-;// 
+;// Obtains input integer from user in form of string validates that string is a valid intger, converts from string to integer, then stores it in an array
+;// Receives: request1, userReq, numArray, error1, entryLim, line, subPrompt, subTotal
+;// Returns: none
+;// Preconditions:  Paramaters need to be pass in the order listed above
+;// Registers changed : eax, ebx, ecx, edx, ebp, edi, esi
 
 readVal	PROC
 	frameStart
-	JMP			readValStart
+	JMP			readValStart	;// Skipping over error message
 	
 readValError:
-	myWriteString	[ebp+20]
+	myWriteString	[ebp+20]	;// User entered a wrong number, displaying an error message
 
 ;// Prompting and requesting for user input
 readValStart:
-	MOV			ebx, [ebp+24]
+	MOV			ebx, [ebp+24]		;// Checking our entryLim to see if we have hit our base case
 	CMP			ebx, 0
-	JE			readValEnd
+	JE			readValEnd			;// Hit our base case, moving to end of procedure
 	MOV			eax, [ebp+28]		;// Writing line number
 	CALL		WriteDec
 	getString	[ebp+8], [ebp+12]	;// [prompt], [user input]
-	CMP			eax, 10				;// Verifying length of digit isn't too big
+	CMP			eax, 10				;// Verifying length of digit isn't too big by checking number of characters in string
 	JGE			readValError
-	MOV			ecx, eax
-	MOV			esi, [ebp+12]
-	MOV			edi, [ebp+16]
-	MOV			ebx, 10
-	XOR			edx, edx
-	CLD
+	MOV			ecx, eax			;// Setting string length for when we parse it into integers
+	MOV			esi, [ebp+12]		;// Setup the user input to be parsed
+	MOV			edi, [ebp+16]		;// Place destination array location in EDI for when we write out the parsed integer
+	MOV			ebx, 10				;// Setup for multiplying values by 10 to create our integer
+	XOR			edx, edx			;// Clearing out edx for our final division used to get the final number
+	CLD								;// Set flag to forward, since we will parse the string from the beginning
 
 stringLoop:
 	;// Here we start going through the string character by character
 	LODSB
-	CMP			al, LOW_DIGIT			;// Checking if it is below 0
+	CMP			al, LOW_DIGIT			;// Checking if it is below 0, if so go back to warn it is invalid
 	JL			readValError
-	CMP			al, HIGH_DIGIT			;// Checking if number is above 9
+	CMP			al, HIGH_DIGIT			;// Checking if number is above 9, if so go back to warn it is invalid
 	JG			readValError
 	SUB			al, 48					;// Converting from ASCII to digit
 	MOVZX		eax, al					;// Extending out through whole register to read as DWORD
@@ -184,33 +191,33 @@ stringLoop:
 	MOV			edx, eax				;// Saving value into edx to add in on next iteration
 	LOOP		stringLoop
 
-	MOV			eax, edx
+	MOV			eax, edx				;// Putting our value in to divide by 10 to get to our target number
 	XOR			edx, edx
 	DIV			ebx
 
-	myWriteString [ebp+32]
-	PUSH		eax
-	ADD			[ebp+36], eax
-	MOV			eax, [ebp+36]
-	MOV			[ebp+36], eax
-	CALL		WriteDec
+	myWriteString [ebp+32]				;// Writing out message prompting the sub-total
+	PUSH		eax						;// Saving eax for later just to be safe
+	ADD			[ebp+36], eax			;// Adding our value to subTotal so that we could keep track of the running sub-total
+	MOV			eax, [ebp+36]			
+	MOV			[ebp+36], eax			;//	Moving running sub-total out to memory
+	CALL		WriteDec				;// Writing current sub-total out to the console
 	CALL		Crlf
-	POP			eax
+	POP			eax						;// Returning eax back from the stack
 
-	PUSH		eax
+	PUSH		eax						;// Setting value to be store in the numArray
 	PUSH		edi
-	CALL		storeValue
+	CALL		storeValue				;// Storing value in numArray
 
-	MOV			ebx, [ebp+24]
+	MOV			ebx, [ebp+24]			;// Decrementing entryLim in order to make sure we hit our base case
 	DEC			ebx
 	MOV			[ebp+24], ebx
 
-	ADD			edi,4
-	MOV			eax, [ebp+28]
+	ADD			edi,4					;// Moving numArray to next position for the next number
+	MOV			eax, [ebp+28]			;// Incrementing our line number for the next entry
 	INC			eax
 	MOV			[ebp+28], eax
 
-	PUSH		[ebp+36]
+	PUSH		[ebp+36]				;// Pushing values out for the next call to readVal since it is recursive
 	PUSH		[ebp+32]
 	PUSH		eax
 	PUSH		ebx
@@ -226,34 +233,34 @@ readValEnd:
 	RET 32
 readVal	ENDP
 
-;// ebp+8 == next integer
+;// Integer value into numArray
+;// Receives: userReq, numArray
+;// Returns: none
+;// Preconditions:  Paramaters need to be pass in the order listed above
+;// Registers changed : edi, eax
+
 storeValue PROC
 	frameStart
 
-	MOV		edi, [ebp+8]
-	MOV		eax, [ebp+12]
-	MOV		[edi], eax
+	MOV		edi, [ebp+8]		;// Putting next array address into so we can store our integer there
+	MOV		eax, [ebp+12]		;// Putting our integer in so we can store it
+	MOV		[edi], eax			;// Storing our integer in the array
 
 	frameEnd
 	RET 8
 storeValue ENDP
 
-;// PUSH	OFFSET avgList		+32
-;// PUSH	OFFSET outputs		+28
-;// PUSH	OFFSET sumDisp		+24
-;// PUSH	OFFSET arrayList	+20
-;// PUSH	OFFSET spaces		+16
-;// PUSH	LENGTHOF numArray	+12
-;// PUSH	OFFSET numArray		+8
+;// PUSH	OFFSET outputs
+;// PUSH	OFFSET arrayList
+;// PUSH	OFFSET spaces
+;// PUSH	LENGTHOF numArray
+;// PUSH	OFFSET numArray
 
-;// 
-;// 
-;// 
-;// 
-;// 
-;// 
-;// 
-;// 
+;// Reads integer values that are stored in the array and converts them from integers back into string and writes them out to the console
+;// Receives: numArray, LENGTHOF numArray, spaces, arrayList, outputs
+;// Returns: none
+;// Preconditions:  Paramaters need to be pass in the order listed above
+;// Registers changed : eax, ebx, ecx, edx, ebp, edi, esi
 
 writeVal PROC
 	frameStart
@@ -296,89 +303,98 @@ readArrayDone:
 	RET	20
 writeVal ENDP
 
-;// 
-;// 
-;// 
-;// 
-;// 
-;// 
-;// 
-;// 
 
 ;//PUSH	OFFSET numArray
 ;//PUSH	OFFSET avgList
 ;//PUSH	OFFSET sumDisp
 ;//PUSH	subTotal
 
+;// Calculates the sum and average of the user input values and writes them out to the console
+;// Receives: subTotal, sumDisp, avgList, numArray
+;// Returns: none
+;// Preconditions:  Paramaters need to be pass in the order listed above
+;// Registers changed : eax, ebx, ecx, edx, ebp, edi
+
 writeAvg	PROC
 	frameStart
 
-	myWriteString	[ebp + 12]
+	myWriteString	[ebp + 12]		;// Writing out or preamble to the actual values
 
-	XOR		eax, eax
+	XOR		eax, eax				;//	Making sure that our registers are cleared out
 	XOR		ebx, ebx
 	XOR		edx, edx
-	MOV		ecx, 10
+	MOV		ecx, 10					;// Setting loop counter for all values in the array
 
-	MOV		edi, [ebp+20]
+	MOV		edi, [ebp+20]			;// Passing in our array of integers we want to sum up
 findSum:
-	ADD		eax, [edi]
-	ADD		edi, 4
-	LOOP	findSum
+	ADD		eax, [edi]				;// Adding current value in
+	ADD		edi, 4					;// Incrementing to next value in array
+	LOOP	findSum					;// Loop through whole array
 
-	CALL	WriteDec
+	CALL	WriteDec				;// Writing out our sum
+	CALL	Crlf					
 
-	CALL	Crlf
+	myWriteString	[ebp+16]		;// Writing out preamble to our average of the array values
 
-	myWriteString	[ebp+16]
-
-	MOV		ebx, 10
+	MOV		ebx, 10					;// Getting the average (rounded down)
 	DIV		ebx
 
-	CALL	WriteDec
+	CALL	WriteDec				;// Writing out average to the user
 
 	frameEnd
 	RET		8
 writeAvg	ENDP
 
+;// Converts integer values into a string and writes them out to console 
+;// Receives: numArray, outputs
+;// Returns: none
+;// Preconditions:  Paramaters need to be pass in the order listed above
+;// Registers changed : eax, ebx, ecx, edx, ebp, edi
+
 intToString	PROC
 	frameStart
-	XOR		ecx,ecx
-	MOV		eax, [ebp+8]
-	MOV		edi, [ebp+12]
+	XOR		ecx,ecx				;// Clearing out ecx so we can use it to find out how many digits we have
+	MOV		eax, [ebp+8]		;// Inputting next integer we want to convert 
+	MOV		edi, [ebp+12]		;// Input temp string for our output
 
 findDigitEnd:
-	XOR		edx, edx
+	XOR		edx, edx			;// We are going to keep dividing our value by 10 and increment ecx to find out how long our digit is
 	MOV		ebx, 10d
 	DIV		ebx
 	CMP		eax, 0
-	JE		endOfDigits
+	JE		endOfDigits			;// We found our last digit (less 1) so we can jump out
 	INC		ecx
-	JMP		findDigitEnd
+	JMP		findDigitEnd		;// Haven't found the last digit, better keep going
 
-endOfDigits:		;// We found how many digits are in the number!
-	INC		ecx
-	ADD		edi, ecx
+endOfDigits:					;// We found how many digits are in the number!
+	INC		ecx					;// Incrementing to account for our last digit (and to place null terminator)
+	ADD		edi, ecx			;// Setting it to end of string for how many digits we have
 	STD
 	XOR		eax, eax
-	MOV		al,0
+	MOV		al,0				;// Null terminating our string since we are writing it backwards
 	STOSB
-	MOV		eax, [ebp+8]
+	MOV		eax, [ebp+8]		;// Moving our string in so that we could start writing it in
 buildDigitString:
-	XOR		edx, edx
-	DIV		ebx
-	ADD		edx, LOW_DIGIT
-	PUSH	eax
-	MOV		al, dl
+	XOR		edx, edx			
+	DIV		ebx					;// Dividing by 10 so we can actually just take the remainder to find our next digit
+	ADD		edx, LOW_DIGIT		;// Adding 48 to set to our ASCII range
+	PUSH	eax					;// Saving our value since we need to write in the BYTE to use STOSB
+	MOV		al, dl				;// Writing in our digit to al so we could write it to our output string
 	STOSB
-	POP		eax
+	POP		eax					;// Restoring our digit so we can get the next digit
 	LOOP	buildDigitString
 
-	myWriteString	[ebp+12]
+	myWriteString	[ebp+12]	;// Writing out our constructed digit string
 
 	frameEnd
 	RET		8
 intToString	ENDP
+
+;// Thanks the user for using our program
+;// Receives: signOff
+;// Returns: none
+;// Preconditions:  Paramaters need to be pass in the order listed above
+;// Registers changed : edx
 
 farewell PROC
 	frameStart
