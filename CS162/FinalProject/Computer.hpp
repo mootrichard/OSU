@@ -23,7 +23,7 @@ class Laptop : public Computer{
 	public:
 		Laptop();
 		void displayMenu();
-		void playerSelect(unsigned int choice);
+		void special();
 };
 
 class Desktop : public Computer{
@@ -32,7 +32,7 @@ class Desktop : public Computer{
 	public:
 		Desktop();
 		void displayMenu();
-		void playerSelect(unsigned int choice);
+		void special();
 };
 
 class Work : public Computer{
@@ -41,7 +41,7 @@ class Work : public Computer{
 	public:
 		Work();
 		void displayMenu();
-		void playerSelect(unsigned int choice);
+		void special();
 };
 
 #endif // COMPUTER_HPP

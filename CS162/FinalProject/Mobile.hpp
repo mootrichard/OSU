@@ -11,7 +11,7 @@ public:
 	Mobile(Machine* one, Machine* two, Machine* three, Machine* four);
 	void loginAttempt();
 	void displayMenu();
-	void playerSelect(unsigned int choice);
+	void special();
 };
 
 

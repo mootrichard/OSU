@@ -21,10 +21,12 @@ class Machine {
     Machine();
     virtual std::string getType();
     virtual std::string getGreeting();
+	virtual void special() = 0;
 	virtual void displayMenu() = 0;
-	virtual void playerSelect(unsigned int choice) = 0;
+	void showNodes();
+	void playerSelect(unsigned int choice);
 	void setNodes(Machine *one, Machine *two, Machine *three, Machine *four);
-
+	Machine* nodeSelect(unsigned int choice);
 };
 
 #endif // MACHINE_HPP

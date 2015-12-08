@@ -1,7 +1,7 @@
 #include "Mobile.hpp"
 
 Mobile::Mobile(){
-	
+	type = "Mobile";
 }
 
 Mobile::Mobile(Machine* one, Machine* two, Machine* three, Machine* four){
@@ -14,4 +14,8 @@ Mobile::Mobile(Machine* one, Machine* two, Machine* three, Machine* four){
 void Mobile::displayMenu(){
 	std::cout << "Which machine would you like to visit?" << std::endl;
 	std::cout << "1. ";
+}
+
+void Mobile::special(){
+
 }

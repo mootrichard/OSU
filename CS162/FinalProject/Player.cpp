@@ -15,8 +15,9 @@ std::string Player::getName(){
 }
 
 void Player::setCurrentMachine(Machine* m){
-	if (m->getType() == "server" && (!twoKeyAuth && !serverPass)){
-
+	if (m->getType() == "Server" && (!twoKeyAuth && !serverPass)){
+		std::cout << "Unautorized access!" << std::endl;
+		return;
 	}
 	this->currentMachine = m;
 }

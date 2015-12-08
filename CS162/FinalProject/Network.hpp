@@ -33,7 +33,7 @@ class Network {
 	void preGame();
     void greeting();
     void instruct();
-	void pauseText(clock_t sec);
+	void pauseText(time_t sec);
 	void play();
     Player* getHacker();
 };

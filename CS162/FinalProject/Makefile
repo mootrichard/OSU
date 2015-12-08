@@ -3,7 +3,7 @@ CXX = g++
 all: hackerLand
 
 hackerLand: main.o Machine.o Network.o Player.o Computer.o Server.o Mobile.o
-	$(CXX) main.o Machine.o Network.o Player.o -o hackerLand
+	$(CXX) main.o Machine.o Network.o Player.o Computer.o Server.o Mobile.o -o hackerLand
 
 main.o: main.cpp
 	$(CXX) -c main.cpp

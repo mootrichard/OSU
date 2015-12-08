@@ -10,7 +10,7 @@ class Server : public Machine{
 		Server();
 		void loginAttempt();
 		void displayMenu();
-		void playerSelect(unsigned int choice);
+		void special();
 };
 
 
