@@ -2,7 +2,7 @@ CXX = g++
 
 all: hackerLand
 
-hackerLand: main.o Machine.o Network.o Player.o Computer.o
+hackerLand: main.o Machine.o Network.o Player.o Computer.o Server.o Mobile.o
 	$(CXX) main.o Machine.o Network.o Player.o -o hackerLand
 
 main.o: main.cpp
@@ -17,8 +17,14 @@ Network.o: Network.cpp Network.hpp
 Player.o: Player.cpp Player.hpp
 	$(CXX) -c Player.cpp
 
-Computer.0: Computer.cpp Computer.hpp
+Computer.o: Computer.cpp Computer.hpp
 	$(CXX) -c Computer.cpp
+
+Server.o: Server.cpp Server.hpp
+	$(CXX) -c Server.cpp
+
+Mobile.o: Mobile.cpp Mobile.hpp
+	$(CXX) -c Mobile.cpp
 
 clean:
 	rm *.o hackerLand

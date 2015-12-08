@@ -6,6 +6,7 @@
 #ifndef MACHINE_HPP
 #define MACHINE_HPP
 #include <string>
+#include <iostream>
 
 class Machine {
   protected:
@@ -20,12 +21,9 @@ class Machine {
     Machine();
     virtual std::string getType();
     virtual std::string getGreeting();
-	virtual void displayMove() = 0;
-    virtual void setNodeOne(Machine *m) = 0;
-    virtual void setNodeTwo(Machine *m) = 0;
-    virtual void setNodeThree(Machine *m) = 0;
-    virtual void setNodeFour(Machine *m) = 0;
-	//virtual void menu();
+	virtual void displayMenu() = 0;
+	virtual void playerSelect(unsigned int choice) = 0;
+	void setNodes(Machine *one, Machine *two, Machine *three, Machine *four);
 
 };
 

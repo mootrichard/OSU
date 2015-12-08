@@ -28,7 +28,10 @@ class Player {
     unsigned int getDetectionLevel();
     std::string getName();
     std::string getPassword(unsigned int select);
+	void setCurrentMachine(Machine* m);
+	Machine* getCurrentMachine();
     void storePassword(std::string password);
+	bool hasServerKeys();
 };
 
 #endif // PLAYER_HPP

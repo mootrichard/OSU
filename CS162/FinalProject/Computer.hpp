@@ -9,12 +9,12 @@
 
 class Computer: public Machine{
 	protected:
-		std::string hdd;
-		std::string password;
+		bool hdd;
+		bool password;
 	public:
 		Computer();
-		std::string getHdd();
-		std::string getPassword();
+		bool getHdd();
+		bool getPassword();
 };
 
 class Laptop : public Computer{
@@ -22,10 +22,8 @@ class Laptop : public Computer{
 	
 	public:
 		Laptop();
-		void Laptop::setNodeOne(Machine *m);
-		void Laptop::setNodeTwo(Machine *m);
-		void Laptop::setNodeThree(Machine *m);
-		void Laptop::setNodeFour(Machine *m);
+		void displayMenu();
+		void playerSelect(unsigned int choice);
 };
 
 class Desktop : public Computer{
@@ -33,10 +31,8 @@ class Desktop : public Computer{
 
 	public:
 		Desktop();
-		void Desktop::setNodeOne(Machine *m);
-		void Desktop::setNodeTwo(Machine *m);
-		void Desktop::setNodeThree(Machine *m);
-		void Desktop::setNodeFour(Machine *m);
+		void displayMenu();
+		void playerSelect(unsigned int choice);
 };
 
 class Work : public Computer{
@@ -44,10 +40,8 @@ class Work : public Computer{
 
 	public:
 		Work();
-		void Work::setNodeOne(Machine *m);
-		void Work::setNodeTwo(Machine *m);
-		void Work::setNodeThree(Machine *m);
-		void Work::setNodeFour(Machine *m);
+		void displayMenu();
+		void playerSelect(unsigned int choice);
 };
 
 #endif // COMPUTER_HPP
