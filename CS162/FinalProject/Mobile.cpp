@@ -13,14 +13,6 @@ Mobile::Mobile(){
 	greeting = "You're connected to the Mobile phone.\n";
 }
 
-// Overloaded constructor for setting 
-Mobile::Mobile(Machine* one, Machine* two, Machine* three, Machine* four){
-	this->nodeOne = one;
-	this->nodeTwo = two;
-	this->nodeThree = three;
-	this->nodeFour = four;
-}
-
 // Displays our selection menu for Mobile
 void Mobile::displayMenu(){
 	std::cout << "Menu Options:" << std::endl;
