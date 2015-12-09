@@ -1,10 +1,19 @@
+/**
+*  Author: Richard Moot
+*  Date: Decemeber 8, 2015
+*  Description: Mobile is where our two-key factor code is located for getting into the server. It inherits
+ *    directly from Machine
+*/
+
 #include "Mobile.hpp"
 
+// Contructor for initializing Mobile variables
 Mobile::Mobile(){
 	type = "Mobile";
 	greeting = "You're connected to the Mobile phone.\n";
 }
 
+// Overloaded constructor for setting 
 Mobile::Mobile(Machine* one, Machine* two, Machine* three, Machine* four){
 	this->nodeOne = one;
 	this->nodeTwo = two;
@@ -12,6 +21,7 @@ Mobile::Mobile(Machine* one, Machine* two, Machine* three, Machine* four){
 	this->nodeFour = four;
 }
 
+// Displays our selection menu for Mobile
 void Mobile::displayMenu(){
 	std::cout << "Menu Options:" << std::endl;
 	std::cout << "\t1. Search photos" << std::endl;
@@ -21,7 +31,7 @@ void Mobile::displayMenu(){
 	std::cout << "Enter number of your selection: ";
 }
 
-
+// First action for Mobile, just displays a funny message
 void Mobile::actionOne(Player* hacker){
 	std::cout << "==============================================================================\n\t\t\tMessage" << std::endl;
 	std::cout << "This is just a bunch of pictures of cats..." << std::endl;
@@ -29,6 +39,13 @@ void Mobile::actionOne(Player* hacker){
 	return;
 }
 
+/**
+ * @brief Obtains our TwoFactor code
+ * @details actionTwo checks if we have triggered the code to be generated, and either gives it to
+ *   the player, or it will hint to the user to go trigger the code
+ * 
+ * @param hacker Our player
+ */
 void Mobile::actionTwo(Player* hacker){
 	if (triggerText){
 		std::cout << "==============================================================================\n\t\t\tMessage" << std::endl;
@@ -48,6 +65,11 @@ void Mobile::actionTwo(Player* hacker){
 	}
 }
 
+/**
+ * @brief Triggers TwoFactor to be generated
+ * @details This will trigger the TwoFactor to be generated, but will warn the user if they had already
+ *   generated the code
+ */
 void Mobile::special(){
 	if (!triggerText){
 		std::cout << "==============================================================================\n\t\t\tMessage" << std::endl;

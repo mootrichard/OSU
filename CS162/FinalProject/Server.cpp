@@ -1,5 +1,13 @@
+/**
+*  Author: Richard Moot
+*  Date: Decemeber 8, 2015
+*  Description: Server is our class that is the goal to get into for our game. It is linked to the other rooms
+ *    but ultimately is where you want to end up.
+*/
+
 #include "Server.hpp"
 
+// Basic constructor for initializing Server state
 Server::Server(){
 	this->greeting = "You have gained access to the server!";
 	this->dataDownloaded = false;
@@ -7,6 +15,7 @@ Server::Server(){
 	this->type = "Server";
 }
 
+// Displays options that you have inside of the server
 void Server::displayMenu(){
 	std::cout << "Menu Options:" << std::endl;
 	std::cout << "\t1. Download database" << std::endl;
@@ -16,6 +25,13 @@ void Server::displayMenu(){
 	std::cout << "Enter number of your selection: " << std::flush;
 }
 
+/**
+ * @brief First possible action
+ * @details Allows the user to select to download the data from ther server. It will display different
+ *   message based on if the player has already attempted downloading the message
+ * 
+ * @param hacker Our player
+ */
 void Server::actionOne(Player* hacker){
 	if (!dataDownloaded){
 		std::cout << "==============================================================================\n\t\t\tMessage" << std::endl;
@@ -32,6 +48,12 @@ void Server::actionOne(Player* hacker){
 	}
 }
 
+/**
+ * @brief Second possible action
+ * @details Allows the player to wipe the server, but only after having downloaded their file
+ * 
+ * @param hacker Our player
+ */
 void Server::actionTwo(Player* hacker){
 	if (dataDownloaded){
 		std::cout << "==============================================================================\n\t\t\tMessage" << std::endl;
@@ -47,6 +69,10 @@ void Server::actionTwo(Player* hacker){
 	}
 }
 
+/**
+ * @brief Our special (3rd) action
+ * @details Allows the user to plant a virus on the server (ultimately doesn't really do anything)
+ */
 void Server::special(){
 	if (!virusInstalled && dataDownloaded){
 		std::cout << "==============================================================================\n\t\t\tMessage" << std::endl;

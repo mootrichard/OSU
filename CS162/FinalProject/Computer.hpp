@@ -1,8 +1,9 @@
 /**
- *  Author: Richard Moot
- *  Date: Decemeber 7, 2015
- *  Description: 
- */
+*  Author: Richard Moot
+*  Date: Decemeber 8, 2015
+*  Description: Computer class where our Laptop, Desktop and Work machines inherit from. Computer inherits
+ *  from Machine.
+*/
 #ifndef COMPUTER_HPP
 #define COMPUTER_HPP
 #include "Machine.hpp"

@@ -1,8 +1,9 @@
 /**
- *  Author: Richard Moot
- *  Date: Decemeber 7, 2015
- *  Description: 
- */
+*  Author: Richard Moot
+*  Date: Decemeber 8, 2015
+*  Description: Player class that all of our spaces/room will inherit from, so the implementations
+ *  here are intentionally generalized since they will all be inherited
+*/
 
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
@@ -15,7 +16,6 @@ class Machine;
 
 class Player {
   private:
-    unsigned int detectionLevel;
     std::string name;
     Machine *currentMachine;
     bool twoKeyAuth;

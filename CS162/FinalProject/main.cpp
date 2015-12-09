@@ -1,3 +1,9 @@
+/**
+ * Author: Richard Moot
+ * Date: December 8, 2015
+ * Description: Our main function for the _h@ackerLand game
+ */
+
 #include "Network.hpp"
 
 int main(){

@@ -1,5 +1,13 @@
+/**
+*  Author: Richard Moot
+*  Date: Decemeber 8, 2015
+*  Description: Network is our controller class that manages initialization of the _h@ckerLank game. 
+*		Everything is managed here, which cleans up our main and allows control of machines and the player to 
+*	be managed by Network. Main functions are start() and play() which manage the gameplay.
+*/
 #include "Network.hpp"
 
+// Our contructor which initializes all of our pointers for the rooms and the player
 Network::Network(){
     hacker = new Player();
 	mainframe = new Server();
@@ -11,13 +19,19 @@ Network::Network(){
 	serverAccessed = false;
     detectionLevel = 0;
 }
-
+/**
+ * @brief A function for displaying our start dialogue to the user.
+ * @details This is simply used for a our pre-fake login information to let the user know they can us any credentials
+ */
 void Network::preGame(){
 	std::cout << "\nAnon has connected to chat with you" << std::endl;
-	std::cout << "\nAnon: Hey, welcome to Hacker Land! I setup a backdoor for you so you can use any info to log in\n" << std::endl;
+	std::cout << "\nAnon: Hey, welcome to _h@ckerLand! I setup a backdoor for you so you can use any info to log in\n" << std::endl;
 }
 
-
+/**
+ * @brief Greets the user with starting dialogue
+ * @details This is just used to give a setting and storyline for why they are hacking into this network
+ */
 void Network::greeting(){
     std::cout << "\n\t*************** Access Granted ***************" << std::endl;
 	std::cout << "\nAnon: Great, you made it into the network! Why would they have such easy way to backdoor into the system?" << std::endl;
@@ -36,6 +50,10 @@ void Network::greeting(){
 	pauseText(3);
 }
 
+/**
+ * @brief Game instructions
+ * @details This gives the game instructions to the user in a way that is more clear than the intro dialogue
+ */
 void Network::instruct(){
     std::cout << "\n*************** Instructions ***************" << std::endl;
     std::cout << "\nYour goal is to access the server so you can recover evidence of your true identity." << std::endl;
@@ -44,16 +62,28 @@ void Network::instruct(){
     std::cout << "\n**Each machine might have something useful to gain access to another, so keep your eyes out for anything that might clue you into what a password might be.\n" << std::endl;
 }
 
+// getter for our player pointer
 Player* Network::getHacker(){
     return this->hacker;
 }
 
+/**
+ * @brief User for giving a pause in the system
+ * @details This is used to allow feeding the messages to the user rather than having it show up all at once (for dramatic effect)
+ * 
+ * @param sec Amount of seconds to pause
+ */
 void Network::pauseText(time_t sec){
 	time_t start_time = time(NULL);
 	time_t end_time = start_time + sec;
 	while (time(NULL) != end_time);
 }
 
+/**
+ * @brief Our game initializer
+ * @details Allows the user to skip the dialogue intro (in case they decided to replay) Otherwise it will link up
+ *  the rooms so that they point to one another. We also initialize the player into the laptop machine to start. 
+ */
 void Network::start(){
 	unsigned int skipIntro = 2;
 	std::cout << "\t\t\tWelcome to HackerLand!" << std::endl;
@@ -63,11 +93,11 @@ void Network::start(){
 	std::cin >> skipIntro;
 	if (skipIntro == 2){
 		preGame();
-		std::cout << "Enter Username: ";
+		std::cout << "Enter Username: "; // Doesn't actually get utilized, just for realism in the game
 		std::cin.clear();
 		std::fflush(stdin);
 		std::getline(std::cin, username);
-		std::cout << "Enter Password: ";
+		std::cout << "Enter Password: "; // Doesn't actually get utilized, just for realism in the game
 		std::getline(std::cin, username);
 		std::cout << "Connecting."; pauseText(1); std::cout << "." << std::flush; pauseText(1); std::cout << "." << std::flush; pauseText(1); std::cout << "." << std::flush; pauseText(1);
 		greeting();
@@ -82,6 +112,13 @@ void Network::start(){
 
 	hacker->setCurrentMachine(laptop);
 }
+
+/**
+ * @brief Main function for playing game
+ * @details This function in the heart of our game that controls the game play. It will monitor if the player has
+ *  been detected on the network, make sure they have sufficient access prior to accessing the server, and gracefully
+ *  handle when the game terminates.
+ */
 
 void Network::play(){
 	while (!serverAccessed && (detectionLevel < 100)){
