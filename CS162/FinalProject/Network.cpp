@@ -94,10 +94,12 @@ void Network::start(){
 	if (skipIntro == 2){
 		preGame();
 		std::cout << "Enter Username: "; // Doesn't actually get utilized, just for realism in the game
-		std::cin.clear();
-		std::fflush(stdin);
+		std::cin.get();
+		std::cout << std::flush;
 		std::getline(std::cin, username);
 		std::cout << "Enter Password: "; // Doesn't actually get utilized, just for realism in the game
+        std::cin.get();
+        std::cout << std::flush;
 		std::getline(std::cin, username);
 		std::cout << "Connecting."; pauseText(1); std::cout << "." << std::flush; pauseText(1); std::cout << "." << std::flush; pauseText(1); std::cout << "." << std::flush; pauseText(1);
 		greeting();
