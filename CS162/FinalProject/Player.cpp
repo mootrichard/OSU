@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "Machine.hpp"
 
 Player::Player(){
   twoKeyAuth = false;
@@ -33,4 +34,12 @@ bool Player::hasServerKeys(){
 	else {
 		return false;
 	}
+}
+
+void Player::foundServerPass(){
+	this->serverPass = true;
+}
+
+void Player::foundTwoKeyAuth(){
+	this->twoKeyAuth = true;
 }

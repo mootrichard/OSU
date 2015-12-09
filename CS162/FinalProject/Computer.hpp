@@ -24,6 +24,8 @@ class Laptop : public Computer{
 		Laptop();
 		void displayMenu();
 		void special();
+		void actionOne(Player* hacker);
+		void actionTwo(Player* hacker);
 };
 
 class Desktop : public Computer{
@@ -33,6 +35,8 @@ class Desktop : public Computer{
 		Desktop();
 		void displayMenu();
 		void special();
+		void actionOne(Player* hacker);
+		void actionTwo(Player* hacker);
 };
 
 class Work : public Computer{
@@ -42,6 +46,8 @@ class Work : public Computer{
 		Work();
 		void displayMenu();
 		void special();
+		void actionOne(Player* hacker);
+		void actionTwo(Player* hacker);
 };
 
 #endif // COMPUTER_HPP

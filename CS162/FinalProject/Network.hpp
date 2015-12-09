@@ -14,6 +14,7 @@
 #include <iostream>
 #include <limits>
 #include <ctime>
+#include <cstdio>
 
 class Network {
   private:

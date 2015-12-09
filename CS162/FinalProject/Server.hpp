@@ -4,13 +4,14 @@
 
 class Server : public Machine{
 	private:
-		bool hasPassword;
-		bool hasTwoFactor;
+		bool dataDownloaded;
+		bool virusInstalled;
 	public:
 		Server();
-		void loginAttempt();
 		void displayMenu();
 		void special();
+		void actionOne(Player* hacker);
+		void actionTwo(Player* hacker);
 };
 
 

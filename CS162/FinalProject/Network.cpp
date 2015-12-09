@@ -58,11 +58,14 @@ void Network::start(){
 	unsigned int skipIntro = 2;
 	std::cout << "\t\t\tWelcome to HackerLand!" << std::endl;
 	std::cout << "Would you like to skip the intro and instructions? (1 for Yes, 2 for No): ";
+	std::cin.clear();
+	std::fflush(stdin);
 	std::cin >> skipIntro;
 	if (skipIntro == 2){
 		preGame();
 		std::cout << "Enter Username: ";
-		std::cin.ignore();
+		std::cin.clear();
+		std::fflush(stdin);
 		std::getline(std::cin, username);
 		std::cout << "Enter Password: ";
 		std::getline(std::cin, username);
@@ -83,20 +86,45 @@ void Network::start(){
 void Network::play(){
 	while (!serverAccessed && (detectionLevel < 100)){
 		unsigned int playerChoice = 0;
-		std::cout << hacker->getCurrentMachine()->getGreeting() << std::endl;
-		hacker->getCurrentMachine()->displayMenu();
-		std::cin >> playerChoice;
+		Machine* currentMachine = hacker->getCurrentMachine();
+		unsigned int messageLength = 0;
+		do{
+			messageLength = hacker->getCurrentMachine()->getGreeting().length();
+			std::cout << "Current detection level: " << detectionLevel << std::endl;
+			std::cout << "Remeber: If you go over 100 you'll be caught and disconnected!" << std::endl;
+			std::cout << "\t" << std::string(messageLength+2,'*') << std::endl;
+			std::cout << "\t*" << currentMachine->getGreeting() << "*" << std::endl;
+			std::cout << "\t" << std::string(messageLength + 2, '*') << std::endl;
+			currentMachine->displayMenu();
+			std::cin.clear();
+			std::fflush(stdin);
+			std::cin >> playerChoice;
+			currentMachine->playerSelect(playerChoice, hacker);
+			detectionLevel++;
+		} while (playerChoice != 4);
 
-		hacker->getCurrentMachine()->playerSelect(playerChoice);
-		std::cin.ignore();
-		std::cin >> playerChoice;
-		hacker->setCurrentMachine(hacker->getCurrentMachine()->nodeSelect(playerChoice));
+		unsigned nodeChoice = 0;
+		std::cin.clear();
+		std::fflush(stdin);
+		std::cin >> nodeChoice;
+		currentMachine = currentMachine->nodeSelect(nodeChoice);
+		hacker->setCurrentMachine(currentMachine);
 
-		if (hacker->getCurrentMachine()->getType() == "Server" && hacker->hasServerKeys()){
-			std::cout << "Congrats you hacked the server!" << std::endl;
+		if (currentMachine->getType() == "Server" && hacker->hasServerKeys()){
+			do{
+				currentMachine->displayMenu();
+				std::cin >> playerChoice;
+				currentMachine->playerSelect(playerChoice, hacker);
+				if (playerChoice == 4){
+					std::cout << "\n\n\t\tCongrats you hacked the server and won the game!\n" << std::endl;
+				}
+			} while (playerChoice !=4);
 			break;
 		}
 
 		detectionLevel += 10;
+	}
+	if (detectionLevel >= 100){
+		std::cout << "\n\n\t\tYou got caught and they severed your connection!\n" << std::endl;
 	}
 }

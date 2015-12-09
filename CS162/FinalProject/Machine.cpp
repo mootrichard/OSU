@@ -1,5 +1,6 @@
 #include "Machine.hpp"
 
+
 Machine::Machine(){
 	type = "How did you instantiate an abstract class?";
 }
@@ -31,15 +32,19 @@ void Machine::showNodes(){
 
 Machine* Machine::nodeSelect(unsigned int choice){
 	if (choice == 1){
+		std::cout << "You selected " << nodeOne->getType() << std::endl;
 		return nodeOne;
 	}
 	else if (choice == 2){
+		std::cout << "You selected " << nodeTwo->getType() << std::endl;
 		return nodeTwo;
 	}
 	else if (choice == 3){
+		std::cout << "You selected " << nodeThree->getType() << std::endl;
 		return nodeThree;
 	}
 	else if (choice == 4){
+		std::cout << "You selected " << nodeFour->getType() << std::endl;
 		return nodeFour;
 	}
 	else {
@@ -47,20 +52,22 @@ Machine* Machine::nodeSelect(unsigned int choice){
 	}
 }
 
-void Machine::playerSelect(unsigned int choice){
+void Machine::playerSelect(unsigned int choice, Player* hacker){
 	if (choice == 1){
-
+		this->actionOne(hacker);
+		return;
 	}
 	else if (choice == 2){
-
+		this->actionTwo(hacker);
+		return;
 	}
 	else if (choice == 3){
 		this->special();
+		return;
 	}
 	else if (choice == 4){
-		unsigned int nodeSelect = 0;
 		this->showNodes();
-		std::cin >> nodeSelect;
+		return;
 	}
 	else{
 		return;

@@ -5,13 +5,14 @@
 class Mobile : public Machine{
 private:
 	bool twoFactorAcquired;
-	std::string twoFactor;
+	bool triggerText;
 public:
 	Mobile();
 	Mobile(Machine* one, Machine* two, Machine* three, Machine* four);
-	void loginAttempt();
 	void displayMenu();
 	void special();
+	void actionOne(Player* hacker);
+	void actionTwo(Player* hacker);
 };
 
 

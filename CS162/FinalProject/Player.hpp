@@ -10,8 +10,8 @@
 #include <vector>
 #include <ctime>
 #include <iostream>
-#include "Machine.hpp"
 
+class Machine;
 
 class Player {
   private:
@@ -20,7 +20,7 @@ class Player {
     Machine *currentMachine;
     bool twoKeyAuth;
     bool serverPass;
-    bool workComp;
+    bool workCompPass;
     bool mobileCode;
 
   public:
@@ -30,7 +30,8 @@ class Player {
     std::string getPassword(unsigned int select);
 	void setCurrentMachine(Machine* m);
 	Machine* getCurrentMachine();
-    void storePassword(std::string password);
+	void foundServerPass();
+	void foundTwoKeyAuth();
 	bool hasServerKeys();
 };
 
