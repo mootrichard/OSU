@@ -2,6 +2,10 @@
 #include <cstdlib>
 #include <ctime>
 
+/**
+ * @brief  Taken from Lab 10 worksheet
+ */
+
 long long rfactorial(int n){
   if (n == 1){
     return 1;
@@ -9,6 +13,10 @@ long long rfactorial(int n){
     return n * rfactorial(n-1);
   }
 }
+
+/**
+ * @brief  Taken from Lab 10 worksheet
+ */
 
 long long factorialHelper(int n, int result){
   if (n == 1) {
@@ -18,6 +26,10 @@ long long factorialHelper(int n, int result){
     return factorialHelper(n-1, n * result);
   }
 }
+
+/**
+ * @brief  Taken from Lab 10 worksheet
+ */
 
 long long factorial(int n){
   return factorialHelper(n, 1);
@@ -72,22 +84,25 @@ long long recFibonacci(unsigned int n){
 
 int main(){
   unsigned int userInput = 0;
-  std::cout << "Enter a positive number:";
+  std::cout << "\tEnter a positive number:";
   std::cin >> userInput;
-  std::cout << userInput << " was entered." << std::endl;
+
+  std::cout << std::endl;
 
   clock_t itFibonacciStart = clock();
-  std::cout << userInput << "th Fibonacci number: " << itFibonacci(userInput) << std::endl;
+  std::cout << "\t" << userInput << "th Fibonacci number: " << itFibonacci(userInput) << std::endl;
   clock_t itFibonacciEnd = clock();
   clock_t itFibonacciResult = itFibonacciEnd - itFibonacciStart;
   std::cout << "Iterative Fibonacci took " << itFibonacciResult << " clock cycles or " << ((float)itFibonacciResult)/CLOCKS_PER_SEC << " seconds" << std::endl;
 
   clock_t recFibonacciStart = clock();
-  std::cout << userInput << "th Fibonacci number: " << recFibonacci(userInput) << std::endl;
+  std::cout << "\t" << userInput << "th Fibonacci number: " << recFibonacci(userInput) << std::endl;
   clock_t recFibonacciEnd = clock();
   clock_t recFibonacciResult = recFibonacciEnd - recFibonacciStart;
   std::cout << "Recursive Fibonacci took " << recFibonacciResult << " clock cycles or " << ((float)recFibonacciResult)/CLOCKS_PER_SEC << " seconds" << std::endl;
 
+  std::cout << std::endl;
+  std::cout << std::endl;
 
   long long iterativeResult = 1;
   clock_t itfactTimeStart = clock();
@@ -111,4 +126,6 @@ int main(){
   factResult = factorial(userInput);
   factTime = clock() - factTime;
   std::cout << "Tail recursion factorial took " << factTime << " cycles or "<< ((float)factTime)/CLOCKS_PER_SEC << " seconds" << std::endl;
+  
+  std::cout << std::endl;
 }
