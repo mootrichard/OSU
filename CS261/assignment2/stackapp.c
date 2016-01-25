@@ -38,14 +38,14 @@ int isBalanced(char* s)
 	
 	while (temp != '\0') {
 		char temp = nextChar(s);
-		if( temp == '(' || temp == '{' || temp == '[' ){
+		if( temp == '(' || temp == '{' || temp == '[' ){ // we found an opener and should push it
 			pushDynArr(zen, temp);
 		}
 		if( temp == ')' || temp == '}' || temp == ']' ){
 			if(isEmptyDynArr(zen)){
 				return 0;
 			}
-			if(temp == ')' && topDynArr(zen) != '('){
+			if(temp == ')' && topDynArr(zen) != '('){ // we found and closed one and should compare it
 				return 0;
 			}
 			if(temp == '}' && topDynArr(zen) != '{'){
@@ -55,7 +55,7 @@ int isBalanced(char* s)
 				return 0;
 			}
 
-			if(temp == ')' && topDynArr(zen) == '('){
+			if(temp == ')' && topDynArr(zen) == '('){ // here we are matching the open one with a closed one
 				popDynArr(zen);
 			}
 			if(temp == '}' && topDynArr(zen) == '{'){
@@ -69,6 +69,7 @@ int isBalanced(char* s)
 			break;
 		}
 	}
+	if(!isEmptyDynArr(zen)) {return 0;} // need to make sure that we didn't leave an open one
 	return 1;
 }
 
