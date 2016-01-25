@@ -1,0 +1,5 @@
+1. 32 consecutive push operation should have a total unit cost of 54. The big-oh complexity of a push would be O(1)+, since it would generally be O(1), except when reaching capacity. When it reaches capacity it require O(2N), but averages as 2N / n+1, which is slightly higher than 1.
+
+2. The total unit cost when increasing capacity by a constant two spaces is 260 units. The big-oh time complexity of this averages out to O(N), since the initial size of 8 and increasing by only two saves a negligible amount of time as N approaches infinity.
+
+3. To have O(N^2) you could do a series of: push(), push(), pop(). This would progressively fill the array and cause it to expand, only to shrink right after it has doubled in capacity, then expand the array again. You can adjust to avoid this by require that the array only shrink when 1/4 (one-quarter) full or less. Additionally you can just require the array be less than half-full (not half-full or less).
