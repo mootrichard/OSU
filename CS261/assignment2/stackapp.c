@@ -34,8 +34,42 @@ int isBalanced(char* s)
 	/* FIXME: You will write this function */
 	DynArr *zen = newDynArr(10);
 
+	char temp = *s;
 	
-	
+	while (temp != '\0') {
+		char temp = nextChar(s);
+		if( temp == '(' || temp == '{' || temp == '[' ){
+			pushDynArr(zen, temp);
+		}
+		if( temp == ')' || temp == '}' || temp == ']' ){
+			if(isEmptyDynArr(zen)){
+				return 0;
+			}
+			if(temp == ')' && topDynArr(zen) != '('){
+				return 0;
+			}
+			if(temp == '}' && topDynArr(zen) != '{'){
+				return 0;
+			}
+			if(temp == ']' && topDynArr(zen) != '['){
+				return 0;
+			}
+
+			if(temp == ')' && topDynArr(zen) == '('){
+				popDynArr(zen);
+			}
+			if(temp == '}' && topDynArr(zen) == '{'){
+				popDynArr(zen);
+			}
+			if(temp == ']' && topDynArr(zen) == '['){
+				popDynArr(zen);
+			}
+		}
+		if(temp == '\0'){
+			break;
+		}
+	}
+	return 1;
 }
 
 int main(int argc, char* argv[]){
