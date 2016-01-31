@@ -1,0 +1,52 @@
+tr, td, th {
+	border: solid thin;
+	border-color: black;
+}
+
+tr th:first-child{
+	font-style: italic;
+	font-weight: normal;
+}
+td, th{
+	padding:5px;
+	border-radius: 5%;
+}
+
+tbody{
+	background-color: lightblue;	
+}
+
+tbody tr:nth-child(odd) {
+	background-color: lightgreen;
+}
+
+tbody td:nth-child(even) {
+	color:red;
+}
+
+.outer-content{
+	margin-top:20px;
+	display:table;
+	vertical-align: middle;
+	float: left;
+	width: 75%;
+	height: 100px;
+	background-color: pink;
+	text-align: center;
+}
+
+.outer-content div{
+	display: inline-block;
+	vertical-align: middle;
+	width: 75%;
+	height: 20%;
+	margin-top: 40px;
+	margin-left:auto;
+	margin-right:auto;
+	background-color:lightblue;
+
+}
+
+form, h3{
+	clear: both;
+}
