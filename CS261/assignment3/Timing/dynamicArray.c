@@ -23,7 +23,7 @@ struct DynArr
 	post:	internal data array can hold cap elements
 	post:	v->data is not null
 */
-void initDynArr(DynArr *v, int capacity)
+void initDynArr(struct DynArr *v, int capacity)
 {
 	assert(capacity > 0);
 	assert(v!= 0);
@@ -44,7 +44,7 @@ void initDynArr(DynArr *v, int capacity)
 DynArr* createDynArr(int cap)
 {
 	assert(cap > 0);
-	DynArr *r = (DynArr *)malloc(sizeof( DynArr));
+	struct DynArr *r = (struct DynArr *)malloc(sizeof( struct DynArr));
 	assert(r != 0);
 	initDynArr(r,cap);
 	return r;
@@ -58,7 +58,7 @@ DynArr* createDynArr(int cap)
 	post:	size and capacity are 0
 	post:	the memory used by v->data is freed
 */
-void freeDynArr(DynArr *v)
+void freeDynArr(struct DynArr *v)
 {
 	if(v->data != 0)
 	{
@@ -76,7 +76,7 @@ void freeDynArr(DynArr *v)
 	post:	the memory used by v->data is freed
 	post:	the memory used by d is freed
 */
-void deleteDynArr(DynArr *v)
+void deleteDynArr(struct DynArr *v)
 {
 	freeDynArr(v);
 	free(v);
@@ -89,10 +89,23 @@ void deleteDynArr(DynArr *v)
 	pre:	v is not null
 	post:	v has capacity newCap
 */
-void _dynArrSetCapacity(DynArr *v, int newCap)
+void _dynArrSetCapacity(struct DynArr *v, int newCap)
 {	
 	/* FIXME: You will write this function */
-	
+	int i;
+
+	TYPE *resizedData = malloc(sizeof(TYPE)*newCap);
+	assert(resizedData != 0);
+
+	for (i = 0; i < v->capacity; i++){
+		resizedData[i] = v->data[i];
+	}
+
+	assert(v->data != 0);
+	free(v->data);
+	v->data = resizedData;
+	v->capacity = newCap;
+
 }
 
 /* Get the size of the dynamic array
@@ -102,7 +115,7 @@ void _dynArrSetCapacity(DynArr *v, int newCap)
 	post:	none
 	ret:	the size of the dynamic array
 */
-int sizeDynArr(DynArr *v)
+int sizeDynArr(struct DynArr *v)
 {
 	return v->size;
 }
@@ -111,15 +124,19 @@ int sizeDynArr(DynArr *v)
 
 	param: 	v		pointer to the dynamic array
 	param:	val		the value to add to the end of the dynamic array
-	pre:	the dynArry is not null
+	pre:	the struct dynArry is not null
 	post:	size increases by 1
 	post:	if reached capacity, capacity is doubled
 	post:	val is in the last utilized position in the array
 */
-void addDynArr(DynArr *v, TYPE val)
+void addDynArr(struct DynArr *v, TYPE val)
 {
 	/* FIXME: You will write this function */
-
+	if (v->size == v->capacity){
+		_dynArrSetCapacity(v, v->capacity * 2);
+	}
+	v->data[v->size] = val;
+	v->size++;
 }
 
 /*	Get an element from the dynamic array from a specified position
@@ -133,12 +150,12 @@ void addDynArr(DynArr *v, TYPE val)
 	ret:	value stored at index pos
 */
 
-TYPE getDynArr(DynArr *v, int pos)
+TYPE getDynArr(struct DynArr *v, int pos)
 {
 	/* FIXME: You will write this function */
 
 	/* FIXME: you must change this return value */
-	return 1; 
+	return v->data[pos];
 }
 
 /*	Put an item into the dynamic array at the specified location,
@@ -152,9 +169,10 @@ TYPE getDynArr(DynArr *v, int pos)
 	pre:	pos >= 0 and pos < size of the array
 	post:	index pos contains new value, val
 */
-void putDynArr(DynArr *v, int pos, TYPE val)
+void putDynArr(struct DynArr *v, int pos, TYPE val)
 {
 	/* FIXME: You will write this function */
+	v->data[pos] = val;
 }
 
 /*	Swap two specified elements in the dynamic array
@@ -166,9 +184,12 @@ void putDynArr(DynArr *v, int pos, TYPE val)
 	pre:	i, j >= 0 and i,j < size of the dynamic array
 	post:	index i now holds the value at j and index j now holds the value at i
 */
-void swapDynArr(DynArr *v, int i, int  j)
+void swapDynArr(struct DynArr *v, int i, int  j)
 {
 	/* FIXME: You will write this function */
+	int temp = v->data[i];
+	v->data[i] = v->data[j];
+	v->data[j] = temp;
 }
 
 /*	Remove the element at the specified location from the array,
@@ -182,9 +203,15 @@ void swapDynArr(DynArr *v, int i, int  j)
 	post:	the element at idx is removed
 	post:	the elements past idx are moved back one
 */
-void removeAtDynArr(DynArr *v, int idx)
+void removeAtDynArr(struct DynArr *v, int idx)
 {
 	/* FIXME: You will write this function */
+	if (idx != v->size - 1){
+		for (int i = idx; i < v->size - 1; i++){
+			v->data[i] = v->data[i + 1];
+		}
+	}
+	v->size--;
 }
 
 
@@ -197,16 +224,16 @@ void removeAtDynArr(DynArr *v, int idx)
 	dynamic array stack has an item on it.
 
 	param:	v		pointer to the dynamic array
-	pre:	the dynArr is not null
+	pre:	the struct dynArr is not null
 	post:	none
 	ret:	1 if empty, otherwise 0
 */
-int isEmptyDynArr(DynArr *v)
+int isEmptyDynArr(struct DynArr *v)
 {
 	/* FIXME: You will write this function */
 	
 	/* FIXME:  You will change this return value*/
-	return 1;
+	return v->size == 0;
 }
 
 /* 	Push an element onto the top of the stack
@@ -218,9 +245,14 @@ int isEmptyDynArr(DynArr *v)
 			if reached capacity, capacity is doubled
 			val is on the top of the stack
 */
-void pushDynArr(DynArr *v, TYPE val)
+void pushDynArr(struct DynArr *v, TYPE val)
 {
 	/* FIXME: You will write this function */
+	if (v->size == v->capacity){
+		_dynArrSetCapacity(v, v->capacity * 2);
+	}
+	v->data[v->size] = val;
+	v->size++;
 }
 
 /*	Returns the element at the top of the stack 
@@ -230,12 +262,12 @@ void pushDynArr(DynArr *v, TYPE val)
 	pre:	v is not empty
 	post:	no changes to the stack
 */
-TYPE topDynArr(DynArr *v)
+TYPE topDynArr(struct DynArr *v)
 {
 	/* FIXME: You will write this function */
 	
 	/* FIXME: You will change this return value*/
-	return 1;
+	return v->data[v->size - 1];
 }
 
 /* Removes the element on top of the stack 
@@ -246,9 +278,11 @@ TYPE topDynArr(DynArr *v)
 	post:	size is decremented by 1
 			the top has been removed
 */
-void popDynArr(DynArr *v)
+void popDynArr(struct DynArr *v)
 {
 	/* FIXME: You will write this function */
+	v->data[v->size - 1] = 0;
+	v->size--;
 }
 
 /* ************************************************************************
@@ -266,12 +300,16 @@ void popDynArr(DynArr *v)
 	pre:	v is not empty
 	post:	no changes to the bag
 */
-int containsDynArr(DynArr *v, TYPE val)
+int containsDynArr(struct DynArr *v, TYPE val)
 {
 	/* FIXME: You will write this function */
-	
+	for (int i = 0; i < v->size; i++){
+		if (v->data[i] == val){
+			return 1;
+		}
+	}
 	/* FIXME:  You will change this return value */
-	return 1;
+	return 0;
 
 }
 
@@ -285,7 +323,17 @@ int containsDynArr(DynArr *v, TYPE val)
 	post:	val has been removed
 	post:	size of the bag is reduced by 1
 */
-void removeDynArr(DynArr *v, TYPE val)
+void removeDynArr(struct DynArr *v, TYPE val)
 {
 	/* FIXME: You will write this function */
+	for (int i = 0; i < v->size; i++){
+		if (v->data[i] == val){
+			v->data[i] = 0;
+			for (int j = i; j < v->size - 1; j++){
+				v->data[j] = v->data[j + 1];
+			}
+			v->size--;
+			break;
+		}
+	}
 }
