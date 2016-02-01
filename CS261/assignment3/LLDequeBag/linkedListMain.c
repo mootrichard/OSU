@@ -6,21 +6,21 @@
 /* 	VISUAL STUDIO (VS) USERS: COMMENT OUT THE LINE BELOW 
 	TO EXCLUDE THE MEMORY TEST CODE.
 */
-#define MEMORY_TEST_INCLUDED
+//#define MEMORY_TEST_INCLUDED
 
-//#ifdef MEMORY_TEST_INCLUDED
-///* This header is needed for memory usage calculation. */
-//#include <sys/resource.h> 
-//
-///* Function to get current memory usage in KB (Max Resident Set Size) */
-//long getMemoryUsage() { 
-//	int who = RUSAGE_SELF; 
-//	struct rusage usage; 
-//	int ret;
-//	ret = getrusage(who, &usage);	
-//	return usage.ru_maxrss; 
-//}
-//#endif
+#ifdef MEMORY_TEST_INCLUDED
+/* This header is needed for memory usage calculation. */
+#include <sys/resource.h> 
+
+/* Function to get current memory usage in KB (Max Resident Set Size) */
+long getMemoryUsage() { 
+	int who = RUSAGE_SELF; 
+	struct rusage usage; 
+	int ret;
+	ret = getrusage(who, &usage);	
+	return usage.ru_maxrss; 
+}
+#endif
 
 /*Function to get number of milliseconds elapsed since program started execution*/
 double getMilliseconds() {
