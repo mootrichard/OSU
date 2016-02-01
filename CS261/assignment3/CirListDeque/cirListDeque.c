@@ -1,3 +1,9 @@
+/*
+Author: Richard Moot
+Date: January 31, 2016
+Description: Implementation of a Doulbly-Linked List Deque with a Sentinel
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
