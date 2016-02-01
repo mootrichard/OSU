@@ -6,7 +6,7 @@
 /* 	VISUAL STUDIO (VS) USERS: COMMENT OUT THE LINE BELOW 
 	TO EXCLUDE THE MEMORY TEST CODE.
 */
-//#define MEMORY_TEST_INCLUDED
+#define MEMORY_TEST_INCLUDED
 
 #ifdef MEMORY_TEST_INCLUDED
 /* This header is needed for memory usage calculation. */
