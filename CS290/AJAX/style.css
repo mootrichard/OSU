@@ -1,0 +1,15 @@
+.weather-api, .http-post{
+  margin: 0 auto;
+  width:30%;
+}
+
+.http-post input, .weather-api input {
+  display:block;
+  margin: .5em;
+  padding: 3px;
+  width: 100%;
+}
+
+.http-post button, .weather-api button{
+  float: right;
+}
