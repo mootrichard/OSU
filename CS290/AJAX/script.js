@@ -1,3 +1,7 @@
+// Author: Richard Moot
+// Date: February 14, 2016
+// Description: Utilizing AJAX to do GET and POST requests to API's
+
 function weatherReq(){
   var req = new XMLHttpRequest(),
       appID = "&APPID=5dcaafafdf3ebfd527a59c9e15f6947e",
