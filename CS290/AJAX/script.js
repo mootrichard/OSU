@@ -28,5 +28,5 @@ function weatherReq(){
 }
 
 function httpPost(){
-
+  var req = new XMLHttpRequest();
 }
