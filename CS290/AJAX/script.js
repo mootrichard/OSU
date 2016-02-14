@@ -29,5 +29,29 @@ function weatherReq(){
 
 function httpPost(){
   var req = new XMLHttpRequest(),
-      url = 'http://google.com';
+      sendData = {},
+      url = 'http://httpbin.org/post';
+  sendData = {
+    firstName: document.getElementById('firstName').value,
+    lastName: document.getElementById('lastName').value,
+    email: document.getElementById('email').value
+  };
+  req.open('POST', url, true);
+  req.setRequestHeader("Content-Type", "application/json");
+  req.send(JSON.stringify(sendData));
+  req.onreadystatechange = function(){
+    if(req.readyState == 4 && req.status == 200){
+      var resp = JSON.parse(req.response),
+          firstNode = document.createElement('p'),
+          lastNode = document.createElement('p'),
+          emailNode = document.createElement('p');
+
+      for (var prop in resp.json){
+        var newNode = document.createElement('p');
+        newNode.innerText = prop + ": " + resp.json[prop];
+        document.getElementById('http-post-results').appendChild(newNode);
+      }
+      console.log(resp);
+    }
+  }
 }

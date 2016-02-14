@@ -13,3 +13,8 @@
 .http-post button, .weather-api button{
   float: right;
 }
+
+#http-post-results {
+  margin-top: 10px;
+  display: table;
+}
