@@ -28,5 +28,6 @@ function weatherReq(){
 }
 
 function httpPost(){
-  var req = new XMLHttpRequest();
+  var req = new XMLHttpRequest(),
+      url = 'http://google.com';
 }
