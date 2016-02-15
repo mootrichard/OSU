@@ -1,4 +1,7 @@
 /*
+ Author: Richard Moot
+ Date: February 14, 2016
+
  File: bst.c
  Implementation of the binary search tree data structure.
  
@@ -231,7 +234,22 @@ Note:  If you do this iteratively, the above hint does not apply.
 struct Node *_removeLeftMost(struct Node *cur)
 {
 	/*write this*/
-	return NULL;
+	assert(cur != NULL);
+	if (cur->left != NULL){
+		cur->left = _removeLeftMost(cur->left);
+	}
+	else{
+		if (cur->right != NULL){
+			struct Node* temp = cur->right;
+			free(cur);
+			return temp;
+		}
+		else{
+			free(cur);
+			return NULL;
+		}
+	}
+	return cur;
 }
 /*
  recursive helper function to remove a node from the tree
@@ -246,8 +264,36 @@ struct Node *_removeLeftMost(struct Node *cur)
 struct Node *_removeNode(struct Node *cur, TYPE val)
 {
 	/*write this*/
-		return NULL;
+	assert(cur != NULL);
+	assert(val != NULL);
 
+	struct Node* cache;
+	if (compare(cur->val, val) == 0){
+		if (cur->right == NULL && cur->left == NULL){
+			free(cur);
+			return NULL;
+		}
+		else if (cur->right == NULL){
+			cache = cur->left;
+			free(cur);
+			return(cache);
+		}
+		else{
+			cur->val = _leftMost(cur->right);
+			_removeLeftMost(cur->right);
+			return cur;
+		}
+	}
+	else if (compare(cur->val, val) == 1){
+		cur->left = _removeNode(cur->left, val);
+	}
+	else if (compare(cur->val, val) == -1){
+		cur->right = _removeNode(cur->right, val);
+	}
+	else{
+		return cur;
+	}
+	return cur;
 }
 /*
  function to remove a value from the binary search tree
@@ -539,10 +585,10 @@ int main(int argc, char *argv[]){
    testLeftMost();
 	
 	printf("\n");
-    //testRemoveLeftMost();
+    testRemoveLeftMost();
 	
 	printf("\n");
-    //testRemoveNode();
+    testRemoveNode();
     
 	
 	return 0;
