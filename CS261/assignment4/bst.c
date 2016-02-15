@@ -131,7 +131,7 @@ struct Node *_addNode(struct Node *cur, TYPE val)
 	/*write this*/
 	assert(val != NULL);
 
-	if (cur == NULL){
+	if (cur == NULL){ // We have hit our base case, we can attach the node here
 		newNode = (struct Node*) malloc(sizeof(struct Node));
 		assert(newNode != 0);
 
@@ -141,10 +141,10 @@ struct Node *_addNode(struct Node *cur, TYPE val)
 
 		return newNode;
 	}
-	else if (compare(val, cur->val) == -1){
+	else if (compare(val, cur->val) == -1){ // Appears our value is less that the current value, need to travel left
 		cur->left = _addNode(cur->left, val);
 	}
-	else {
+	else { // It must be greater or equal so we can travel right
 		cur->right = _addNode(cur->right, val);
 	}
 	return cur;
@@ -182,7 +182,7 @@ int containsBSTree(struct BSTree *tree, TYPE val)
 {
 	/*write this*/
 	struct Node* current = tree->root;
-	while (current != NULL){
+	while (current != NULL){ // Going to iteratively look down the tree to see if we find a match
 		if (compare(val, current->val) == 0){
 			return 1;
 		}
@@ -196,7 +196,7 @@ int containsBSTree(struct BSTree *tree, TYPE val)
 
 		}
 	}
-	return 0;
+	return 0; // No match found, can safely return 0
 }
 
 /*
@@ -235,17 +235,17 @@ struct Node *_removeLeftMost(struct Node *cur)
 {
 	/*write this*/
 	assert(cur != NULL);
-	if (cur->left != NULL){
+	if (cur->left != NULL){ // Need to travel down the left path until we reach the last node
 		cur->left = _removeLeftMost(cur->left);
 	}
-	else{
-		if (cur->right != NULL){
+	else{ // We must be at the left most node now
+		if (cur->right != NULL){ // Need to make sure there is not a right node before we remove
 			struct Node* temp = cur->right;
 			free(cur);
-			return temp;
+			return temp; // Returning the right node of the one we had just removed
 		}
 		else{
-			free(cur);
+			free(cur); // Looks like there was nothing attached, we can feel free to remove the node
 			return NULL;
 		}
 	}
@@ -269,19 +269,19 @@ struct Node *_removeNode(struct Node *cur, TYPE val)
 
 	struct Node* cache;
 	if (compare(cur->val, val) == 0){
-		if (cur->right == NULL && cur->left == NULL){
+		if (cur->right == NULL && cur->left == NULL){ // We reached a node with nothing attached, we can safely remove it
 			free(cur);
 			return NULL;
 		}
-		else if (cur->right == NULL){
+		else if (cur->right == NULL){ // Looks like there is a left node attached to our desired removal
 			cache = cur->left;
 			free(cur);
-			return(cache);
+			return(cache); // Returning the attached node
 		}
 		else{
-			cur->val = _leftMost(cur->right);
+			cur->val = _leftMost(cur->right); // Looks like there is a right node attached to the desired removal
 			_removeLeftMost(cur->right);
-			return cur;
+			return cur; // returning cur since we removed our desired node using _removeLeftMost
 		}
 	}
 	else if (compare(cur->val, val) == 1){
