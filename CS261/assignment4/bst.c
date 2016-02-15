@@ -124,8 +124,27 @@ int sizeBSTree(struct BSTree *tree) { return tree->cnt; }
  */
 struct Node *_addNode(struct Node *cur, TYPE val)
 {
+	struct Node* newNode;
 	/*write this*/
-	return NULL;
+	assert(val != NULL);
+
+	if (cur == NULL){
+		newNode = (struct Node*) malloc(sizeof(struct Node));
+		assert(newNode != 0);
+
+		newNode->val = val;
+		newNode->left = NULL;
+		newNode->right = NULL;
+
+		return newNode;
+	}
+	else if (compare(val, cur->val) == -1){
+		cur->left = _addNode(cur->left, val);
+	}
+	else {
+		cur->right = _addNode(cur->right, val);
+	}
+	return cur;
 }
 
 /*
@@ -159,7 +178,22 @@ void addBSTree(struct BSTree *tree, TYPE val)
 int containsBSTree(struct BSTree *tree, TYPE val)
 {
 	/*write this*/
-		return 0;
+	struct Node* current = tree->root;
+	while (current != NULL){
+		if (compare(val, current->val) == 0){
+			return 1;
+		}
+		else if (compare(val, current->val) == -1){
+			current = current->left;
+		}
+		else if (compare(val, current->val) == 1){
+			current = current->right;
+		}
+		else {
+
+		}
+	}
+	return 0;
 }
 
 /*
@@ -174,7 +208,11 @@ int containsBSTree(struct BSTree *tree, TYPE val)
 TYPE _leftMost(struct Node *cur)
 {
 	/*write this*/
-	return NULL;
+	struct Node* finder = cur;
+	while (finder->left != NULL){
+		finder = finder->left;
+	}
+	return finder->val;
 }
 
 
@@ -492,13 +530,13 @@ int main(int argc, char *argv[]){
 
    //After implementing your code, please uncommnet the following calls to the test functions and test your code 
 
-   // testAddNode();
+   testAddNode();
 	
 	printf("\n");
-   //	testContainsBSTree();
+   testContainsBSTree();
 	
 	printf("\n");
-    //testLeftMost();
+   testLeftMost();
 	
 	printf("\n");
     //testRemoveLeftMost();

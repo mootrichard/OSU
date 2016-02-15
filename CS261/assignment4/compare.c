@@ -26,8 +26,20 @@
 int compare(TYPE left, TYPE right)
 {
     /*FIXME: write this*/
-	return 0;
+	struct data* dataLeft;
+	struct data* dataRight;
+	dataLeft = (struct data*) left;
+	dataRight = (struct data*) right;
 
+	if (dataLeft->number < dataRight->number){
+		return -1;
+	}
+	else if (dataLeft->number > dataRight->number){
+		return 1;
+	}
+	else{
+		return 0;
+	}
 }
 
 /*Define this function, type casting the value of void * to the desired type*/
