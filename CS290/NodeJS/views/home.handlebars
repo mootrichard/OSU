@@ -1,0 +1,15 @@
+<h1>{{title}}</h1>
+<table>
+<tbody>
+{{#each data}}
+<tr>
+  <td>
+    <strong>Key:</strong> {{@key}}
+  </td>
+  <td>
+    <strong>Value:</strong> {{this}}
+  </td>
+</tr>
+{{/each}}
+</tbody>
+</table>
