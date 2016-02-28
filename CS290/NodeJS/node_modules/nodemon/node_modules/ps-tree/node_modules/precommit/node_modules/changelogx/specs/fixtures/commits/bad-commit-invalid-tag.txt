@@ -1,3 +1,0 @@
-XYZ: (Git Hooks) Improved Git Hooks
-
-Improving the git hooks by adding a better parser for commits

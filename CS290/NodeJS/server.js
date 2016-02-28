@@ -1,7 +1,8 @@
 var express = require('express'),
     app = express(),
     handlebars = require('express-handlebars'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    session = require('express-session');
 
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -9,6 +10,7 @@ app.set('port', 3000);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(session({secret:'thisIsAsecret'}));
 
 app.get('/', function(req, res) {
   if(req.originalUrl === '/'){
@@ -33,6 +35,13 @@ function genContext(){
 app.get('/time',function(req,res){
   res.render('time', genContext());
 });
+
+app.get('/count', function(req, res) {
+  var context = {};
+  context.count = req.session.count || 0;
+  req.session.count = context.count + 1;
+  res.render('count', context);
+})
 
 app.use(function(req,res){
   res.type('text/plain');
