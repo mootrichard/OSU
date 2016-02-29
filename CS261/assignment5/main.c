@@ -9,7 +9,7 @@ int main (int argc, const char * argv[])
 {
   char cmd = ' ';
   DynArr* mainList = createDynArr(10);
-  char desc[100], fName[100], *remover;
+  char desc[100], fName[100];
   FILE* filePtr;
   int priority;
   TaskP newTask;
