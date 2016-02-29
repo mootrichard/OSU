@@ -29,7 +29,21 @@
 int compare(TYPE left, TYPE right)
 {
     /*FIXME: write this*/
+	TaskP leftTask;
+	TaskP rightTask;
 
+	leftTask = (TaskP)left;
+	rightTask = (TaskP)right;
+
+	if (leftTask->priority < rightTask->priority){
+		return -1;
+	}
+	else if (leftTask->priority > rightTask->priority){
+		return 1;
+	}
+	else {
+		return 0;
+	}
 
 }
 
@@ -59,6 +73,10 @@ void print_type(TYPE val)
 TaskP createTask (int priority, char *desc)
 {
   /*FIXME: Write this */
+	struct Task* newTask = malloc(sizeof(struct Task));
+	newTask->priority = priority;
+	strcpy(newTask->description, desc);
+	return newTask;
 }
 
 /*  Save the list to a file
