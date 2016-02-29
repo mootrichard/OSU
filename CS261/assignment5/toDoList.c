@@ -1,3 +1,6 @@
+// Author: Richard Moot
+// Date: February 28, 2016
+// Description: A todo list app that utilizes a priority heap for tracking todo items
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>

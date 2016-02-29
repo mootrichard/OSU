@@ -1,3 +1,6 @@
+// Author: Richard Moot
+// Date: February 28, 2016
+
 /*	dynArr.c: Dynamic Array implementation. */
 #include <assert.h>
 #include <stdlib.h>
