@@ -13,7 +13,7 @@
  */
 # define HASHING_FUNCTION 2
 
-# define LOAD_FACTOR_THRESHOLD 0.75 
+# define LOAD_FACTOR_THRESHOLD 0.75
 /* Having a small load factor triggers the resize function more often; It was kept small on purpose so that it would be easy to try that part of your code.You can play around with the load factor for testing, it wont hurt anything. You will not be turning in the .h file anyway. You just don't want to make any changes that would make the .c file incompatible with the .h that we will be using for grading. Such as adding functions or changing parameters. If you want to raise the load factor to get a better idea of how the different hashing functions differ for the question part of the assignment. */
 
 struct hashLink
