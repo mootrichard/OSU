@@ -42,6 +42,28 @@ int main (int argc, const char * argv[]) {
 	hashTable = createMap(tableSize);	   
 	
     /*... concordance code goes here ...*/
+	fileptr = fopen(filename, "r");
+	if (fileptr == NULL){
+		perror("There was an error opening that file");
+		return -1;
+	}
+
+	char* nextWord = getWord(fileptr);
+
+	do {
+		int *wordCountPtr = atMap(hashTable, nextWord);
+
+		if (wordCountPtr == NULL){
+			insertMap(hashTable, nextWord, 1);
+		}
+		else{
+			free(nextWord);
+			(*wordCountPtr)++;
+		}
+
+		nextWord = getWord(fileptr);
+
+	} while (nextWord != NULL);
 		
 	/*... concordance code ends here ...*/
 
