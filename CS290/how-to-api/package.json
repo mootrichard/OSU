@@ -12,7 +12,8 @@
     "body-parser": "^1.13.3",
     "express": "^4.13.2",
     "express-handlebars": "^3.0.0",
-    "express-session": "^1.13.0",
-    "mysql": "^2.8.0"
+    "mysql": "^2.8.0",
+    "brewerydb-node": "0.0.1",
+    "request": "~2.69.0"
   }
 }
