@@ -32,11 +32,15 @@ app.get('/libraries', function(req,res){
 
 app.get('/endpoints', function(req, res){
   res.render('endpoints');
-})
+});
 
-app.get('/sample-data', function(req, res){
-  res.render('sample-data');
-})
+app.get('/user-test', function(req,res){
+  var userApiKey = req.query.apiKey;
+  var userBrewerydb = req.query.apiKey.length > 0 ? new brewerydb('userApiKey'): new brewerydb('fa05b9dc34be20efb73fc21f7fbdcd5e');
+  var userResponse = userBrewerydb.beer.find({name:"Sculpin IPA"}, function(err, data){
+    res.send(data);
+  })
+});
 
 app.use(function(req,res){
   res.type('text/plain');

@@ -6,14 +6,14 @@
 </p>
 
 <p>
-  We are going to focus on the NodeJS library since its fairly simple to get up a running. Installation is as simple as just typing <code class="bash">npm install brewerydb-node</code> into the console to get the libraries downloaded. Once you have the library installed
+  We are going to focus on the NodeJS library since its fairly simple to get up a running. Installation is as simple as just typing <code class="HTTP">npm install brewerydb-node</code> into the console to get the libraries downloaded. Once you have the library installed
   in your node_modules folder, you can just use the following to include it in your application:
 </p>
 <pre><code class="javascript">  var BreweryDb = require('brewerydb-node');
   var brewdb = new BreweryDb('YOUR_API_KEY_HERE');</code></pre>
 
 <p>
-  When using the NodeJS wrapper, the format of your calls would be <code>brewdb.beerID(id (or array of ID's), params, callback);</code>. Here is an example of a call that would return a information on Ballast Point Brewing Company and log it to the console:
+  When using the NodeJS wrapper, the format of your calls would be <code>brewdb.beerID(id (or array of IDs), params, callback);</code>. Here is an example of a call that would return a information on Ballast Point Brewing Company and log it to the console:
 </p>
 
 <pre><code class="javascript">  brewdb.breweries.find({name: "Ballast Point Brewing Company"}, function(err, data){

@@ -8,7 +8,7 @@
 
 <h3>Beer</h3>
 <p>
-  You can see a detailed list of what is available in the Beer endpoint <a href="http://www.brewerydb.com/developers/docs-endpoint/beer_index">here</a>. The important things that we can do at this endpoint is that we can get, post, put, or delete beers here. When getting Beers, we can either request all beers or specify a beer using the beer ID. The Beer ID is a unique identifier that can help track unique values (even if two beers might have the same name from different breweries).
+  You can see a detailed list of what is available in the Beer endpoint <a href="http://www.brewerydb.com/developers/docs-endpoint/beer_index">here</a>. The important things that we can do at this endpoint is that we can get, post, put, or delete beers here. When getting Beers, we can either request all beers or specify a beer using the beer ID. The beer ID is a unique identifier that can help track unique values (even if two beers might have the same name from different breweries).
 </p>
 
 <pre><code class="JSON">{
@@ -30,10 +30,10 @@
     "hex":"A13700"
 }</code></pre>
 <p>
-  You can see above that we have many fields that are available to us. You can search these fields in your URL (or using the BreweryDB wrapper) to find the beer that you are looking for. For example, you can look for the first page of beers with an ABV of 5 using the following: <code>http://api.brewerydb.com/v2/beers?key=[YOUR_KEY_HERE]&abv=5&p=1</code>. You can see that we use <code>abv=5</code>&<code>p=1</code> to specify what we are wanting to return here.
+  You can see above that we have many fields that are available to us. You can search these fields in your URL (or using the BreweryDB wrapper) to find the beer that you are looking for. For example, you can look for the first page of beers with an ABV of 5 using the following: <code class="HTTP">http://api.brewerydb.com/v2/beers?key=[YOUR_KEY_HERE]&abv=5&p=1</code>. You can see that we use <code class="HTTP">abv=5</code>&<code class="HTTP">p=1</code> to specify what we are wanting to return here.
 </p>
 <p>
-  Now if we wanted to get a sub-point of Beer, we can just change what comes right after beer to access that sub-endpoint. We can do something like <code>http://api.brewerydb.com/v2/beer/random?key=[YOUR_KEY_HERE]</code> to get some random beer returned to us.
+  Now if we wanted to get a sub-point of Beer, we can just change what comes right after beer to access that sub-endpoint. We can do something like <code class="HTTP">http://api.brewerydb.com/v2/beer/random?key=[YOUR_KEY_HERE]</code> to get some random beer returned to us.
 </p>
 <pre><code class="JSON">{
   "message":"Request Successful",
@@ -122,3 +122,503 @@
 </p>
 
 <h3>Location</h3>
+
+<p>
+  The Location endpoint is a bit different since you are able to search using varying levels of location ranges. This can allow you to be as general or as specific as you would like on what data you are wanting to return. You can specify to look up by <code class="JSON">"region"</code>, <code class="JSON">"countryIsoCode"</code>, <code class="JSON">"latitude"</code>, or <code class="JSON">"streetAddress"</code>.
+</p>
+
+<p>
+  Configuring your URL for requesting the data is fairly straight forward like the other endpoints. You just need to include <code class="HTTP">http://api.brewerydb.com/v2/locations?key=YOUR_KEY_HERE</code> or <code class="HTTP">http://api.brewerydb.com/v2/location?key=YOUR_KEY_HERE</code> as your base URL and then append your queries to it.
+</p>
+
+<pre><code class="JSON">{
+  "currentPage": 1,
+  "numberOfPages": 1,
+  "totalResults": 9,
+  "data": [
+    {
+      "id": "hUoCwr",
+      "name": "Main Brewery",
+      "streetAddress": "6550 Mira Mesa Blvd",
+      "locality": "San Diego",
+      "region": "California",
+      "postalCode": "92121",
+      "phone": "858-622-0085",
+      "website": "http:\/\/www.greenflashbrew.com\/",
+      "latitude": 32.9071241,
+      "longitude": -117.1778148,
+      "isPrimary": "Y",
+      "inPlanning": "N",
+      "isClosed": "N",
+      "openToPublic": "Y",
+      "locationType": "micro",
+      "locationTypeDisplay": "Micro Brewery",
+      "countryIsoCode": "US",
+      "yearOpened": "2003",
+      "status": "verified",
+      "statusDisplay": "Verified",
+      "createDate": "2012-01-03 02:41:56",
+      "updateDate": "2014-12-04 15:36:20",
+      "breweryId": "Nj8cgD",
+      "brewery": {
+        "id": "Nj8cgD",
+        "name": "Green Flash Brewing Company",
+        "nameShortDisplay": "Green Flash",
+        "description": "A small company with big ideas.\r\n\r\nMike and Lisa Hinkley took their interest in the craft beer industry to a new level in 2002 when they founded Green Flash Brewing Company. Former pub owners, Mike and Lisa jumped into brewing, and in 2004 renowned brewmaster Chuck Silva joined the team.\r\n\r\nWith Chuck on board we began brewing premium style beers, modern twists on traditional styles, and our beers began to develop a following. Cutting edge brews, Green Flash Brewing Company\u2019s beers don\u2019t fit traditional guidelines, instead we let our hybrid, benchmark beers blaze their own trail.\r\n\r\nLocated in San Diego, CA, we specialize in brewing assertive and distinctive beers, such as our West Coast I.P.A.: an award-winning beer whose wide acceptance has helped define a category. We also brew seasonal, collaborative and barrel-aged beers.\r\n\r\nOur award-winning beers are on draft and bottled and are available throughout the United States in bars, restaurants and retail outlets.",
+        "website": "http:\/\/www.greenflashbrew.com\/",
+        "established": "2002",
+        "mailingListUrl": "www.greenflashbrew.com\/subscribe\/",
+        "isOrganic": "N",
+        "images": {
+          "icon": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/Nj8cgD\/upload_8QinVn-icon.png",
+          "medium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/Nj8cgD\/upload_8QinVn-medium.png",
+          "large": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/Nj8cgD\/upload_8QinVn-large.png",
+          "squareMedium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/Nj8cgD\/upload_8QinVn-squareMedium.png",
+          "squareLarge": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/Nj8cgD\/upload_8QinVn-squareLarge.png"
+        },
+        "status": "verified",
+        "statusDisplay": "Verified",
+        "createDate": "2012-01-03 02:41:56",
+        "updateDate": "2015-12-22 14:47:18"
+      },
+      "country": {
+        "isoCode": "US",
+        "name": "UNITED STATES",
+        "displayName": "United States",
+        "isoThree": "USA",
+        "numberCode": 840,
+        "createDate": "2012-01-03 02:41:33"
+      }
+    },
+    {
+      "id": "0mQ6cv",
+      "name": "Main Brewery",
+      "streetAddress": "8830 Rehco Rd.",
+      "extendedAddress": "Suite D",
+      "locality": "San Diego",
+      "region": "California",
+      "postalCode": "92121",
+      "phone": "858-453-7238",
+      "website": "http:\/\/roughdraftbrew.com\/",
+      "hoursOfOperation": "Mon - Fri:  2:00pm - 9:00pm\r\nSat:  1:00pm - 8:00pm\r\nSun: 1:00pm - 5:00pm",
+      "latitude": 32.883619,
+      "longitude": -117.171625,
+      "isPrimary": "Y",
+      "inPlanning": "N",
+      "isClosed": "N",
+      "openToPublic": "Y",
+      "locationType": "micro",
+      "locationTypeDisplay": "Micro Brewery",
+      "countryIsoCode": "US",
+      "yearOpened": "2011",
+      "status": "verified",
+      "statusDisplay": "Verified",
+      "createDate": "2012-07-11 18:28:38",
+      "updateDate": "2015-06-09 16:23:25",
+      "breweryId": "gF2S17",
+      "brewery": {
+        "id": "gF2S17",
+        "name": "Rough Draft Brewing Company",
+        "nameShortDisplay": "Rough Draft",
+        "description": "We like beer. And word on the street is you do too. So you\u2019ve been petitioning with your boss for beer breaks instead of smoke breaks, and trying to get a tap handle installed in the lunch room. There\u2019s nothing wrong with that. That\u2019s thinking outside the box right? \r\n\r\nHere at Rough Draft, we like to reward that forward thinking with handcrafted beers that are as unique in character as those who drink it. We favor style over perfection and take joy in sharing our great-tasting creations with those who simply love to try new beer. \r\n\r\nThe beers that prove to be winners in our tasting room will be the ones we put into distribution.",
+        "website": "http:\/\/roughdraftbrew.com\/",
+        "established": "2011",
+        "isOrganic": "N",
+        "images": {
+          "icon": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/gF2S17\/upload_7AHZAc-icon.png",
+          "medium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/gF2S17\/upload_7AHZAc-medium.png",
+          "large": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/gF2S17\/upload_7AHZAc-large.png",
+          "squareMedium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/gF2S17\/upload_7AHZAc-squareMedium.png",
+          "squareLarge": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/gF2S17\/upload_7AHZAc-squareLarge.png"
+        },
+        "status": "verified",
+        "statusDisplay": "Verified",
+        "createDate": "2012-07-11 18:26:54",
+        "updateDate": "2015-12-22 15:30:05"
+      },
+      "country": {
+        "isoCode": "US",
+        "name": "UNITED STATES",
+        "displayName": "United States",
+        "isoThree": "USA",
+        "numberCode": 840,
+        "createDate": "2012-01-03 02:41:33"
+      }
+    },
+    {
+      "id": "QdFD02",
+      "name": "Main Brewery",
+      "streetAddress": "8385 Miramar Mall",
+      "extendedAddress": "#206",
+      "locality": "San Diego",
+      "region": "California",
+      "postalCode": "92121",
+      "phone": "619-822-1612",
+      "website": "http:\/\/www.airdalebrewing.com\/",
+      "latitude": 32.8794334,
+      "longitude": -117.1819082,
+      "isPrimary": "Y",
+      "inPlanning": "N",
+      "isClosed": "Y",
+      "openToPublic": "Y",
+      "locationType": "micro",
+      "locationTypeDisplay": "Micro Brewery",
+      "countryIsoCode": "US",
+      "yearOpened": "2008",
+      "status": "verified",
+      "statusDisplay": "Verified",
+      "createDate": "2012-01-03 02:41:43",
+      "updateDate": "2015-12-03 19:17:44",
+      "breweryId": "eCqaSS",
+      "brewery": {
+        "id": "eCqaSS",
+        "name": "Airdale Brewing Company",
+        "nameShortDisplay": "Airdale",
+        "description": "Founded in 2008, Airdale Brewing is a craft beer company located in San Diego, California. Founded by a former Naval Aviator and a veteran southern California craft brewer, Airdale strives to create well-balanced, unique, flavorful beers that embody their mantra of, \"Work Hard | Play Hard\"\r\n\r\nAirdale Brewing Co. is working to bring its line of premium craft beers to every market available. We intent to do this by producing quality beers that stand on their own as true examples of artisan american ales.",
+        "website": "http:\/\/www.airdalebrewing.com\/",
+        "established": "2008",
+        "isOrganic": "N",
+        "images": {
+          "icon": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/eCqaSS\/upload_Jcw0re-icon.png",
+          "medium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/eCqaSS\/upload_Jcw0re-medium.png",
+          "large": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/eCqaSS\/upload_Jcw0re-large.png",
+          "squareMedium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/eCqaSS\/upload_Jcw0re-squareMedium.png",
+          "squareLarge": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/eCqaSS\/upload_Jcw0re-squareLarge.png"
+        },
+        "status": "verified",
+        "statusDisplay": "Verified",
+        "createDate": "2012-01-03 02:41:43",
+        "updateDate": "2015-12-22 15:15:08"
+      },
+      "country": {
+        "isoCode": "US",
+        "name": "UNITED STATES",
+        "displayName": "United States",
+        "isoThree": "USA",
+        "numberCode": 840,
+        "createDate": "2012-01-03 02:41:33"
+      }
+    },
+    {
+      "id": "d7Kjop",
+      "name": "Main Brewery",
+      "streetAddress": "9550 Distribution Ave.",
+      "locality": "San Diego",
+      "region": "California",
+      "postalCode": "92121",
+      "website": "http:\/\/www.saintarcherbrewery.com\/",
+      "latitude": 32.8804822,
+      "longitude": -117.1634659,
+      "isPrimary": "Y",
+      "inPlanning": "N",
+      "isClosed": "N",
+      "openToPublic": "Y",
+      "locationType": "micro",
+      "locationTypeDisplay": "Micro Brewery",
+      "countryIsoCode": "US",
+      "status": "verified",
+      "statusDisplay": "Verified",
+      "createDate": "2013-08-14 00:41:14",
+      "updateDate": "2014-10-13 14:19:34",
+      "breweryId": "vOvOzV",
+      "brewery": {
+        "id": "vOvOzV",
+        "name": "Saint Archer Brewing Company",
+        "nameShortDisplay": "Saint Archer",
+        "description": "Saint Archer Brewing Company was founded on a unique strain of creative talent: World-class brewers. Artists and musicians. Surfers, skateboarders, and snowboarders\u2026. All coming together with passion and commitment to express our collective true love \u2014 handcrafted beer. Saint Archer's been a long time in the tank and we hope you taste our appreciation and gratitude in every sip.",
+        "website": "http:\/\/www.saintarcherbrewery.com",
+        "established": "2013",
+        "isOrganic": "N",
+        "images": {
+          "icon": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/vOvOzV\/upload_Dv2bAh-icon.png",
+          "medium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/vOvOzV\/upload_Dv2bAh-medium.png",
+          "large": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/vOvOzV\/upload_Dv2bAh-large.png",
+          "squareMedium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/vOvOzV\/upload_Dv2bAh-squareMedium.png",
+          "squareLarge": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/vOvOzV\/upload_Dv2bAh-squareLarge.png"
+        },
+        "status": "verified",
+        "statusDisplay": "Verified",
+        "createDate": "2013-08-13 21:00:48",
+        "updateDate": "2015-12-22 15:46:30"
+      },
+      "country": {
+        "isoCode": "US",
+        "name": "UNITED STATES",
+        "displayName": "United States",
+        "isoThree": "USA",
+        "numberCode": 840,
+        "createDate": "2012-01-03 02:41:33"
+      }
+    },
+    {
+      "id": "DqlySI",
+      "name": "Main Brewery",
+      "streetAddress": "10054 Mesa Ridge Court",
+      "extendedAddress": "Suite 132",
+      "locality": "San Diego",
+      "region": "California",
+      "postalCode": "92121",
+      "phone": "(858) 480-9381",
+      "website": "http:\/\/www.wetnreckless.com",
+      "hoursOfOperation": "Thu - Fri: 3:30 pm - 10:00 pm\r\nSat: 2:00 pm - 10:00 pm",
+      "latitude": 32.900476,
+      "longitude": -117.176061,
+      "isPrimary": "Y",
+      "inPlanning": "N",
+      "isClosed": "N",
+      "openToPublic": "Y",
+      "locationType": "nano",
+      "locationTypeDisplay": "Nano Brewery",
+      "countryIsoCode": "US",
+      "status": "verified",
+      "statusDisplay": "Verified",
+      "createDate": "2014-03-16 22:05:51",
+      "updateDate": "2014-07-23 19:11:34",
+      "breweryId": "N5X45H",
+      "brewery": {
+        "id": "N5X45H",
+        "name": "Wet 'N Reckless Brewing",
+        "nameShortDisplay": "Wet 'N Reckless",
+        "description": "A nanobrewery that makes awesome interesting beer and provides a nice place to drink it",
+        "website": "http:\/\/www.wetnreckless.com",
+        "isOrganic": "N",
+        "images": {
+          "icon": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/N5X45H\/upload_c1LB6W-icon.png",
+          "medium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/N5X45H\/upload_c1LB6W-medium.png",
+          "large": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/N5X45H\/upload_c1LB6W-large.png",
+          "squareMedium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/N5X45H\/upload_c1LB6W-squareMedium.png",
+          "squareLarge": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/N5X45H\/upload_c1LB6W-squareLarge.png"
+        },
+        "status": "verified",
+        "statusDisplay": "Verified",
+        "createDate": "2014-03-16 22:05:17",
+        "updateDate": "2015-12-22 15:52:35"
+      },
+      "country": {
+        "isoCode": "US",
+        "name": "UNITED STATES",
+        "displayName": "United States",
+        "isoThree": "USA",
+        "numberCode": 840,
+        "createDate": "2012-01-03 02:41:33"
+      }
+    },
+    {
+      "id": "mqrYK9",
+      "name": "Main Brewery",
+      "streetAddress": "8920 Kenamar Dr.",
+      "extendedAddress": "Suite #210",
+      "locality": "San Diego",
+      "region": "California",
+      "postalCode": "92121",
+      "phone": "(858) 433-7916",
+      "latitude": 32.8852235,
+      "longitude": -117.1561841,
+      "isPrimary": "Y",
+      "inPlanning": "N",
+      "isClosed": "N",
+      "openToPublic": "Y",
+      "locationType": "micro",
+      "locationTypeDisplay": "Micro Brewery",
+      "countryIsoCode": "US",
+      "status": "verified",
+      "statusDisplay": "Verified",
+      "createDate": "2015-06-15 17:56:09",
+      "updateDate": "2015-06-15 17:56:09",
+      "breweryId": "a2USSB",
+      "brewery": {
+        "id": "a2USSB",
+        "name": "Duck Foot Brewing Company",
+        "nameShortDisplay": "Duck Foot",
+        "description": "A new approach to beer consumption: great tasting specialty beers that just happen to be accessible for the gluten\u00ad intolerant. Now Open!",
+        "website": "http:\/\/www.duckfootbeer.com",
+        "established": "2015",
+        "isOrganic": "N",
+        "images": {
+          "icon": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/a2USSB\/upload_kDGO2Y-icon.png",
+          "medium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/a2USSB\/upload_kDGO2Y-medium.png",
+          "large": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/a2USSB\/upload_kDGO2Y-large.png",
+          "squareMedium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/a2USSB\/upload_kDGO2Y-squareMedium.png",
+          "squareLarge": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/a2USSB\/upload_kDGO2Y-squareLarge.png"
+        },
+        "status": "verified",
+        "statusDisplay": "Verified",
+        "createDate": "2015-06-09 17:20:05",
+        "updateDate": "2015-12-22 16:10:15"
+      },
+      "country": {
+        "isoCode": "US",
+        "name": "UNITED STATES",
+        "displayName": "United States",
+        "isoThree": "USA",
+        "numberCode": 840,
+        "createDate": "2012-01-03 02:41:33"
+      }
+    },
+    {
+      "id": "MJ6xSM",
+      "name": "Main Brewery",
+      "streetAddress": "11545 Sorrento Valley Rd,",
+      "extendedAddress": "Ste 305",
+      "locality": "San Diego",
+      "region": "California",
+      "postalCode": "92121",
+      "phone": "(619) 857-8023",
+      "website": "http:\/\/www.newenglishbrewing.com\/",
+      "hoursOfOperation": "Wed - Fri: 4:00 pm - 7:00 pm\r\nSat: 2:00 pm - 6:00 pm",
+      "latitude": 32.912605,
+      "longitude": -117.230486,
+      "isPrimary": "Y",
+      "inPlanning": "N",
+      "isClosed": "N",
+      "openToPublic": "Y",
+      "locationType": "micro",
+      "locationTypeDisplay": "Micro Brewery",
+      "countryIsoCode": "US",
+      "status": "verified",
+      "statusDisplay": "Verified",
+      "createDate": "2012-01-03 02:42:03",
+      "updateDate": "2014-07-23 19:11:34",
+      "breweryId": "mAe67E",
+      "brewery": {
+        "id": "mAe67E",
+        "name": "New English Brewing",
+        "nameShortDisplay": "New English",
+        "description": "New English Brewing Company - Traditional New English Style, Authentic West Coast Character",
+        "website": "http:\/\/www.newenglishbrewing.com\/",
+        "established": "2007",
+        "isOrganic": "N",
+        "images": {
+          "icon": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/mAe67E\/upload_XNssor-icon.png",
+          "medium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/mAe67E\/upload_XNssor-medium.png",
+          "large": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/mAe67E\/upload_XNssor-large.png",
+          "squareMedium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/mAe67E\/upload_XNssor-squareMedium.png",
+          "squareLarge": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/mAe67E\/upload_XNssor-squareLarge.png"
+        },
+        "status": "verified",
+        "statusDisplay": "Verified",
+        "createDate": "2012-01-03 02:42:03",
+        "updateDate": "2015-12-22 15:20:50"
+      },
+      "country": {
+        "isoCode": "US",
+        "name": "UNITED STATES",
+        "displayName": "United States",
+        "isoThree": "USA",
+        "numberCode": 840,
+        "createDate": "2012-01-03 02:41:33"
+      }
+    },
+    {
+      "id": "1zYgG4",
+      "name": "Miramar",
+      "streetAddress": "9045 Carroll Way",
+      "locality": "San Diego",
+      "region": "California",
+      "postalCode": "92121",
+      "phone": "8587906900",
+      "website": "www.ballastpoint.com",
+      "latitude": 32.8881618,
+      "longitude": -117.1580141,
+      "isPrimary": "N",
+      "inPlanning": "N",
+      "isClosed": "N",
+      "openToPublic": "Y",
+      "locationType": "micro",
+      "locationTypeDisplay": "Micro Brewery",
+      "countryIsoCode": "US",
+      "yearOpened": "2014",
+      "status": "verified",
+      "statusDisplay": "Verified",
+      "createDate": "2015-06-09 16:08:18",
+      "updateDate": "2015-06-16 14:59:03",
+      "breweryId": "1d90Lc",
+      "brewery": {
+        "id": "1d90Lc",
+        "name": "Ballast Point Brewing Company",
+        "nameShortDisplay": "Ballast Point",
+        "description": "Ballast Point Brewing Company is one of San Diego's Premiere Breweries. We started out modestly as Home Brew Mart in 1992. Our goal was to teach others how to brew quality handcrafted beer at home. In 1996 the brewery was installed by New World Brewing Systems in the space behind our retail store and production began in September. In May of 2005 we open our second brewery in Scripps Ranch.  We currently distribute five of our favorite beers, Yellowtail Pale Ale,  Calico Amber Ale , Big Eye I.P.A., Black Marlin Porter and Wahoo Wheat Beer to a thirsty San Diego.  Come to our brewery and we will gladly give you a tour and allow you to sample our newest selection of beers. Currently our beer is available in twelve ounce bottles to 15.5 gallon kegs. We also offer half gallon and gallon glass jugs to go. Kegs are available for rent to the public with a minimum deposit.  The name for our brewery comes from the point where Juan Rodriguez Cabrillo first set foot in California. Located on the Point Loma Peninsula, Ballast Point is considered the gateway to San Diego Harbor. Stones from this area were used as ballast in the cargo holds of sailing ships returning to the eastern seaboard. Many New England streets are still lined with the cobblestones brought back from San Diego.",
+        "website": "http:\/\/www.ballastpoint.com\/",
+        "established": "1996",
+        "isOrganic": "N",
+        "images": {
+          "icon": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/1d90Lc\/upload_CBRgJp-icon.png",
+          "medium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/1d90Lc\/upload_CBRgJp-medium.png",
+          "large": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/1d90Lc\/upload_CBRgJp-large.png",
+          "squareMedium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/1d90Lc\/upload_CBRgJp-squareMedium.png",
+          "squareLarge": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/1d90Lc\/upload_CBRgJp-squareLarge.png"
+        },
+        "status": "verified",
+        "statusDisplay": "Verified",
+        "createDate": "2012-01-03 02:41:45",
+        "updateDate": "2015-12-22 14:39:04"
+      },
+      "country": {
+        "isoCode": "US",
+        "name": "UNITED STATES",
+        "displayName": "United States",
+        "isoThree": "USA",
+        "numberCode": 840,
+        "createDate": "2012-01-03 02:41:33"
+      }
+    },
+    {
+      "id": "HJTHzW",
+      "name": "Sorrento Mesa",
+      "streetAddress": "9675 Scranton Road",
+      "locality": "San Diego",
+      "region": "California",
+      "postalCode": "92121",
+      "phone": "858-587-2739",
+      "website": "http:\/\/www.karlstrauss.com\/PAGES\/Eats\/SorrentoMesa.html",
+      "latitude": 32.8965882,
+      "longitude": -117.2018129,
+      "isPrimary": "N",
+      "inPlanning": "N",
+      "isClosed": "N",
+      "openToPublic": "Y",
+      "locationType": "micro",
+      "locationTypeDisplay": "Micro Brewery",
+      "countryIsoCode": "US",
+      "yearOpened": "1994",
+      "status": "verified",
+      "statusDisplay": "Verified",
+      "createDate": "2012-01-03 02:42:15",
+      "updateDate": "2014-07-26 00:31:42",
+      "breweryId": "mtUjck",
+      "brewery": {
+        "id": "mtUjck",
+        "name": "Karl Strauss Brewing Company",
+        "nameShortDisplay": "Karl Strauss",
+        "description": "Karl Strauss Brewing Company has pioneered the San Diego beer scene since 1989 with innovative beer releases like Mosaic Session Ale, Big Barrel IIPA, and Wreck Alley Imperial Stout. The brewery has won 67 medals over the past five years and its Red Trolley Ale is one of the most award-winning beers in the world. The company is currently ranked #45 on the list of the country\u2019s top craft breweries with sole distribution in California. For more information visit www.karlstrauss.com or call the brewery at (858) 273-2739. Share it. Cheers.",
+        "website": "http:\/\/www.karlstrauss.com\/",
+        "established": "1989",
+        "isOrganic": "N",
+        "images": {
+          "icon": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/mtUjck\/upload_nEAVib-icon.png",
+          "medium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/mtUjck\/upload_nEAVib-medium.png",
+          "large": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/mtUjck\/upload_nEAVib-large.png",
+          "squareMedium": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/mtUjck\/upload_nEAVib-squareMedium.png",
+          "squareLarge": "https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/mtUjck\/upload_nEAVib-squareLarge.png"
+        },
+        "status": "verified",
+        "statusDisplay": "Verified",
+        "createDate": "2012-01-03 02:41:59",
+        "updateDate": "2015-12-22 15:03:55"
+      },
+      "country": {
+        "isoCode": "US",
+        "name": "UNITED STATES",
+        "displayName": "United States",
+        "isoThree": "USA",
+        "numberCode": 840,
+        "createDate": "2012-01-03 02:41:33"
+      }
+    }
+  ],
+  "status": "success"
+}</code></pre>
+
+<p>
+  You can see here we were able to return all of the breweries within the postal code of 92121. Which is quite a few for a single zip code! Now that you are familiar with some endpoints and the data that you can return, you can create your own beer finding app!
+</p>

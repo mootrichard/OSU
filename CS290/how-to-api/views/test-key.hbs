@@ -1,1 +1,51 @@
 <h1>Test Your API Key</h1>
+
+<p>
+  It might be good to test out your key in order to get a sense of how these API calls work. I have provided a form below that can let you input your API key and then get a response back.
+</p>
+
+<form class="form-inline">
+  <div class"form-group">
+    <label for="api-key">API Key:</label>
+    <input class="form-control" type="text" id="api-key" placeholder="Enter API Key here...">
+    <button class="btn btn-default" type="button" id="api-submit">Submit</button>
+  </div>
+  <small class"help-block">If a key is not provided, it will simply handle it using my key.</small>
+</form>
+<div class="row-fluid">
+  &nbsp;
+</div>
+<pre><code id="results" class="JSON">"This will show results when you provide an API key above and click submit"</code></pre>
+
+<p>
+  Here is what the code for this request looks like, so you can get a better idea of what is going on here:
+</p>
+
+<pre><code class="javascript">$('#api-submit').on('click', function(){
+  var apiKey = $('#api-key').val(),
+      urlTest = 'http://api.brewerydb.com/v2/beers?key=' + apiKey + '&abv=8',
+  req = new XMLHttpRequest();
+  req.open("GET", '/user-test?apiKey=' + apiKey, true);
+  req.send();
+  req.onreadystatechange = function(){
+    if(req.readyState == 4 && req.status == 200){
+      resp = JSON.parse(req.response);
+      resp = JSON.stringify(resp, null, 4);
+      $('#results').text(resp);
+      $('.results').removeClass('hidden');
+      hljs.initHighlightingOnLoad();
+    }
+  }
+});</code></pre>
+
+<p>
+  You can see that we are parsing the response only to re-stringify it, but this is just so its well formatted for displaying in the browser (normally you wouldn't need to do that). Now this doesn't give a full picture of what is happening here, since the BreweryDB doesn't allow CORS (Cross Origin Resource Sharing). So below is what you would have on the server in order to handle the AJAX request that you see above.
+</p>
+
+<pre><code class="javascript">app.get('/user-test', function(req,res){
+  var userApiKey = req.query.apiKey;
+  var userBrewerydb = new brewerydb(userApiKey);
+  var userResponse = userBrewerydb.beer.find({name:"Sculpin IPA"}, function(err, data){
+    res.send(data);
+  })
+});</code></pre>
