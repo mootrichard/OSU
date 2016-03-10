@@ -1,1 +1,130 @@
-<h1>Test Your API Key</h1>
+<h1>Endpoints</h1>
+
+<p>
+  There are a lot of different endpoints that you can use to access data from BreweryDB. An endpoint is basically
+  just a location or identifier to let the API handler know what data you are trying to access. To keep things simple
+  we will just talk about 3 different endpoints: Beer, Brewery, and Location.
+</p>
+
+<h3>Beer</h3>
+<p>
+  You can see a detailed list of what is available in the Beer endpoint <a href="http://www.brewerydb.com/developers/docs-endpoint/beer_index">here</a>. The important things that we can do at this endpoint is that we can get, post, put, or delete beers here. When getting Beers, we can either request all beers or specify a beer using the beer ID. The Beer ID is a unique identifier that can help track unique values (even if two beers might have the same name from different breweries).
+</p>
+
+<pre scroll>
+    {
+      "id":"8GpObe",
+      "name":"#busted Nut Brown Ale",
+      "nameDisplay":"#busted Nut Brown Ale",
+      "description":"A Nut Brown Ale with a biscuity\/bready malt profile and a taste of caramel\/chocolate specialty malts. Hops lend to the taste profile without overpowering.",
+      "abv":"5",
+      "srmId":19,
+      "styleId":12,
+      "isOrganic":"N",
+      "status":"verified",
+      "statusDisplay":"Verified",
+      "createDate":"2015-03-11 23:10:37",
+      "updateDate":"2015-09-22 14:45:12",
+      "srm":{
+        "id":19,
+        "name":"19",
+        "hex":"A13700"
+      }
+</pre>
+<p>
+  You can see above that we have many fields that are available to us. You can search these fields in your URL (or using the BreweryDB wrapper) to find the beer that you are looking for. For example, you can look for the first page of beers with an ABV of 5 using the following: <code>http://api.brewerydb.com/v2/beers?key=[YOUR_KEY_HERE]&abv=5&p=1</code>. You can see that we use <code>abv=5</code>&<code>p=1</code> to specify what we are wanting to return here.
+</p>
+<p>
+  Now if we wanted to get a sub-point of Beer, we can just change what comes right after beer to access that sub-endpoint. We can do something like <code>http://api.brewerydb.com/v2/beer/random?key=[YOUR_KEY_HERE]</code> to get some random beer returned to us.
+</p>
+<pre>
+  {
+  "message":"Request Successful",
+  "data":{
+    "id":"aYPQzl",
+    "name":"Sykophantes",
+    "nameDisplay":"Sykophantes",
+    "description":"In ancient Greece, \u201cshowing the fig\u201d was a vulgar hand gesture, and Sykophantes means \u201cone who shows the fig\u201d. Earthy and full of dark fruit flavor from hundreds of pounds of figs and dark candy syrup, but with a sourness that cuts the gentle sweetness, Sykophantes is our fall beer.",
+    "abv":"7.5",
+    "availableId":7,
+    "styleId":125,
+    "isOrganic":"N",
+    "labels":{
+      "icon":"https:\/\/s3.amazonaws.com\/brewerydbapi\/beer\/aYPQzl\/upload_AGOPnU-icon.png",
+      "medium":"https:\/\/s3.amazonaws.com\/brewerydbapi\/beer\/aYPQzl\/upload_AGOPnU-medium.png",
+      "large":"https:\/\/s3.amazonaws.com\/brewerydbapi\/beer\/aYPQzl\/upload_AGOPnU-large.png"
+    },
+    "status":"verified",
+    "statusDisplay":"Verified",
+    "foodPairings":"The combination of rich, earthy sweetness and sourness in Sykophantes make it a great pairing for rich, spiced foods like a Moroccan tagine or Hungarian goulash.",
+    "createDate":"2015-04-01 20:05:27",
+    "updateDate":"2015-12-17 23:24:20",
+    "available":{
+      "id":7,
+      "name":"Fall",
+      "description":"Available during the fall months."
+    },
+    "style":{
+      "id":125,
+      "categoryId":11,
+      "category":{
+        "id":11,
+        "name":"Hybrid\/mixed Beer",
+        "createDate":"2012-03-21 20:06:46"
+      },
+      "name":"Specialty Beer",
+      "shortName":"Specialty",
+      "description":"These beers are brewed using unusual fermentable sugars, grains and starches that contribute to alcohol content other than, or in addition to, malted barley. Nuts generally have some degree of fermentables, thus beers brewed with nuts would appropriately be entered in this category. The distinctive characters of these special ingredients should be evident either in the aroma, flavor or overall balance of the beer, but not necessarily in overpowering quantities. For example, maple syrup or potatoes would be considered unusual. Rice, corn, or wheat are not considered unusual. Special ingredients must be listed when competing. A statement by the brewer explaining the special nature of the beer, ingredient(s) and achieved character is essential in order for fair assessment in competitions. If this beer is a classic style with some specialty ingredient(s), the brewer should also specify the classic style. Guidelines for competing: Spiced beers using unusual fermentables should be entered in the experimental category. Fruit beers using unusual fermentables should be entered in the fruit beer category.",
+      "ibuMax":"100",
+      "abvMin":"2.5",
+      "abvMax":"25",
+      "srmMin":"1",
+      "srmMax":"100",
+      "ogMin":"1.03",
+      "fgMin":"1.006",
+      "fgMax":"1.03",
+      "createDate":"2012-03-21 20:06:46",
+      "updateDate":"2015-04-07 15:44:53"
+    }
+  },
+  "status":"success"
+}
+</pre>
+
+<h3>Brewery</h3>
+
+<p>
+  The breweries endpoint is interesting because you can get a lot of information regarding a specific brewery, including some pictures of their logos. For our example here, we will actually show the sub-point of random as well, since a full display of the main breweries endpoint is quite large and a lot to handle at first.
+</p>
+
+<pre>
+  {
+  "message":"Request Successful",
+  "data":{
+    "id":"UsashE",
+    "name":"Imagine Nation Brewing",
+    "nameShortDisplay":"Imagine Nation",
+    "description":"Imagine Nation Brewing Co. uses a 7-barrel brewing system to produce smaller, artisan batches of beer. With this system, we produce 2 house beers, 4-5 seasonal  taps, and occasional higher gravity brewer\u2019s reserve specials. We focus on selling our beer almost entirely out of the taproom in 12oz. specialty glasses and half gallon growlers. Beer has played an important role in the evolution of humanity for 12,000 years.  Imagine Nation Brewing Co. strives to continue this evolution by earning its place in the American microbrewing renaissance through the production of brews that push boundaries and by focusing its efforts on positive change. We have specifically chosen a brewery as the vehicle to help people become better agents of change because microbreweries are an acceptable meeting place for people from all walks in society and because we are more apt to do good things if we feel good in the process. As polarization threatens to rip apart the social fabric of society, Imagine Nation Brewing Co. works to play a unifying role by supporting people to find common objectives towards the goal of positive social change for all people.",
+    "website":"http:\/\/imaginenationbrewing.com\/",
+    "established":"2015",
+    "isOrganic":"N",
+    "images":{
+      "icon":"https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/UsashE\/upload_deBs4U-icon.png",
+      "medium":"https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/UsashE\/upload_deBs4U-medium.png",
+      "large":"https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/UsashE\/upload_deBs4U-large.png",
+      "squareMedium":"https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/UsashE\/upload_deBs4U-squareMedium.png",
+      "squareLarge":"https:\/\/s3.amazonaws.com\/brewerydbapi\/brewery\/UsashE\/upload_deBs4U-squareLarge.png"
+    },
+    "status":"verified",
+    "statusDisplay":"Verified",
+    "createDate":"2015-07-23 23:25:50",
+    "updateDate":"2015-12-22 16:13:52"
+  },
+  "status":"success"
+}
+</pre>
+<p>
+  The other cool part here is that you get a description of the brewery to understand more about them. You are still afforded similar ways of searching for the data within the brewery endpoint. The thing you need to be careful of when interacting with the BreweryDB API is the switch between singular and plural when changing around in the endpoint. So you must really think about the data that you're wanting to return (if its 1 record or more than 1 record).
+</p>
+
+<h3>Location</h3>
