@@ -1,0 +1,62 @@
+ <h1>BreweryDB Libraries</h1>
+
+<p>
+  BreweryDB offers several different libraries in order to help by putting a wrapper around their REST API.
+  They offer solutions in PHP, Ruby, Python, NodeJS, C#, Java, and Apple. You can find the list of libraries
+  <a href="http://www.brewerydb.com/developers/docs-library">here</a>.
+</p>
+
+<p>
+  We are going to focus on the NodeJS library since its fairly simple to get up a running. Installation is as
+  simple as just typing <code>npm install brewerydb-node</code> into the console to get the libraries downloaded.
+  Once you have the library installed in your node_modules folder, you can just use the following to include it in
+  your application:
+</p>
+<pre style="width:50%">
+  var BreweryDb = require('brewerydb-node');
+  var brewdb = new BreweryDb('your-key-here');
+</pre>
+
+<p>
+  When using the NodeJS wrapper, the format of your calls would be <code>brewdb.beerID(id (or array of ID's), params, callback);</code>.
+  Here is an example of a call that would return a information on Ballast Point Brewing Company and log it to the console:
+</p>
+
+<pre>
+  brewdb.breweries.find({name: "Ballast Point Brewing Company"}, function(err, data){
+      console.log(data);
+  });
+</pre>
+
+<p>Here is the results:</p>
+
+<pre>
+  [ { id: '1d90Lc',
+    name: 'Ballast Point Brewing Company',
+    nameShortDisplay: 'Ballast Point',
+    description: 'Ballast Point Brewing Company is one of San Diego\'s Premiere Breweries. We started out modestly as Home Brew Mart in 1992. Our goal was to teach others how to brew quality handcrafted beer at home. In 1996 the brewery was installed by New World Brewing Systems in the space behind our retail store and production began in September. In May of 2005 we open our second brewery in Scripps Ranch.  We currently distribute five of our favorite beers, Yellowtail Pale Ale,  Calico Amber Ale , Big Eye I.P.A., Black Marlin Porter and Wahoo Wheat Beer to a thirsty San Diego.  Come to our brewery and we will gladly give you a tour and allow you to sample our newest selection of beers. Currently our beer is available in twelve ounce bottles to 15.5 gallon kegs. We also offer half gallon and gallon glass jugs to go. Kegs are available for rent to the public with a minimum deposit.  The name for our brewery comes from the point where Juan Rodriguez Cabrillo first set foot in California. Located on the Point Loma Peninsula, Ballast Point is considered the gateway to San Diego Harbor. Stones from this area were used as ballast in the cargo holds of sailing ships returning to the eastern seaboard. Many New England streets are still lined with the cobblestones brought back from San Diego.',
+    website: 'http://www.ballastpoint.com/',
+    established: '1996',
+    isOrganic: 'N',
+    images:
+     { icon: 'https://s3.amazonaws.com/brewerydbapi/brewery/1d90Lc/upload_CBRgJp-icon.png',
+       medium: 'https://s3.amazonaws.com/brewerydbapi/brewery/1d90Lc/upload_CBRgJp-medium.png',
+       large: 'https://s3.amazonaws.com/brewerydbapi/brewery/1d90Lc/upload_CBRgJp-large.png',
+       squareMedium: 'https://s3.amazonaws.com/brewerydbapi/brewery/1d90Lc/upload_CBRgJp-squareMedium.png',
+       squareLarge: 'https://s3.amazonaws.com/brewerydbapi/brewery/1d90Lc/upload_CBRgJp-squareLarge.png' },
+    status: 'verified',
+    statusDisplay: 'Verified',
+    createDate: '2012-01-03 02:41:45',
+    updateDate: '2015-12-22 14:39:04' } ]
+</pre>
+
+<p>
+  You can see here that we are able to use the wrapper to simplify the process of getting information from their API
+  since we no longer have to create and manage the urls. Its as simple as just using method calls to find the appropriate
+  endpoint that you can get information from.
+</p>
+
+<p>
+  The main reason that this is awesome, is you no longer have to stash http://api.brewerydb.com/v2/ in a variable to manipulate
+  or append to latter with which endpoint you want to access. You can go from assembling this URL <code>http://api.brewerydb.com/v2/beers?key=[YOUR_KEY_HERE]&name=IPA</code> to just writing <code>brewdb.beers.find({name: "IPA"}, callback)</code>. This can really simplify interacting with the API.
+</p>

@@ -2,7 +2,9 @@ var express = require('express'),
     app = express(),
     handlebars = require('express-handlebars'),
     bodyParser = require('body-parser'),
-    brewerydb = require('brewerydb-node');
+    brewerydb = require('brewerydb-node'),
+    brewdb = new brewerydb('fa05b9dc34be20efb73fc21f7fbdcd5e');
+    request = require('request');
 
 app.engine('hbs', handlebars({defaultLayout: 'main', extname:'.hbs'}));
 app.set('view engine', 'hbs');
@@ -15,6 +17,26 @@ app.use(bodyParser.json());
 app.get('/', function(req,res){
   res.render('home');
 });
+
+app.get('/start', function(req, res){
+  res.render('start');
+})
+
+app.get('/test-key', function(req, res){
+  res.render('test-key');
+})
+
+app.get('/libraries', function(req,res){
+  res.render('libraries');
+});
+
+app.get('/endpoints', function(req, res){
+  res.render('endpoints');
+})
+
+app.get('/sample-data', function(req, res){
+  res.render('sample-data');
+})
 
 app.use(function(req,res){
   res.type('text/plain');
