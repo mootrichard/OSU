@@ -11,34 +11,31 @@
   You can see a detailed list of what is available in the Beer endpoint <a href="http://www.brewerydb.com/developers/docs-endpoint/beer_index">here</a>. The important things that we can do at this endpoint is that we can get, post, put, or delete beers here. When getting Beers, we can either request all beers or specify a beer using the beer ID. The Beer ID is a unique identifier that can help track unique values (even if two beers might have the same name from different breweries).
 </p>
 
-<pre scroll>
-    {
-      "id":"8GpObe",
-      "name":"#busted Nut Brown Ale",
-      "nameDisplay":"#busted Nut Brown Ale",
-      "description":"A Nut Brown Ale with a biscuity\/bready malt profile and a taste of caramel\/chocolate specialty malts. Hops lend to the taste profile without overpowering.",
-      "abv":"5",
-      "srmId":19,
-      "styleId":12,
-      "isOrganic":"N",
-      "status":"verified",
-      "statusDisplay":"Verified",
-      "createDate":"2015-03-11 23:10:37",
-      "updateDate":"2015-09-22 14:45:12",
-      "srm":{
-        "id":19,
-        "name":"19",
-        "hex":"A13700"
-      }
-</pre>
+<pre><code class="JSON">{
+  "id":"8GpObe",
+  "name":"#busted Nut Brown Ale",
+  "nameDisplay":"#busted Nut Brown Ale",
+  "description":"A Nut Brown Ale with a biscuity\/bready malt profile and a taste of caramel\/chocolate specialty malts. Hops lend to the taste profile without overpowering.",
+  "abv":"5",
+  "srmId":19,
+  "styleId":12,
+  "isOrganic":"N",
+  "status":"verified",
+  "statusDisplay":"Verified",
+  "createDate":"2015-03-11 23:10:37",
+  "updateDate":"2015-09-22 14:45:12",
+  "srm":{
+    "id":19,
+    "name":"19",
+    "hex":"A13700"
+}</code></pre>
 <p>
   You can see above that we have many fields that are available to us. You can search these fields in your URL (or using the BreweryDB wrapper) to find the beer that you are looking for. For example, you can look for the first page of beers with an ABV of 5 using the following: <code>http://api.brewerydb.com/v2/beers?key=[YOUR_KEY_HERE]&abv=5&p=1</code>. You can see that we use <code>abv=5</code>&<code>p=1</code> to specify what we are wanting to return here.
 </p>
 <p>
   Now if we wanted to get a sub-point of Beer, we can just change what comes right after beer to access that sub-endpoint. We can do something like <code>http://api.brewerydb.com/v2/beer/random?key=[YOUR_KEY_HERE]</code> to get some random beer returned to us.
 </p>
-<pre>
-  {
+<pre><code class="JSON">{
   "message":"Request Successful",
   "data":{
     "id":"aYPQzl",
@@ -88,8 +85,7 @@
     }
   },
   "status":"success"
-}
-</pre>
+}</code></pre>
 
 <h3>Brewery</h3>
 
@@ -97,8 +93,7 @@
   The breweries endpoint is interesting because you can get a lot of information regarding a specific brewery, including some pictures of their logos. For our example here, we will actually show the sub-point of random as well, since a full display of the main breweries endpoint is quite large and a lot to handle at first.
 </p>
 
-<pre>
-  {
+<pre><code class="JSON">{
   "message":"Request Successful",
   "data":{
     "id":"UsashE",
@@ -121,8 +116,7 @@
     "updateDate":"2015-12-22 16:13:52"
   },
   "status":"success"
-}
-</pre>
+}</code></pre>
 <p>
   The other cool part here is that you get a description of the brewery to understand more about them. You are still afforded similar ways of searching for the data within the brewery endpoint. The thing you need to be careful of when interacting with the BreweryDB API is the switch between singular and plural when changing around in the endpoint. So you must really think about the data that you're wanting to return (if its 1 record or more than 1 record).
 </p>

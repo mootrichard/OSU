@@ -38,7 +38,7 @@
 }
 
 #page-content-wrapper {
-    width: 75%;
+    width: 80%%;
     position: absolute;
     padding: 15px;
 }
@@ -122,4 +122,16 @@
         position: relative;
         margin-right: 0;
     }
+}
+
+pre {
+  white-space: pre-wrap;       /* CSS 3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  padding: 0;
+  height: auto;
+  max-height: 350px;
+  overflow: scroll;
 }
