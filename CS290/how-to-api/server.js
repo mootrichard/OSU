@@ -8,6 +8,7 @@ app.engine('hbs', handlebars({defaultLayout: 'main', extname:'.hbs'}));
 app.set('view engine', 'hbs');
 app.set('port', 3000);
 
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
