@@ -6,11 +6,11 @@
 </p>
 
 <p>
-  We are going to focus on the NodeJS library since its fairly simple to get up a running. Installation is as simple as just typing <code>npm install brewerydb-node</code> into the console to get the libraries downloaded. Once you have the library installed
+  We are going to focus on the NodeJS library since its fairly simple to get up a running. Installation is as simple as just typing <code class="bash">npm install brewerydb-node</code> into the console to get the libraries downloaded. Once you have the library installed
   in your node_modules folder, you can just use the following to include it in your application:
 </p>
 <pre><code class="javascript">  var BreweryDb = require('brewerydb-node');
-  var brewdb = new BreweryDb('your-key-here');</code></pre>
+  var brewdb = new BreweryDb('YOUR_API_KEY_HERE');</code></pre>
 
 <p>
   When using the NodeJS wrapper, the format of your calls would be <code>brewdb.beerID(id (or array of ID's), params, callback);</code>. Here is an example of a call that would return a information on Ballast Point Brewing Company and log it to the console:
@@ -50,5 +50,8 @@
 </p>
 
 <p>
-  The main reason that this is awesome, is you no longer have to stash http://api.brewerydb.com/v2/ in a variable to manipulate or append to latter with which endpoint you want to access. You can go from assembling this URL <code>http://api.brewerydb.com/v2/beers?key=[YOUR_KEY_HERE]&name=IPA</code>  to just writing <code>brewdb.beers.find({name: "IPA"}, callback)</code>. This can really simplify interacting with the API.
+  The main reason that this is awesome, is you no longer have to stash <code class="HTTP">http://api.brewerydb.com/v2/</code> in a variable to manipulate or append to latter with which endpoint you want to access. You can go from assembling this URL <code class="HTTP">http://api.brewerydb.com/v2/beers?key=[YOUR_KEY_HERE]&name=IPA</code> to just writing <code class="javascript">brewdb.beers.find({name: "IPA"}, callback);</code> This can really simplify interacting with the API, since it is a bit more intuitive to developers to use methods rather than assembling the URL's dynamically themselves.
+</p>
+<p>
+  You'll also want to note above how we are utilizing the callback. Instead of the usual  <code class="HTTP">request</code> and <code class="HTTP">response</code> we would be more used to doing, we want to pass in <code class="HTTP">err</code> and <code class="HTTP">data</code>. Your <code class="HTTP">data</code> variable is going to be your response object that you can parse your data from.
 </p>

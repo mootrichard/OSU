@@ -89,6 +89,9 @@
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
+    $('p code').each(function(i, inline) {
+      hljs.highlightBlock(inline);
+    });
     </script>
 
 </body>
