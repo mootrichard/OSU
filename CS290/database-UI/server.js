@@ -59,7 +59,6 @@ app.delete('/delete-workout', function(req, res, next){
   if( req.body.id !== undefined){
     var deleteQuery = "DELETE FROM workouts WHERE id=";
     deleteQuery = deleteQuery.concat( req.body.id);
-    console.log(deleteQuery);
     pool.query(deleteQuery, function(err, results){
       if(err){
         next(err);
