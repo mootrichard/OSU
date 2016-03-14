@@ -24,6 +24,12 @@ $(document).ready(function(){
             date: $('#date').val()
           };
 
+      $('#name').val("");
+      $('#reps').val("");
+      $('#weight').val("");
+      $('#units').val(1);
+      $('#date').val("");
+
       $.ajax({
         method:"POST",
         url:"add-workout",
