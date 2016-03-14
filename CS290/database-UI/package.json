@@ -16,6 +16,7 @@
     "brewerydb-node": "0.0.1",
     "request": "~2.69.0",
     "bootstrap": "~3.3.6",
-    "jquery": "~2.2.1"
+    "jquery": "~2.2.1",
+    "handlebars-dateformat": "~1.0.1"
   }
 }

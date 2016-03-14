@@ -1,3 +1,4 @@
+"use strict";
 var express = require('express'),
     app = express(),
     handlebars = require('express-handlebars'),
@@ -11,7 +12,7 @@ var pool = mysql.createPool({
   database: 'student',
 });
 
-app.engine('hbs', handlebars({defaultLayout: 'main', extname:'.hbs'}));
+app.engine('hbs', handlebars({defaultLayout: 'main', extname:'.hbs', helpers: {dateFormat: require('handlebars-dateformat')}}));
 app.set('view engine', 'hbs');
 app.set('port', 8000);
 
@@ -31,6 +32,48 @@ app.get('/', function(req, res, next) {
   });
 });
 
+app.post('/add-workout', function(req, res, next){
+  var insertQuery = 'INSERT INTO workouts (name, reps, weight, date, lbs) values (';
+
+  insertQuery = insertQuery.concat(
+    "'" , req.body.name , "'" , ',' ,
+    "'" , req.body.reps , "'" , ',' ,
+    "'" , req.body.weight , "'" , ',' ,
+    "'" , req.body.date , "'" , ',' ,
+    "'" , req.body.units, "'" , ')');
+
+  pool.query(insertQuery,function(err, result){
+    if(err){
+      next(err);
+      return;
+    }else{
+      req.body.id = result.insertId;
+      req.body.layout = false;
+      console.log(req.body);
+      res.render('add', req.body);
+    }
+  });
+});
+
+app.delete('/delete-workout', function(req, res, next){
+  if( req.body.id !== undefined){
+    var deleteQuery = "DELETE FROM workouts WHERE id=";
+    deleteQuery = deleteQuery.concat( req.body.id);
+    console.log(deleteQuery);
+    pool.query(deleteQuery, function(err, results){
+      if(err){
+        next(err);
+        return;
+      } else{
+        res.send(req.body.id);
+      }
+    })
+  }
+  else{
+    res.send("Error: No ID provided");
+  }
+})
+
 app.get('/reset-table',function(req,res,next){
   var context = {};
   pool.query("DROP TABLE IF EXISTS workouts", function(err){
@@ -42,7 +85,7 @@ app.get('/reset-table',function(req,res,next){
     "date DATE,"+
     "lbs BOOLEAN)";
     pool.query(createString, function(err){
-      context.results = {name:"Table reset"};
+      context = {tableReset:"Table has been reset"};
       res.render('home',context);
     })
   });

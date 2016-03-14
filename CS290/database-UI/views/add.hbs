@@ -1,0 +1,12 @@
+<tr>
+  <td id="{{id}}"class="hidden">{{id}}</td>
+  <td >{{name}}</td>
+  <td class="text-center col-md-2">{{reps}}</td>
+  <td class="text-center col-md-2">{{weight}}</td>
+  <td>{{#if units}}lbs{{else}}kgs{{/if}}</td>
+  <td>{{dateFormat date "dddd, MMMM Do YYYY"}}</td>
+  <td class="edit-disabled">
+    <button class="btn btn-default updateWorkout" role="button" type="button" name="button">Update</button>
+    <button class="btn btn-danger deleteWorkout" type="button" name="button"><span class="" aria-hidden="true">&times;</span></button>
+  </td>
+</tr>
