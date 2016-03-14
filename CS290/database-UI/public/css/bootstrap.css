@@ -6758,10 +6758,3 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
-
-td.edit-disabled:focus {
--webkit-box-shadow:none;
--moz-box-shadow:none;
-box-shadow:none;
-outline:none;
-}

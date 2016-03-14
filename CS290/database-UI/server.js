@@ -49,7 +49,7 @@ app.post('/add-workout', function(req, res, next){
     }else{
       req.body.id = result.insertId;
       req.body.layout = false;
-      console.log(req.body);
+      req.body.units = parseInt(req.body.units);
       res.render('add', req.body);
     }
   });
@@ -72,7 +72,27 @@ app.delete('/delete-workout', function(req, res, next){
   else{
     res.send("Error: No ID provided");
   }
-})
+});
+
+app.post('/update-workout', function(req, res, next){
+  var updateQuery = 'UPDATE workouts SET ';
+
+  updateQuery = updateQuery.concat(
+    "name='" , req.body.name , "'" , ',' ,
+    "reps='" , req.body.reps , "'" , ',' ,
+    "weight='" , req.body.weight , "'" , ',' ,
+    "date='" , req.body.date , "'" , ',' ,
+    "lbs='" , req.body.units, "'" , ' WHERE id=', req.body.id);
+
+    pool.query(updateQuery, function(err, results){
+      if(err){
+        next(err);
+        return;
+      } else{
+        res.send(req.body);
+      }
+    })
+});
 
 app.get('/reset-table',function(req,res,next){
   var context = {};

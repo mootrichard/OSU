@@ -9,10 +9,10 @@
             <input type="text" class="form-control" id="name" placeholder="Name">
           </div>
           <div class="form-group ">
-            <input type="text" class="form-control" id="reps" placeholder="Reps">
+            <input type="number" class="form-control" id="reps" placeholder="Reps">
           </div>
           <div class="form-group ">
-            <input type="text" class="form-control" id="weight" placeholder="Weight">
+            <input type="number" class="form-control" id="weight" placeholder="Weight">
           </div>
           <div class="form-group ">
             <select class="form-control" name="" id="units">
@@ -37,22 +37,20 @@
       <th class="text-center col-md-2">REPS</th>
       <th class="text-center col-md-2">WEIGHT</th>
       <th>UNITS</th>
-      <th>DATE</th>
+      <th class="text-center">DATE</th>
     </thead>
     <tbody>
     {{#if results}}
     {{#each results}}
-    <tr>
+    <tr class="{{id}}">
       <td id="{{id}}" class="hidden">{{id}}</td>
-      <td>{{name}}</td>
-      <td class="text-center col-md-2">{{reps}}</td>
-      <td class="text-center col-md-2">{{weight}}</td>
-      <td>{{#if lbs}}lbs{{else}}kgs{{/if}}</td>
-      <td>
-        {{dateFormat date "dddd, MMMM Do YYYY"}}
-      </td>
-      <td class="edit-disabled">
-        <button class="btn btn-default updateWorkout" role="button" type="button" name="button">Update</button>
+      <td class="name">{{name}}</td>
+      <td class="text-center col-md-2 reps">{{reps}}</td>
+      <td class="text-center col-md-2 weight">{{weight}}</td>
+      <td class="units">{{#if lbs}}lbs{{else}}kgs{{/if}}</td>
+      <td class="text-center date">{{dateFormat date "YYYY-MM-DD"}}</td>
+      <td class="edit-buttons text-right">
+        <button class="btn btn-default editWorkout" role="button" type="button" name="button" data-toggle="modal" data-target=".bs-example-modal-lg">Edit</button>
         <button class="btn btn-danger deleteWorkout" type="button" name="button"><span class="" aria-hidden="true">&times;</span></button>
       </td>
     </tr>
@@ -60,6 +58,14 @@
     {{/if}}
   </tbody>
   </table>
+</div>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      ...
+    </div>
+  </div>
 </div>
 
 {{#if tableReset}}
@@ -71,5 +77,5 @@
 {{/if}}
 
 <div class="container-fluid text-center">
-  <button class="btn btn-danger" type="button" name="button">Reset Table</button>
+  <a href="/reset-table" class="btn btn-danger" type="button" name="button">Reset Table</a>
 </div>
