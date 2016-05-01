@@ -4,9 +4,9 @@
 int main () 
 {
 	/* change this number to generate different graphs */
-	int graphTestNumber = 3; /* permissible values are 1-5 */
+	int graphTestNumber = 5; /* permissible values are 1-5 */
 	/* switch this to 0 to use BFS */
-	int useDFS = 1;
+	int useDFS = 0;
 	
 	int i, j;
 	Graph g;
