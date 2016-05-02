@@ -1,4 +1,7 @@
 Programming Assignment #1
+Author: Richard Moot
+Description: Chat Server & Client for communicating over a socket in a back and forth manner
+Date: May 1, 2016
 
 Instructions for compiling:
 
