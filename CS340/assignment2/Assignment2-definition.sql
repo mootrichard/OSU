@@ -15,7 +15,14 @@ DROP TABLE IF EXISTS `employee`;
 -- dob - a date type (you can read about it here http://dev.mysql.com/doc/refman/5.0/en/datetime.html)
 -- the combination of the first_name and last_name must be unique in this table
 
--- client table creation query replaces this text
+CREATE TABLE client (
+	id int NOT NULL AUTO_INCREMENT,
+	first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    dob DATE,
+	PRIMARY KEY (id),
+	UNIQUE (first_name,last_name)
+);
 
 
 -- Create a table called employee with the following properties:
@@ -26,8 +33,15 @@ DROP TABLE IF EXISTS `employee`;
 -- date_joined - a date type 
 -- the combination of the first_name and last_name must be unique in this table
 
--- employee table creation query replaces this text
-
+CREATE TABLE employee (
+	id int AUTO_INCREMENT,
+	first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    dob DATE,
+    date_joined DATE,
+	PRIMARY KEY (id),
+	UNIQUE (first_name,last_name)
+);
 
 -- Create a table called project with the following properties:
 -- id - an auto incrementing integer which is the primary key
@@ -36,8 +50,16 @@ DROP TABLE IF EXISTS `employee`;
 -- notes - a text type
 -- the name of the project should be unique in this table
 
--- project table creation query replaces this text
-
+CREATE TABLE project (
+	id int AUTO_INCREMENT,
+    cid int,
+	name VARCHAR(255) NOT NULL,
+    notes VARCHAR(255),
+	PRIMARY KEY (id),
+    FOREIGN KEY (cid)
+		REFERENCES client(id),
+	UNIQUE (name)
+);
 
 -- Create a table called works_on with the following properties, this is a table representing a many-to-many relationship
 -- between employees and projects:
@@ -46,9 +68,16 @@ DROP TABLE IF EXISTS `employee`;
 -- start_date - a date type 
 -- The primary key is a combination of eid and pid
 
--- works_on table creation query replaces this text
-
-
+CREATE TABLE works_on (
+	pid int,
+    eid int,
+    start_date DATE,
+    FOREIGN KEY (pid)
+		REFERENCES project(id),
+	FOREIGN KEY (eid)
+		REFERENCES employee(id),
+	PRIMARY KEY (eid, pid)
+);
 
 -- insert the following into the client table:
 
@@ -64,7 +93,9 @@ DROP TABLE IF EXISTS `employee`;
 -- last_name: Jensen
 -- dob: 3/2/1985
 
-
+INSERT INTO client (first_name, last_name, dob) VALUES ("Sara", "Smith", '19700201');
+INSERT INTO client (first_name, last_name, dob) VALUES ("David", "Atkins", '19791118');
+INSERT INTO client (first_name, last_name, dob) VALUES ("Daniel", "Jensen", '19850203');
 
 -- insert the following into the employee table:
 
@@ -83,7 +114,9 @@ DROP TABLE IF EXISTS `employee`;
 -- dob: 3/21/1984
 -- date_joined: 11/10/2013
 
-
+INSERT INTO employee (first_name, last_name, dob, date_joined) VALUES ("Adam", "Lowd", '19750201', '20090101');
+INSERT INTO employee (first_name, last_name, dob, date_joined) VALUES ("Michael", "Fern", '19801018', '20130605');
+INSERT INTO employee (first_name, last_name, dob, date_joined) VALUES ("Deena", "Young", '19840321', '20131110');
 
 -- insert the following project instances into the project table (you should use a subquery to set up foriegn key referecnes, no hard coded numbers):
 
