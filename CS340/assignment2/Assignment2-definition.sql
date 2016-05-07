@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS `employee`;
 -- the combination of the first_name and last_name must be unique in this table
 
 CREATE TABLE client (
-	id int NOT NULL AUTO_INCREMENT,
+	id int(11) NOT NULL AUTO_INCREMENT,
 	first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     dob DATE,
@@ -34,7 +34,7 @@ CREATE TABLE client (
 -- the combination of the first_name and last_name must be unique in this table
 
 CREATE TABLE employee (
-	id int AUTO_INCREMENT,
+	id int(11) AUTO_INCREMENT,
 	first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     dob DATE,
@@ -51,8 +51,8 @@ CREATE TABLE employee (
 -- the name of the project should be unique in this table
 
 CREATE TABLE project (
-	id int AUTO_INCREMENT,
-    cid int,
+	id int(11) AUTO_INCREMENT,
+    cid int(11),
 	name VARCHAR(255) NOT NULL,
     notes VARCHAR(255),
 	PRIMARY KEY (id),
@@ -69,8 +69,8 @@ CREATE TABLE project (
 -- The primary key is a combination of eid and pid
 
 CREATE TABLE works_on (
-	pid int,
-    eid int,
+	pid int(11),
+    eid int(11),
     start_date DATE,
     FOREIGN KEY (pid)
 		REFERENCES project(id),
@@ -132,7 +132,9 @@ INSERT INTO employee (first_name, last_name, dob, date_joined) VALUES ("Deena", 
 -- name - Moon 
 -- notes - NULL
 
-
+INSERT INTO project (cid, name, notes) VALUES ((SELECT id FROM client WHERE first_name="Sara" AND last_name="Smith"), "Diamond", "Should be done by Jan 2017");
+INSERT INTO project (cid, name) VALUES ((SELECT id FROM client WHERE first_name="David" AND last_name="Atkins"), "Eclipse");
+INSERT INTO project (cid, name) VALUES ((SELECT id FROM client WHERE first_name="Daniel" AND last_name="Jensen"), "Moon");
 
 -- insert the following into the works_on table using subqueries to look up data as needed:
 
@@ -150,4 +152,12 @@ INSERT INTO employee (first_name, last_name, dob, date_joined) VALUES ("Deena", 
 -- project: Moon
 -- start_date: 9/11/2014
 
-
+INSERT INTO works_on (eid, pid, start_date) VALUES ((SELECT id FROM employee WHERE first_name="Adam" and last_name="Lowd"),
+													(SELECT id FROM project WHERE name="Diamond"),
+                                                    '20120101');
+INSERT INTO works_on (eid, pid, start_date) VALUES ((SELECT id FROM employee WHERE first_name="Michael" and last_name="Fern"),
+													(SELECT id FROM project WHERE name="Eclipse"),
+                                                    '20130808');
+INSERT INTO works_on (eid, pid, start_date) VALUES ((SELECT id FROM employee WHERE first_name="Michael" and last_name="Fern"),
+													(SELECT id FROM project WHERE name="Moon"),
+                                                    '20140911');
