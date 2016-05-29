@@ -22,11 +22,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <csignal>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <iostream>
 #include <fcntl.h>
+
+// Function Prototypes
+void signalHandler(int signum);
 
 int main(int argc, char const *argv[]) {
 
@@ -35,6 +39,8 @@ int main(int argc, char const *argv[]) {
     std::cerr << "ERROR. Format is: ./ftpserver <port#>" << std::endl;
     exit(1);
   }
+
+  signal(SIGINT, signalHandler);
 
   return 0;
 }
@@ -46,3 +52,8 @@ void startup (){
 void handleRequest(){
 
 };
+
+void signalHandler(int signum){
+  std::cout << "Server shutting down..." << std::endl;
+  exit(signum);
+}
