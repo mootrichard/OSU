@@ -12,6 +12,10 @@
  * 		port for a connection to be made. Once the connection is established the client
  * 		can then specify which port they would like the data to be received on and the server
  * 		will deliver files over that port.
+ *
+ * Sources:
+ * 		http://beej.us/guide/bgnet/output/html/singlepage/bgnet.html
+ * 		http://www.linuxhowtos.org/C_C++/socket.htm
  */
 
 #include <stdio.h>
@@ -25,9 +29,12 @@
 #include <fcntl.h>
 
 int main(int argc, char const *argv[]) {
-  int sockfd, new_sockfd, portno, processId;
-  socklen_t client_addr_len;
-  struct sockaddr_in server_addr, client_addr;
+
+  // Ensure that a port number has been specified, additionally, prompt with correct usage
+  if(argc != 2){
+    std::cerr << "ERROR. Format is: ./ftpserver <port#>" << std::endl;
+    exit(1);
+  }
 
   return 0;
 }
