@@ -221,7 +221,6 @@ void sendFile(int dataSocket, char *fileName, std::vector<std::string>currentDir
     sendData(dataSocket, errorMsg);
   }
 
-
 };
 
 std::vector<std::string> getDirectory(){
@@ -240,27 +239,6 @@ std::vector<std::string> getDirectory(){
   }
 
   closedir(directory);
-
-  // if((directory = opendir(".")) != NULL){
-  //   while((directoryEntry = readdir(directory)) != NULL){
-  //     if(currentDirectory == NULL){
-  //       currentDirectory = (char **)malloc(sizeof(char *));
-  //     } else {
-  //       currentDirectory = (char **)realloc(currentDirectory, (filesAmount + 1) * sizeof(char *));
-  //     }
-  //     assert(currentDirectory != NULL);
-  //
-  //     currentDirectory[filesAmount] = (char *)malloc((strlen(directoryEntry->d_name) + 1) * sizeof(char));
-  //     assert(currentDirectory[filesAmount] != NULL);
-  //
-  //     currentDirectory[filesAmount] = directoryEntry->d_name;
-  //     filesAmount += 1;
-  //   }
-  //   closedir(directory);
-  // } else {
-  //   error("ERROR: failed to access directory");
-  //   exit(1);
-  // }
 
   return currentDirectory;
 };
