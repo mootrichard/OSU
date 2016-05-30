@@ -26,6 +26,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <iostream>
 #include <fcntl.h>
 
@@ -35,6 +36,7 @@ void error (std::string msg);
 void startup(int commPort, int newSocket);
 char *handleRequest(int commSocket);
 int setupSocket(int commPort);
+void listDirectory(int dataSocket, char** dir);
 
 // Main execution of FTP Server
 int main(int argc, char const *argv[]) {
@@ -93,8 +95,8 @@ int setupSocket(int commPort){
  */
 void startup (int commPort, int newSocket){
   while(true){
-    int commSocket, dataSocket;
-    char* incComm;
+    int commSocket, dataSocket, dataPort, newServerSocket;
+    char *incComm, *fileName, *dPortString;
 
     struct sockaddr_in clientAddr; // Client's address stored here
 
@@ -110,6 +112,31 @@ void startup (int commPort, int newSocket){
     }
 
     incComm = handleRequest(commSocket);
+
+    std::cout << incComm << " Command received from " << inet_ntoa(clientAddr.sin_addr) << " on port " << commPort << "..." << std::endl;
+
+    if(strcmp(incComm, "-g") == 0){
+      fileName = handleRequest(commSocket);
+      std::cout << "File: '" << fileName << "' has been requested."  << std::endl;
+    };
+
+    dPortString = handleRequest(commSocket);
+    dataPort = atoi(dPortString);
+
+    std::cout << "ATTEMPTING: Establishing data connection at " << inet_ntoa(clientAddr.sin_addr) << ":" << dataPort << std::endl;
+    newServerSocket = setupSocket(dataPort);
+
+    dataSocket = accept(newServerSocket, (struct sockaddr *) &clientAddr, &clientLength);
+    if(dataSocket < 0){
+      error("Error on establishing data socket connection");
+      exit(1);
+    }
+
+    std::cout << "SUCCESS: Data connection established at: " << inet_ntoa(clientAddr.sin_addr) << ":" << dataPort << std::endl;
+
+    if(strcmp(incComm, "-l") == 0){
+      std::cout << "List command sent" << std::endl;
+    }
 
   }
 };
