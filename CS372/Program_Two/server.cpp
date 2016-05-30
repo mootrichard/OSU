@@ -29,14 +29,16 @@
 #include <arpa/inet.h>
 #include <iostream>
 #include <fcntl.h>
+#include <dirent.h>
+#include <assert.h>
 
 // Function Prototypes
 void signalHandler(int signum);
 void error (std::string msg);
-void startup(int commPort, int newSocket);
+void runFTP(int commPort, int newSocket);
 char *handleRequest(int commSocket);
 int setupSocket(int commPort);
-void listDirectory(int dataSocket, char** dir);
+char** getDirectory(int dataSocket, char** dir);
 
 // Main execution of FTP Server
 int main(int argc, char const *argv[]) {
@@ -54,7 +56,7 @@ int main(int argc, char const *argv[]) {
   int commPort = atoi(argv[1]);
   int serverSocket = setupSocket(commPort);
 
-  startup(commPort, serverSocket);
+  runFTP(commPort, serverSocket);
 
   return 0;
 }
@@ -89,14 +91,15 @@ int setupSocket(int commPort){
 };
 
 /**
- * [startup  description]
+ * [runFTP  description]
  * @param commPort  [description]
  * @param newSocket [description]
  */
-void startup (int commPort, int newSocket){
+void runFTP (int commPort, int newSocket){
   while(true){
     int commSocket, dataSocket, dataPort, newServerSocket;
     char *incComm, *fileName, *dPortString;
+    char ** currentDirectory = NULL;
 
     struct sockaddr_in clientAddr; // Client's address stored here
 
@@ -111,36 +114,56 @@ void startup (int commPort, int newSocket){
       exit(1);
     }
 
+    // Parsing client's request to determine the command they sent
     incComm = handleRequest(commSocket);
 
-    std::cout << incComm << " Command received from " << inet_ntoa(clientAddr.sin_addr) << " on port " << commPort << "..." << std::endl;
+    // Notify server console which command was sent and the client who did it
+    std::cout << "RECEIVED: " << incComm << " Command received from " << inet_ntoa(clientAddr.sin_addr) << ":" << commPort << std::endl;
 
+    // Check if its a get request first, since we want to say the filename
     if(strcmp(incComm, "-g") == 0){
       fileName = handleRequest(commSocket);
-      std::cout << "File: '" << fileName << "' has been requested."  << std::endl;
+      std::cout << "REQUESTED: " << "File: '" << fileName << "' has been requested."  << std::endl;
     };
 
+    // We need to pull out the specified data port no matter what
     dPortString = handleRequest(commSocket);
     dataPort = atoi(dPortString);
 
+    // Notify we intend to establish a connection at the specified client address and port
     std::cout << "ATTEMPTING: Establishing data connection at " << inet_ntoa(clientAddr.sin_addr) << ":" << dataPort << std::endl;
     newServerSocket = setupSocket(dataPort);
 
+    // Attempting to connect to the provided data port
     dataSocket = accept(newServerSocket, (struct sockaddr *) &clientAddr, &clientLength);
     if(dataSocket < 0){
       error("Error on establishing data socket connection");
       exit(1);
     }
 
+    currentDirectory = getDirectory(dataSocket, currentDirectory);
+
+    // We have established a Data Connection
     std::cout << "SUCCESS: Data connection established at: " << inet_ntoa(clientAddr.sin_addr) << ":" << dataPort << std::endl;
 
+
+
+    // Handling request to view the file directory
     if(strcmp(incComm, "-l") == 0){
       std::cout << "List command sent" << std::endl;
     }
 
+    close(dataSocket);
+    close(newServerSocket);
+    close(commSocket);
   }
 };
 
+/**
+ * [handleRequest description]
+ * @param  commSocket [description]
+ * @return            [description]
+ */
 char *handleRequest(int commSocket){
   unsigned short packetLen;
   unsigned short dataLen;
@@ -161,6 +184,42 @@ char *handleRequest(int commSocket){
   req[dataLen] = '\0';
 
   return req;
+};
+
+void sendFile(int dataSocket, char *fileName){
+  bool fileExists = false;
+
+
+};
+
+char **getDirectory(){
+  char** currentDirectory = NULL;
+  struct dirent *directoryEntry;
+  DIR *directory;
+  int filesAmount = 0;
+
+  if((directory = opendir(".")) != NULL){
+    while((directoryEntry = readdir(directory)) != NULL){
+      if(currentDirectory == NULL){
+        currentDirectory = (char **)malloc(sizeof(char *));
+      } else {
+        currentDirectory = (char **)realloc(currentDirectory, (filesAmount + 1) * sizeof(char *));
+      }
+      assert(currentDirectory != NULL);
+
+      currentDirectory[filesAmount] = (char *)malloc((strlen(directoryEntry->d_name) + 1) * sizeof(char));
+      assert(currentDirectory[filesAmount] != NULL);
+
+      currentDirectory[filesAmount] = directoryEntry->d_name;
+      filesAmount += 1;
+    }
+    closedir(directory);
+  } else {
+    error("ERROR: failed to access directory");
+    exit(1);
+  }
+
+  return currentDirectory;
 };
 
 /**
