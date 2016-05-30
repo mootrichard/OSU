@@ -22,15 +22,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <csignal>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <iostream>
 #include <fcntl.h>
 #include <dirent.h>
 #include <assert.h>
+#include <iostream>
+#include <csignal>
+#include <fstream>
+#include <vector>
 
 // Function Prototypes
 void signalHandler(int signum);
@@ -38,10 +40,12 @@ void error (std::string msg);
 void runFTP(int commPort, int newSocket);
 char *handleRequest(int commSocket);
 int setupSocket(int commPort);
-char** getDirectory();
+std::vector<std::string> getDirectory();
 void sendData(int destSocket, char *data);
 int sendall(int socket, char *buf, int len);
-void sendDirectory(int dataSocket, char **currentDirectory);
+void sendDirectory(int dataSocket, std::vector<std::string>currentDirectory);
+int sendPacketSize(int socket, unsigned int *packetLen);
+void sendFile(int dataSocket, char *fileName, std::vector<std::string> currentDirectory, int filesAmount);
 
 // Main execution of FTP Server
 int main(int argc, char const *argv[]) {
@@ -101,8 +105,9 @@ int setupSocket(int commPort){
 void runFTP (int commPort, int newSocket){
   while(true){
     int commSocket, dataSocket, dataPort, newServerSocket;
+    int filesAmount = 0;
     char *incComm, *fileName, *dPortString;
-    char ** currentDirectory = NULL;
+    std::vector<std::string> currentDirectory;
 
     struct sockaddr_in clientAddr; // Client's address stored here
 
@@ -146,12 +151,21 @@ void runFTP (int commPort, int newSocket){
 
     currentDirectory = getDirectory();
 
+    for(int i = 2; i < currentDirectory.size(); i++){
+      filesAmount++;
+    };
+
     // We have established a Data Connection
     std::cout << "SUCCESS: Data connection established at: " << inet_ntoa(clientAddr.sin_addr) << ":" << dataPort << std::endl;
 
+    // Handling request to send a file to client over data port
+    if(strcmp(incComm, "-g") == 0){
+      std::cout << "SENDING: '" << fileName << "'" << std::endl;
+      sendFile(dataSocket, fileName, currentDirectory, filesAmount);
+    }
 
 
-    // Handling request to view the file directory
+    // Handling request to view the file directory over data port
     if(strcmp(incComm, "-l") == 0){
       std::cout << "List command sent" << std::endl;
       sendDirectory(dataSocket, currentDirectory);
@@ -190,45 +204,87 @@ char *handleRequest(int commSocket){
   return req;
 };
 
-void sendFile(int dataSocket, char *fileName){
-  //bool fileExists = false;
+void sendFile(int dataSocket, char *fileName, std::vector<std::string>currentDirectory, int filesAmount){
+  bool fileIsThere = false;
+  std::string currDirString = fileName;
+
+  std::fstream openFile;
+  openFile.open(fileName);
+
+  if(openFile.is_open()){
+    std::cout << "File was successfully opened!" << std::endl;
+  } else {
+    error("Error in opening file");
+    std::string errorString("NOT FOUND");
+    char *errorMsg = new char [errorString.length()+1];
+    std::strcpy(errorMsg, errorString.c_str());
+    sendData(dataSocket, errorMsg);
+  }
 
 
 };
 
-char **getDirectory(){
-  char **currentDirectory = NULL;
+std::vector<std::string> getDirectory(){
+  std::vector<std::string> currentDirectory;
   struct dirent *directoryEntry;
   DIR *directory;
   int filesAmount = 0;
 
-  if((directory = opendir(".")) != NULL){
-    while((directoryEntry = readdir(directory)) != NULL){
-      if(currentDirectory == NULL){
-        currentDirectory = (char **)malloc(sizeof(char *));
-      } else {
-        currentDirectory = (char **)realloc(currentDirectory, (filesAmount + 1) * sizeof(char *));
-      }
-      assert(currentDirectory != NULL);
-
-      currentDirectory[filesAmount] = (char *)malloc((strlen(directoryEntry->d_name) + 1) * sizeof(char));
-      assert(currentDirectory[filesAmount] != NULL);
-
-      currentDirectory[filesAmount] = directoryEntry->d_name;
-      filesAmount += 1;
-    }
-    closedir(directory);
-  } else {
-    error("ERROR: failed to access directory");
+  if((directory = opendir(".")) == NULL){
+    error("Error opening current directory!");
     exit(1);
+  };
+
+  while((directoryEntry = readdir(directory)) != NULL){
+    currentDirectory.push_back(std::string(directoryEntry->d_name));
   }
+
+  closedir(directory);
+
+  // if((directory = opendir(".")) != NULL){
+  //   while((directoryEntry = readdir(directory)) != NULL){
+  //     if(currentDirectory == NULL){
+  //       currentDirectory = (char **)malloc(sizeof(char *));
+  //     } else {
+  //       currentDirectory = (char **)realloc(currentDirectory, (filesAmount + 1) * sizeof(char *));
+  //     }
+  //     assert(currentDirectory != NULL);
+  //
+  //     currentDirectory[filesAmount] = (char *)malloc((strlen(directoryEntry->d_name) + 1) * sizeof(char));
+  //     assert(currentDirectory[filesAmount] != NULL);
+  //
+  //     currentDirectory[filesAmount] = directoryEntry->d_name;
+  //     filesAmount += 1;
+  //   }
+  //   closedir(directory);
+  // } else {
+  //   error("ERROR: failed to access directory");
+  //   exit(1);
+  // }
 
   return currentDirectory;
 };
 
-void sendDirectory(int dataSocket, char **currentDirectory){
-  for(int i = 0; currentDirectory[i] != NULL; i++){
-    sendData(dataSocket, currentDirectory[i]);
+void sendDirectory(int dataSocket, std::vector<std::string> currentDirectory){
+  int filesAmount = currentDirectory.size() - 2;
+  char filesAmountString[200];
+
+  std::cout << "Send Directory is executing" << std::endl;
+
+  sprintf(filesAmountString, "%d", filesAmount);
+
+  std::cout << "Send Directory sprintf is executing" << std::endl;
+
+  sendData(dataSocket, filesAmountString);
+
+  std::cout << "Send Directory file size is executing" << std::endl;
+
+  for(int i = 2; i < currentDirectory.size(); i++){
+    std::cout << "Send Directory loop is executing to: " << i << std::endl;
+    char *dirElement = (char *)malloc(currentDirectory.at(i).length() * sizeof(char));
+    strcpy(dirElement, currentDirectory.at(i).c_str());
+    std::cout << currentDirectory.at(i) << std::endl;
+    sendData(dataSocket, dirElement);
   }
 }
 
@@ -236,8 +292,29 @@ void sendData(int destSocket, char *data){
   int len = strlen(data);
   unsigned int packetLen = htons(sizeof(packetLen) + len);
 
+  if(sendPacketSize(destSocket, &packetLen) == -1){
+    error("ERROR sending packet size");
+    exit(1);
+  }
+
   sendall(destSocket, data, len);
 };
+
+int sendPacketSize(int socket, unsigned int *packetLen){
+    int total = 0;
+    int bytesLeft = 4;
+    int n;
+
+    while(total < 4){
+        n = send(socket, packetLen + total, bytesLeft, 0);
+        if (n == -1) { break; }
+        total += n;
+        bytesLeft -= n;
+    }
+
+    return n==-1?-1:0; // return -1 on failure, 0 on success
+
+}
 
 /**
  * Adapted from: http://beej.us/guide/bgnet/output/html/multipage/advanced.html#sendall
