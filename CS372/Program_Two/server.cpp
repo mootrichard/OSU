@@ -38,7 +38,10 @@ void error (std::string msg);
 void runFTP(int commPort, int newSocket);
 char *handleRequest(int commSocket);
 int setupSocket(int commPort);
-char** getDirectory(int dataSocket, char** dir);
+char** getDirectory();
+void sendData(int destSocket, char *data);
+int sendall(int socket, char *buf, int len);
+void sendDirectory(int dataSocket, char **currentDirectory);
 
 // Main execution of FTP Server
 int main(int argc, char const *argv[]) {
@@ -141,7 +144,7 @@ void runFTP (int commPort, int newSocket){
       exit(1);
     }
 
-    currentDirectory = getDirectory(dataSocket, currentDirectory);
+    currentDirectory = getDirectory();
 
     // We have established a Data Connection
     std::cout << "SUCCESS: Data connection established at: " << inet_ntoa(clientAddr.sin_addr) << ":" << dataPort << std::endl;
@@ -151,6 +154,7 @@ void runFTP (int commPort, int newSocket){
     // Handling request to view the file directory
     if(strcmp(incComm, "-l") == 0){
       std::cout << "List command sent" << std::endl;
+      sendDirectory(dataSocket, currentDirectory);
     }
 
     close(dataSocket);
@@ -187,13 +191,13 @@ char *handleRequest(int commSocket){
 };
 
 void sendFile(int dataSocket, char *fileName){
-  bool fileExists = false;
+  //bool fileExists = false;
 
 
 };
 
 char **getDirectory(){
-  char** currentDirectory = NULL;
+  char **currentDirectory = NULL;
   struct dirent *directoryEntry;
   DIR *directory;
   int filesAmount = 0;
@@ -221,6 +225,45 @@ char **getDirectory(){
 
   return currentDirectory;
 };
+
+void sendDirectory(int dataSocket, char **currentDirectory){
+  for(int i = 0; currentDirectory[i] != NULL; i++){
+    sendData(dataSocket, currentDirectory[i]);
+  }
+}
+
+void sendData(int destSocket, char *data){
+  int len = strlen(data);
+  unsigned int packetLen = htons(sizeof(packetLen) + len);
+
+  sendall(destSocket, data, len);
+};
+
+/**
+ * Adapted from: http://beej.us/guide/bgnet/output/html/multipage/advanced.html#sendall
+ * sendall sends everything that is in the buffer the specified socket
+ * @param  socket [description]
+ * @param  buf    [description]
+ * @param  len    [description]
+ * @return        [description]
+ */
+int sendall(int socket, char *buf, int len)
+{
+    int total = 0;        // how many bytes we've sent
+    int bytesleft = len; // how many we have left to send
+    int n;
+
+    while(total < len) {
+        n = send(socket, buf+total, bytesleft, 0);
+        if (n == -1) { break; }
+        total += n;
+        bytesleft -= n;
+    }
+
+    len = total; // return number actually sent here
+
+    return n==-1?-1:0; // return -1 on failure, 0 on success
+}
 
 /**
  * [signalHandler description]
