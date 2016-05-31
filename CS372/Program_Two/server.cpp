@@ -24,6 +24,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
@@ -33,6 +34,7 @@
 #include <csignal>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 // Function Prototypes
 void signalHandler(int signum);
@@ -98,9 +100,9 @@ int setupSocket(int commPort){
 };
 
 /**
- * [runFTP  description]
- * @param commPort  [description]
- * @param newSocket [description]
+ * Manages the entire FTP running session from reading commands to sending the appropriate date
+ * @param commPort  Command port set at runtime that will listen for requests from clients
+ * @param newSocket Initial socket created upon execution of the program
  */
 void runFTP (int commPort, int newSocket){
   while(true){
@@ -178,9 +180,9 @@ void runFTP (int commPort, int newSocket){
 };
 
 /**
- * [handleRequest description]
- * @param  commSocket [description]
- * @return            [description]
+ * Handles the requests coming over the Command port
+ * @param  commSocket Command socket for communicating over
+ * @return            Request that came in through the Command socket
  */
 char *handleRequest(int commSocket){
   unsigned short packetLen;
@@ -204,15 +206,58 @@ char *handleRequest(int commSocket){
   return req;
 };
 
+/**
+ * Handles sending the file to the client that they had requested
+ * @param dataSocket       Socket for sending file data over
+ * @param fileName         Name of the file to send to the client
+ * @param currentDirectory Current directory where FTP Server is running from
+ * @param filesAmount      Amount of files in the current directory
+ */
 void sendFile(int dataSocket, char *fileName, std::vector<std::string>currentDirectory, int filesAmount){
-  bool fileIsThere = false;
-  std::string currDirString = fileName;
+  std::string fileNameString = fileName;
+  int fileSize = 0;
+
+  if((std::find(currentDirectory.begin(), currentDirectory.end(), fileNameString)) != currentDirectory.end()){
+    std::string found("FILE FOUND");
+
+    char *fileFound = (char *)malloc(found.length() * sizeof(char));
+    strcpy(fileFound, found.c_str());
+    sendData(dataSocket, fileFound);
+
+  } else {
+    std::cout << "ERROR: File not found" << std::endl;
+    std::string notFound("NOT FOUND");
+    char *fileNotFound = (char *)malloc(notFound.length() * sizeof(char));
+    strcpy(fileNotFound, notFound.c_str());
+    sendData(dataSocket, fileNotFound);
+    return;
+  };
 
   std::fstream openFile;
-  openFile.open(fileName);
+  openFile.open(fileNameString);
 
   if(openFile.is_open()){
     std::cout << "File was successfully opened!" << std::endl;
+    struct stat findFileSize;
+    if(stat(fileName, &findFileSize) != 0) {
+      error("ERROR couldn't get file's filesize");
+    } else {
+      fileSize = findFileSize.st_size;
+    }
+
+    // Converting our file size into a sendable char string
+    std::string fileSizeString = std::to_string(fileSize);
+    char *fileSizeChar = (char *)malloc(fileSizeString.length() * sizeof(char));
+    strcpy(fileSizeChar, fileSizeString.c_str());
+
+    // Sending the size of the file to the client
+    sendData(dataSocket, fileSizeChar);
+
+    // Sending over the file to the client
+    char *fileContents = (char *)malloc(fileSize * sizeof(char));
+    openFile.read(fileContents, fileSize);
+    sendData(dataSocket, fileContents);
+
   } else {
     error("Error in opening file");
     std::string errorString("NOT FOUND");
@@ -221,13 +266,16 @@ void sendFile(int dataSocket, char *fileName, std::vector<std::string>currentDir
     sendData(dataSocket, errorMsg);
   }
 
+  openFile.close();
 };
 
+/**
+ * Gets the current directory contents and copies to a vector of strings
+ */
 std::vector<std::string> getDirectory(){
   std::vector<std::string> currentDirectory;
   struct dirent *directoryEntry;
   DIR *directory;
-  int filesAmount = 0;
 
   if((directory = opendir(".")) == NULL){
     error("Error opening current directory!");
@@ -243,6 +291,11 @@ std::vector<std::string> getDirectory(){
   return currentDirectory;
 };
 
+/**
+ * Sends names of all files and folders in current directory that FTP Server is running from
+ * @param dataSocket       Socket for sending directory list over
+ * @param currentDirectory Current directory that the FTP Server is running from
+ */
 void sendDirectory(int dataSocket, std::vector<std::string> currentDirectory){
   int filesAmount = currentDirectory.size() - 2;
   char filesAmountString[200];
@@ -266,6 +319,11 @@ void sendDirectory(int dataSocket, std::vector<std::string> currentDirectory){
   }
 }
 
+/**
+ * Handles sending data over the specified socket
+ * @param destSocket Socket that the data is to be sent through
+ * @param data       Data to send through the socket (only char is supported)
+ */
 void sendData(int destSocket, char *data){
   int len = strlen(data);
   unsigned int packetLen = htons(sizeof(packetLen) + len);
@@ -278,6 +336,12 @@ void sendData(int destSocket, char *data){
   sendall(destSocket, data, len);
 };
 
+/**
+ * Handles sending the size of the packet that is going to be sent over
+ * @param  socket    Socket for receiving the packet length
+ * @param  packetLen Length of the packet
+ * @return           0: Success, -1: Failure
+ */
 int sendPacketSize(int socket, unsigned int *packetLen){
     int total = 0;
     int bytesLeft = 4;
@@ -297,10 +361,10 @@ int sendPacketSize(int socket, unsigned int *packetLen){
 /**
  * Adapted from: http://beej.us/guide/bgnet/output/html/multipage/advanced.html#sendall
  * sendall sends everything that is in the buffer the specified socket
- * @param  socket [description]
- * @param  buf    [description]
- * @param  len    [description]
- * @return        [description]
+ * @param  socket socket for sending all data to
+ * @param  buf    data that is being sent to the socket
+ * @param  len    size of the data being sent to the socket
+ * @return        -1: failure, 0: success
  */
 int sendall(int socket, char *buf, int len)
 {
@@ -321,8 +385,8 @@ int sendall(int socket, char *buf, int len)
 }
 
 /**
- * [signalHandler description]
- * @param signum [description]
+ * Gracefully handles signal interrupts
+ * @param signum Signal Number to be used on exit() for specifying nature of interrupt
  */
 void signalHandler(int signum){
   std::cout << "Server shutting down..." << std::endl;
@@ -330,8 +394,8 @@ void signalHandler(int signum){
 }
 
 /**
- * [error  description]
- * @param msg [description]
+ * Writes error message to the server console and exits the program
+ * @param msg string of the error message to be written
  */
 void error (std::string msg) {
   std::cerr << msg << std::endl;
