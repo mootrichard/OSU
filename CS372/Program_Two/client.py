@@ -5,6 +5,11 @@
 #   Client program for interacting with FTP server. Works in single executions of commands
 #   -l for listing the directory and -g for getting a file
 #
+#   Sources:
+#       https://docs.python.org/2/library/os.path.html
+#       https://docs.python.org/2/library/struct.html
+#       http://www.afterhoursprogramming.com/tutorial/Python/Writing-to-Files/
+#
 
 import sys
 import signal
