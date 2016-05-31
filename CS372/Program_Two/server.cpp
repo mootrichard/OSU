@@ -300,21 +300,13 @@ void sendDirectory(int dataSocket, std::vector<std::string> currentDirectory){
   int filesAmount = currentDirectory.size() - 2;
   char filesAmountString[200];
 
-  std::cout << "Send Directory is executing" << std::endl;
-
   sprintf(filesAmountString, "%d", filesAmount);
-
-  std::cout << "Send Directory sprintf is executing" << std::endl;
 
   sendData(dataSocket, filesAmountString);
 
-  std::cout << "Send Directory file size is executing" << std::endl;
-
   for(int i = 2; i < currentDirectory.size(); i++){
-    std::cout << "Send Directory loop is executing to: " << i << std::endl;
     char *dirElement = (char *)malloc(currentDirectory.at(i).length() * sizeof(char));
     strcpy(dirElement, currentDirectory.at(i).c_str());
-    std::cout << currentDirectory.at(i) << std::endl;
     sendData(dataSocket, dirElement);
   }
 }
