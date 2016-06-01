@@ -1,0 +1,19 @@
+{
+  "name": "final_project",
+  "version": "1.0.0",
+  "description": "My final project for OSU's CS340 course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mootrichard/OSU.git"
+  },
+  "author": "Richard Moot",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mootrichard/OSU/issues"
+  },
+  "homepage": "https://github.com/mootrichard/OSU#readme"
+}
