@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mootrichard/OSU/issues"
   },
-  "homepage": "https://github.com/mootrichard/OSU#readme"
+  "homepage": "https://github.com/mootrichard/OSU#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
 }
