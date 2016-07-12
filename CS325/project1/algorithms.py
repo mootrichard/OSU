@@ -83,9 +83,23 @@ def divide_and_conquer(arr, start=None, end=None):
         else:
             return (cross_sub, cross_sum)
 
+def linear_algo(arr):
+    max_ending_here = max_so_far = arr[0]
+    sub_start = 0
+    sub_end = len(arr)-1
+
+    for i in range(1, len(arr)):
+        if (max_so_far < arr[i]) & (max_ending_here <= 0):
+            sub_start = i
+        max_ending_here = max(arr[i], max_ending_here + arr[i])
+        if max_ending_here > max_so_far:
+            sub_end = i+1
+        max_so_far = max(max_so_far, max_ending_here)
+
+    return arr[sub_start:sub_end], max_so_far
 
 def extract():
-    with open('MSS_TestProblems.txt', 'r') as test_problems:
+    with open('MSS_Problems.txt', 'r') as test_problems:
         list_of_arrays = list()
         for line in test_problems:
             line = line.replace("[", "")
@@ -93,21 +107,54 @@ def extract():
             input_array = line.split(",")
             output_array = []
             for i in input_array:
+                if len(i) == 0:
+                    continue
                 output_array.append(int(i))
             list_of_arrays.append(output_array)
     return list_of_arrays
 
 list_arrays = extract()
 
+results = open('MSS_Results.txt', 'w')
+
 print ""
 print "O(n^3)"
+results.write("Algorithm 1 \n")
 for i in list_arrays:
-    print enumeration_algo(i)
+    sub_array, sub_sum = enumeration_algo(i)
+    print sub_array
+    print sub_sum
+    results.write(str(sub_array) + '\n')
+    results.write(str(sub_sum) + '\n')
+
 print ""
 print "O(n^2)"
+results.write("\nAlgorithm 2 \n")
 for i in list_arrays:
-    print enumeration_algo_faster(i)
+    sub_array, sub_sum = enumeration_algo_faster(i)
+    print sub_array
+    print sub_sum
+    results.write(str(sub_array) + '\n')
+    results.write(str(sub_sum) + '\n')
+
 print ""
 print "O(n log n)"
+results.write("\nAlgorithm 3 \n")
 for i in list_arrays:
-    print divide_and_conquer(i, 0, len(i) - 1)
+    sub_array, sub_sum = divide_and_conquer(i, 0, len(i) - 1)
+    print sub_array
+    print sub_sum
+    results.write(str(sub_array) + '\n')
+    results.write(str(sub_sum) + '\n')
+
+print ""
+print "O(n)"
+results.write("\nAlgorithm 4 \n")
+for i in list_arrays:
+    sub_array, sub_sum = linear_algo(i)
+    print sub_array
+    print sub_sum
+    results.write(str(sub_array) + '\n')
+    results.write(str(sub_sum) + '\n')
+
+results.close()
