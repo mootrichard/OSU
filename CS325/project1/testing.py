@@ -1,6 +1,6 @@
+from datetime import datetime
 from sys import maxint
-
-test_arrays = list()
+from random import random, shuffle, randint
 
 def enumeration_algo(arr):
     start = 0
@@ -96,63 +96,55 @@ def linear_algo(arr):
 
     return arr[sub_start:sub_end], max_so_far
 
-def extract():
-    with open('MSS_Problems.txt', 'r') as test_problems:
-        list_of_arrays = list()
-        for line in test_problems:
-            line = line.replace("[", "")
-            line = line.replace("]", "")
-            input_array = line.split(",")
-            output_array = []
-            for i in input_array:
-                if len(i) == 0:
-                    continue
-                output_array.append(int(i))
-            list_of_arrays.append(output_array)
-    return list_of_arrays
+def generate_n_values(N):
+    returned_list = list()
 
-list_arrays = extract()
+    for x in xrange(0, N-1):
+        returned_list.append(randint(-1000, 1000))
+    returned_list.append(randint(1, 1000))
+    shuffle(returned_list)
 
-results = open('MSS_Results.txt', 'w')
+    return returned_list
 
-print ""
-print "O(n^3)"
-results.write("Algorithm 1 \n")
-for i in list_arrays:
-    sub_array, sub_sum = enumeration_algo(i)
-    print sub_array
-    print sub_sum
-    results.write(str(sub_array) + '\n')
-    results.write(str(sub_sum) + '\n')
+data = open('data.csv', 'w')
+def test_run(N, test_function):
+    test_data = generate_n_values(N)
+    data.write(str(test_function) + '\n')
+    for x in range(1, 10):
+        data.write('n = ' + str(N) + ', ')
+        start = datetime.now()
+        test_function(test_data)
+        end = datetime.now()
+        data.write(str((end - start).microseconds) +'\n')
 
-print ""
-print "O(n^2)"
-results.write("\nAlgorithm 2 \n")
-for i in list_arrays:
-    sub_array, sub_sum = enumeration_algo_faster(i)
-    print sub_array
-    print sub_sum
-    results.write(str(sub_array) + '\n')
-    results.write(str(sub_sum) + '\n')
+test_run(20, linear_algo)
+test_run(40, linear_algo)
+test_run(80, linear_algo)
+test_run(200, linear_algo)
+test_run(500, linear_algo)
+test_run(1000, linear_algo)
+#test_run(1500, linear_algo)
 
-print ""
-print "O(n log n)"
-results.write("\nAlgorithm 3 \n")
-for i in list_arrays:
-    sub_array, sub_sum = divide_and_conquer(i, 0, len(i) - 1)
-    print sub_array
-    print sub_sum
-    results.write(str(sub_array) + '\n')
-    results.write(str(sub_sum) + '\n')
+test_run(20, divide_and_conquer)
+test_run(40, divide_and_conquer)
+test_run(80, divide_and_conquer)
+test_run(200, divide_and_conquer)
+test_run(500, divide_and_conquer)
+test_run(1000, divide_and_conquer)
+#test_run(1500, divide_and_conquer)
 
-print ""
-print "O(n)"
-results.write("\nAlgorithm 4 \n")
-for i in list_arrays:
-    sub_array, sub_sum = linear_algo(i)
-    print sub_array
-    print sub_sum
-    results.write(str(sub_array) + '\n')
-    results.write(str(sub_sum) + '\n')
+test_run(20, enumeration_algo_faster)
+test_run(40, enumeration_algo_faster)
+test_run(80, enumeration_algo_faster)
+test_run(200, enumeration_algo_faster)
+test_run(500, enumeration_algo_faster)
+test_run(1000, enumeration_algo_faster)
+#test_run(1500, enumeration_algo_faster)
 
-results.close()
+test_run(20, enumeration_algo)
+test_run(40, enumeration_algo)
+test_run(80, enumeration_algo)
+test_run(200, enumeration_algo)
+test_run(500, enumeration_algo)
+test_run(1000, enumeration_algo)
+#test_run(1500, enumeration_algo)
