@@ -1,6 +1,4 @@
-from datetime import datetime
 from sys import maxint
-from math import floor, ceil
 
 test_arrays = list()
 
