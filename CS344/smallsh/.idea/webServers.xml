@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="3900f187-2bf3-4643-985f-925ec7258673" name="OSU" url="http://access.engr">
+        <fileTransfer host="access.engr.oregonstate.edu" port="22" rootFolder="/nfs/stak/students/m/mootr" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
